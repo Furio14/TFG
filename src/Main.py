@@ -1,10 +1,11 @@
 from TorreDeControl import *
-from GeneradorAaeronaves import *
+from GeneradorAeronaves import *
+from Aeronaves import * 
 
 def main():
-    print("Hola, mundo!")
+    avion = generador()
     controlAterrizajes()
-    generador()
+    print("Aeronave: ", avion.info())
 
 if __name__ == "__main__":
     main()
