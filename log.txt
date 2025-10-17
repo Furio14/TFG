@@ -1,7 +1,25 @@
 -----------COMIENZO SIMULACION-----------
-Aeronave: C399
-Vuelo: C713
-Origen: Nueva York
+
+***AVION ANIADIDO A COLA ATERRIZAJE***
+Aeronave: F693
+Vuelo: F699
+Origen: Shanghai
 Destino: Londres
-Hora de salida: 24:54
-Hora de llegada: 10:54
+Hora de salida: 00:36
+Hora de llegada: 10:36
+
+***AVION ANIADIDO A COLA ATERRIZAJE***
+Aeronave: S334
+Vuelo: S33
+Origen: Shanghai
+Destino: Tokyo
+Hora de salida: 15:24
+Hora de llegada: 22:24
+
+***AVION ANIADIDO A COLA ATERRIZAJE***
+Aeronave: J850
+Vuelo: J278
+Origen: Tokyo
+Destino: Madrid
+Hora de salida: 04:07
+Hora de llegada: 11:07

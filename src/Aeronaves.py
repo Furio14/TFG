@@ -1,5 +1,6 @@
 
 class Aeronave:
+    comienzo = False
     def __init__(self,id,vueloId,origen,destino,horaSalida,horaLlegada):
         self.id = id
         self.vueloId = vueloId
@@ -15,9 +16,12 @@ class Aeronave:
         print(f"Destino: {self.destino}")
         print(f"Hora de salida: {self.horaSalida}")
         print(f"Hora de llegada: {self.horaLlegada}")
-
         with open("../log.txt","a") as log:
-            print("-----------COMIENZO SIMULACION-----------",file=log)
+            if not Aeronave.comienzo:
+                print("-----------COMIENZO SIMULACION-----------",file=log)
+                Aeronave.comienzo = True
+            print("",file=log)
+            print("***AVION ANIADIDO A COLA ATERRIZAJE***",file=log)
             print(f"Aeronave: {self.id}",file=log)
             print(f"Vuelo: {self.vueloId}",file=log)
             print(f"Origen: {self.origen}",file=log)
