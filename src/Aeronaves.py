@@ -9,13 +9,8 @@ class Aeronave:
         self.horaSalida = horaSalida
         self.horaLlegada = horaLlegada
 
-    def info(self):
-        print(f"Aeronave: {self.id}")
-        print(f"Vuelo: {self.vueloId}")
-        print(f"Origen: {self.origen}")
-        print(f"Destino: {self.destino}")
-        print(f"Hora de salida: {self.horaSalida}")
-        print(f"Hora de llegada: {self.horaLlegada}")
+    # Te da la info de los aeronaves que se añaden a la cola
+    def infoColaAterrizaje(self):
         with open("../log.txt","a") as log:
             if not Aeronave.comienzo:
                 print("-----------COMIENZO SIMULACION-----------",file=log)
@@ -28,3 +23,28 @@ class Aeronave:
             print(f"Destino: {self.destino}",file=log)
             print(f"Hora de salida: {self.horaSalida}",file=log)
             print(f"Hora de llegada: {self.horaLlegada}",file=log)
+
+    # Te da la info de las aeronaves que ya han aterrizado
+    def infoAterrizaje(self):
+        with open("../log.txt","a") as log:
+            print("",file=log)
+            print("***AVION ATERRIZADO***",file=log)
+            print(f"Aeronave: {self.id}",file=log)
+            print(f"Vuelo: {self.vueloId}",file=log)
+            print(f"Origen: {self.origen}",file=log)
+            print(f"Destino: {self.destino}",file=log)
+            print(f"Hora de salida: {self.horaSalida}",file=log)
+            print(f"Hora de llegada: {self.horaLlegada}",file=log)
+            
+    # Te da la info de las aeronaves que ya estan estacionadas
+    def infoEstacionado(self):
+        with open("../log.txt","a") as log:
+            print("",file=log)
+            print("***AVION ESTACIONADO***",file=log)
+            print(f"Aeronave: {self.id}",file=log)
+            print(f"Vuelo: {self.vueloId}",file=log)
+            print(f"Origen: {self.origen}",file=log)
+            print(f"Destino: {self.destino}",file=log)
+            print(f"Hora de salida: {self.horaSalida}",file=log)
+            print(f"Hora de llegada: {self.horaLlegada}",file=log)
+    
