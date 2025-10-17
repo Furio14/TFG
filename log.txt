@@ -1,161 +1,73 @@
 -----------COMIENZO SIMULACION-----------
 
 ***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: G688
-Vuelo: G952
+Aeronave: B206
+Vuelo: IB824
 Origen: Londres
-Destino: Shanghai
-Hora de salida: 15:08
-Hora de llegada: 16:08
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: X132
-Vuelo: X971
-Origen: Nueva York
-Destino: Beijing
-Hora de salida: 02:42
-Hora de llegada: 11:42
-
-***AVION ATERRIZADO***
-Aeronave: G688
-Vuelo: G952
-Origen: Londres
-Destino: Shanghai
-Hora de salida: 15:08
-Hora de llegada: 16:08
-
-***AVION ESTACIONADO***
-Aeronave: G688
-Vuelo: G952
-Origen: Londres
-Destino: Shanghai
-Hora de salida: 15:08
-Hora de llegada: 16:08
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: O438
-Vuelo: O980
-Origen: Nueva York
-Destino: Shanghai
-Hora de salida: 18:45
-Hora de llegada: 02:45
-
-***AVION ATERRIZADO***
-Aeronave: X132
-Vuelo: X971
-Origen: Nueva York
-Destino: Beijing
-Hora de salida: 02:42
-Hora de llegada: 11:42
-
-***AVION ESTACIONADO***
-Aeronave: X132
-Vuelo: X971
-Origen: Nueva York
-Destino: Beijing
-Hora de salida: 02:42
-Hora de llegada: 11:42
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: Y315
-Vuelo: Y995
-Origen: Shanghai
-Destino: Tokyo
-Hora de salida: 08:36
-Hora de llegada: 14:36
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: E820
-Vuelo: E122
-Origen: Tokyo
 Destino: Nueva York
-Hora de salida: 13:08
-Hora de llegada: 16:08
+Hora de salida: 02:45
+Hora de llegada: 07:45
 
 ***AVION ATERRIZADO***
-Aeronave: O438
-Vuelo: O980
-Origen: Nueva York
-Destino: Shanghai
-Hora de salida: 18:45
-Hora de llegada: 02:45
-
-***AVION ESTACIONADO***
-Aeronave: O438
-Vuelo: O980
-Origen: Nueva York
-Destino: Shanghai
-Hora de salida: 18:45
-Hora de llegada: 02:45
-
-***AVION ATERRIZADO***
-Aeronave: Y315
-Vuelo: Y995
-Origen: Shanghai
-Destino: Tokyo
-Hora de salida: 08:36
-Hora de llegada: 14:36
-
-***AVION ESTACIONADO***
-Aeronave: Y315
-Vuelo: Y995
-Origen: Shanghai
-Destino: Tokyo
-Hora de salida: 08:36
-Hora de llegada: 14:36
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: U701
-Vuelo: U543
-Origen: Madrid
-Destino: Londres
-Hora de salida: 10:43
-Hora de llegada: 18:43
-
-***AVION ATERRIZADO***
-Aeronave: E820
-Vuelo: E122
-Origen: Tokyo
-Destino: Nueva York
-Hora de salida: 13:08
-Hora de llegada: 16:08
-
-***AVION ESTACIONADO***
-Aeronave: E820
-Vuelo: E122
-Origen: Tokyo
-Destino: Nueva York
-Hora de salida: 13:08
-Hora de llegada: 16:08
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: L181
-Vuelo: L716
-Origen: Shanghai
-Destino: Tokyo
-Hora de salida: 12:29
-Hora de llegada: 21:29
-
-***AVION ATERRIZADO***
-Aeronave: U701
-Vuelo: U543
-Origen: Madrid
-Destino: Londres
-Hora de salida: 10:43
-Hora de llegada: 18:43
-
-***AVION ESTACIONADO***
-Aeronave: U701
-Vuelo: U543
-Origen: Madrid
-Destino: Londres
-Hora de salida: 10:43
-Hora de llegada: 18:43
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: P740
-Vuelo: P719
+Aeronave: B206
+Vuelo: IB824
 Origen: Londres
-Destino: Beijing
-Hora de salida: 01:36
-Hora de llegada: 04:36
+Destino: Nueva York
+Hora de salida: 02:45
+Hora de llegada: 07:45
+
+***AVION ESTACIONADO***
+Aeronave: B206
+Vuelo: IB824
+Origen: Londres
+Destino: Nueva York
+Hora de salida: 02:45
+Hora de llegada: 07:45
+
+***AVION ANIADIDO A COLA ATERRIZAJE***
+Aeronave: Z524
+Vuelo: BA822
+Origen: Madrid
+Destino: Milan
+Hora de salida: 24:40
+Hora de llegada: 10:40
+
+***AVION ATERRIZADO***
+Aeronave: Z524
+Vuelo: BA822
+Origen: Madrid
+Destino: Milan
+Hora de salida: 24:40
+Hora de llegada: 10:40
+
+***AVION ESTACIONADO***
+Aeronave: Z524
+Vuelo: BA822
+Origen: Madrid
+Destino: Milan
+Hora de salida: 24:40
+Hora de llegada: 10:40
+
+***AVION ANIADIDO A COLA ATERRIZAJE***
+Aeronave: C39
+Vuelo: AV990
+Origen: Londres
+Destino: Shanghai
+Hora de salida: 14:51
+Hora de llegada: 23:51
+
+***AVION ANIADIDO A COLA ATERRIZAJE***
+Aeronave: D886
+Vuelo: V899
+Origen: Beijing
+Destino: Tokyo
+Hora de salida: 16:49
+Hora de llegada: 17:49
+
+***AVION ATERRIZADO***
+Aeronave: C39
+Vuelo: AV990
+Origen: Londres
+Destino: Shanghai
+Hora de salida: 14:51
+Hora de llegada: 23:51
