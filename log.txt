@@ -1,1 +1,7 @@
-**Resultado simulación**
+-----------COMIENZO SIMULACION-----------
+Aeronave: C399
+Vuelo: C713
+Origen: Nueva York
+Destino: Londres
+Hora de salida: 24:54
+Hora de llegada: 10:54

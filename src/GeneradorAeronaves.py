@@ -2,7 +2,7 @@ import random
 from Aeronaves import *
 
 #Ciudades
-ciudades = ["Madrid", "Nueva York", "Milán", "Tokyo", "Beijing", "Shanghai", "Londres"]
+ciudades = ["Madrid", "Nueva York", "Milan", "Tokyo", "Beijing", "Shanghai", "Londres"]
 vuelos = ["IB","BA","AA","V","AV","LX","DL"]
 
 def generador():
