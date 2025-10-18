@@ -1,345 +1,185 @@
 -----------COMIENZO SIMULACION-----------
 
 ***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: V238
-Vuelo: BA319
-Origen: Shanghai
-Destino: Nueva York
-Hora de salida: 00:00
-Hora de llegada: 15:15
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: M50
-Vuelo: BA979
-Origen: Madrid
-Destino: Shanghai
-Hora de salida: 14:17
-Hora de llegada: 15:17
-
-***AVION ATERRIZADO***
-Aeronave: V238
-Vuelo: BA319
-Origen: Shanghai
-Destino: Nueva York
-Hora de salida: 00:00
-Hora de llegada: 15:15
-
-***AVION ESTACIONADO***
-Aeronave: V238
-Vuelo: BA319
-Origen: Shanghai
-Destino: Nueva York
-Hora de salida: 00:00
-Hora de llegada: 15:15
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: O32
-Vuelo: V573
-Origen: Tokyo
-Destino: Shanghai
-Hora de salida: 14:06
-Hora de llegada: 15:18
-
-***AVION ATERRIZADO***
-Aeronave: M50
-Vuelo: BA979
-Origen: Madrid
-Destino: Shanghai
-Hora de salida: 14:17
-Hora de llegada: 15:17
-
-***AVION ESTACIONADO***
-Aeronave: M50
-Vuelo: BA979
-Origen: Madrid
-Destino: Shanghai
-Hora de salida: 14:17
-Hora de llegada: 15:17
-
-***AVION ATERRIZADO***
-Aeronave: O32
-Vuelo: V573
-Origen: Tokyo
-Destino: Shanghai
-Hora de salida: 14:06
-Hora de llegada: 15:18
-
-***AVION ESTACIONADO***
-Aeronave: O32
-Vuelo: V573
-Origen: Tokyo
-Destino: Shanghai
-Hora de salida: 14:06
-Hora de llegada: 15:18
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: U554
-Vuelo: IB439
-Origen: Nueva York
-Destino: Milan
-Hora de salida: 11:11
-Hora de llegada: 15:22
-
-***AVION ATERRIZADO***
-Aeronave: U554
-Vuelo: IB439
-Origen: Nueva York
-Destino: Milan
-Hora de salida: 11:11
-Hora de llegada: 15:22
-
-***AVION ESTACIONADO***
-Aeronave: U554
-Vuelo: IB439
-Origen: Nueva York
-Destino: Milan
-Hora de salida: 11:11
-Hora de llegada: 15:22
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: I224
-Vuelo: DL798
-Origen: Madrid
-Destino: Nueva York
-Hora de salida: 13:33
-Hora de llegada: 15:24
-
-***AVION ATERRIZADO***
-Aeronave: I224
-Vuelo: DL798
-Origen: Madrid
-Destino: Nueva York
-Hora de salida: 13:33
-Hora de llegada: 15:24
-
-***AVION ESTACIONADO***
-Aeronave: I224
-Vuelo: DL798
-Origen: Madrid
-Destino: Nueva York
-Hora de salida: 13:33
-Hora de llegada: 15:24
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: L565
-Vuelo: DL422
-Origen: Beijing
-Destino: Londres
-Hora de salida: 14:10
-Hora de llegada: 15:25
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: H709
-Vuelo: IB825
-Origen: Shanghai
-Destino: Beijing
-Hora de salida: 11:10
-Hora de llegada: 15:29
-
-***AVION ATERRIZADO***
-Aeronave: L565
-Vuelo: DL422
-Origen: Beijing
-Destino: Londres
-Hora de salida: 14:10
-Hora de llegada: 15:25
-
-***AVION ESTACIONADO***
-Aeronave: L565
-Vuelo: DL422
-Origen: Beijing
-Destino: Londres
-Hora de salida: 14:10
-Hora de llegada: 15:25
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: R188
-Vuelo: V140
-Origen: Tokyo
-Destino: Nueva York
-Hora de salida: 10:09
-Hora de llegada: 15:34
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: K389
-Vuelo: DL138
-Origen: Madrid
-Destino: Shanghai
-Hora de salida: 14:42
-Hora de llegada: 15:35
-
-***AVION ATERRIZADO***
-Aeronave: H709
-Vuelo: IB825
-Origen: Shanghai
-Destino: Beijing
-Hora de salida: 11:10
-Hora de llegada: 15:29
-
-***AVION ESTACIONADO***
-Aeronave: H709
-Vuelo: IB825
-Origen: Shanghai
-Destino: Beijing
-Hora de salida: 11:10
-Hora de llegada: 15:29
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: P54
-Vuelo: LX763
-Origen: Shanghai
-Destino: Milan
-Hora de salida: 11:56
-Hora de llegada: 15:39
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: R3
-Vuelo: AV604
-Origen: Milan
-Destino: Nueva York
-Hora de salida: 14:13
-Hora de llegada: 15:40
-
-***AVION ATERRIZADO***
-Aeronave: R188
-Vuelo: V140
-Origen: Tokyo
-Destino: Nueva York
-Hora de salida: 10:09
-Hora de llegada: 15:34
-
-***AVION ESTACIONADO***
-Aeronave: R188
-Vuelo: V140
-Origen: Tokyo
-Destino: Nueva York
-Hora de salida: 10:09
-Hora de llegada: 15:34
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: T243
-Vuelo: IB883
-Origen: Beijing
-Destino: Madrid
-Hora de salida: 11:51
-Hora de llegada: 15:44
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: Z166
-Vuelo: BA59
-Origen: Shanghai
-Destino: Madrid
-Hora de salida: 10:57
-Hora de llegada: 15:49
-
-***AVION ATERRIZADO***
-Aeronave: K389
-Vuelo: DL138
-Origen: Madrid
-Destino: Shanghai
-Hora de salida: 14:42
-Hora de llegada: 15:35
-
-***AVION ESTACIONADO***
-Aeronave: K389
-Vuelo: DL138
-Origen: Madrid
-Destino: Shanghai
-Hora de salida: 14:42
-Hora de llegada: 15:35
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: O723
-Vuelo: V701
+Aeronave: P0
+Vuelo: AV654
 Origen: Londres
-Destino: Tokyo
-Hora de salida: 13:21
-Hora de llegada: 15:51
-
-***AVION ATERRIZADO***
-Aeronave: P54
-Vuelo: LX763
-Origen: Shanghai
-Destino: Milan
-Hora de salida: 11:56
-Hora de llegada: 15:39
-
-***AVION ESTACIONADO***
-Aeronave: P54
-Vuelo: LX763
-Origen: Shanghai
-Destino: Milan
-Hora de salida: 11:56
-Hora de llegada: 15:39
+Destino: Madrid
+Hora de salida: 00:00
+Hora de llegada: 05:14
 
 ***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: O672
-Vuelo: IB668
-Origen: Milan
-Destino: Shanghai
-Hora de salida: 13:21
-Hora de llegada: 15:53
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: F601
-Vuelo: AA394
+Aeronave: B70
+Vuelo: AV755
 Origen: Madrid
-Destino: Nueva York
-Hora de salida: 10:08
-Hora de llegada: 15:58
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: U921
-Vuelo: DL141
-Origen: Tokyo
-Destino: Nueva York
-Hora de salida: 12:52
-Hora de llegada: 16:07
+Destino: Londres
+Hora de salida: 03:45
+Hora de llegada: 05:21
 
 ***AVION ATERRIZADO***
-Aeronave: R3
-Vuelo: AV604
-Origen: Milan
-Destino: Nueva York
-Hora de salida: 14:13
-Hora de llegada: 15:40
+Aeronave: P0
+Vuelo: AV654
+Origen: Londres
+Destino: Madrid
+Hora de salida: 00:00
+Hora de llegada: 05:14
 
 ***AVION ESTACIONADO***
-Aeronave: R3
-Vuelo: AV604
-Origen: Milan
-Destino: Nueva York
-Hora de salida: 14:13
-Hora de llegada: 15:40
+Aeronave: P0
+Vuelo: AV654
+Origen: Londres
+Destino: Madrid
+Hora de salida: 00:00
+Hora de llegada: 05:14
 
 ***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: Q533
-Vuelo: BA502
+Aeronave: S139
+Vuelo: BA268
+Origen: Tokyo
+Destino: Beijing
+Hora de salida: 02:18
+Hora de llegada: 05:24
+
+***AVION ATERRIZADO***
+Aeronave: B70
+Vuelo: AV755
+Origen: Madrid
+Destino: Londres
+Hora de salida: 03:45
+Hora de llegada: 05:21
+
+***AVION ESTACIONADO***
+Aeronave: B70
+Vuelo: AV755
+Origen: Madrid
+Destino: Londres
+Hora de salida: 03:45
+Hora de llegada: 05:21
+
+***AVION ANIADIDO A COLA ATERRIZAJE***
+Aeronave: I555
+Vuelo: AV542
+Origen: Milan
+Destino: Londres
+Hora de salida: 04:31
+Hora de llegada: 05:25
+
+***AVION ANIADIDO A COLA ATERRIZAJE***
+Aeronave: V824
+Vuelo: AV494
+Origen: Londres
+Destino: Madrid
+Hora de salida: 00:23
+Hora de llegada: 05:30
+
+***AVION ANIADIDO A COLA ATERRIZAJE***
+Aeronave: D450
+Vuelo: AV300
+Origen: Londres
+Destino: Madrid
+Hora de salida: 00:53
+Hora de llegada: 05:35
+
+***AVION ATERRIZADO***
+Aeronave: S139
+Vuelo: BA268
+Origen: Tokyo
+Destino: Beijing
+Hora de salida: 02:18
+Hora de llegada: 05:24
+
+***AVION ESTACIONADO***
+Aeronave: S139
+Vuelo: BA268
+Origen: Tokyo
+Destino: Beijing
+Hora de salida: 02:18
+Hora de llegada: 05:24
+
+***AVION ANIADIDO A COLA ATERRIZAJE***
+Aeronave: D48
+Vuelo: BA848
 Origen: Nueva York
-Destino: Milan
-Hora de salida: 14:29
-Hora de llegada: 16:09
-
-***AVION ANIADIDO A COLA ATERRIZAJE***
-Aeronave: P10
-Vuelo: DL923
-Origen: Tokyo
-Destino: Nueva York
-Hora de salida: 13:21
-Hora de llegada: 16:12
+Destino: Beijing
+Hora de salida: 03:49
+Hora de llegada: 05:37
 
 ***AVION ATERRIZADO***
-Aeronave: T243
-Vuelo: IB883
-Origen: Beijing
-Destino: Madrid
-Hora de salida: 11:51
-Hora de llegada: 15:44
+Aeronave: I555
+Vuelo: AV542
+Origen: Milan
+Destino: Londres
+Hora de salida: 04:31
+Hora de llegada: 05:25
 
 ***AVION ESTACIONADO***
-Aeronave: T243
-Vuelo: IB883
-Origen: Beijing
+Aeronave: I555
+Vuelo: AV542
+Origen: Milan
+Destino: Londres
+Hora de salida: 04:31
+Hora de llegada: 05:25
+
+***AVION ATERRIZADO***
+Aeronave: V824
+Vuelo: AV494
+Origen: Londres
 Destino: Madrid
-Hora de salida: 11:51
-Hora de llegada: 15:44
+Hora de salida: 00:23
+Hora de llegada: 05:30
+
+***AVION ESTACIONADO***
+Aeronave: V824
+Vuelo: AV494
+Origen: Londres
+Destino: Madrid
+Hora de salida: 00:23
+Hora de llegada: 05:30
+
+***AVION ATERRIZADO***
+Aeronave: D450
+Vuelo: AV300
+Origen: Londres
+Destino: Madrid
+Hora de salida: 00:53
+Hora de llegada: 05:35
+
+***AVION ESTACIONADO***
+Aeronave: D450
+Vuelo: AV300
+Origen: Londres
+Destino: Madrid
+Hora de salida: 00:53
+Hora de llegada: 05:35
+
+***AVION ANIADIDO A COLA ATERRIZAJE***
+Aeronave: X801
+Vuelo: BA113
+Origen: Londres
+Destino: Milan
+Hora de salida: 01:21
+Hora de llegada: 05:41
+
+***AVION ANIADIDO A COLA ATERRIZAJE***
+Aeronave: V309
+Vuelo: LX273
+Origen: Beijing
+Destino: Londres
+Hora de salida: 01:51
+Hora de llegada: 05:45
+
+***AVION ATERRIZADO***
+Aeronave: D48
+Vuelo: BA848
+Origen: Nueva York
+Destino: Beijing
+Hora de salida: 03:49
+Hora de llegada: 05:37
+
+***AVION ESTACIONADO***
+Aeronave: D48
+Vuelo: BA848
+Origen: Nueva York
+Destino: Beijing
+Hora de salida: 03:49
+Hora de llegada: 05:37
