@@ -4,9 +4,10 @@ import csv
 
 class Aeronave:
     comienzo = False
-    def __init__(self,id,vueloId,origen,destino,horaSalida,horaLlegada,aterrizado,estacionado):
+    def __init__(self,id,vueloId,pasajeros,origen,destino,horaSalida,horaLlegada,aterrizado,estacionado):
         self.id = id
         self.vueloId = vueloId
+        self.pasajeros = pasajeros
         self.origen = origen
         self.destino = destino
         self.horaSalida = horaSalida
@@ -27,9 +28,9 @@ class Aeronave:
             writer = csv.writer(log)
 
             if not existeEncabezado:
-                writer.writerow(["ID","ID_Vuelo","Origen","Destino","Hora_Salida","Hora_Llegada","Aterrizado","Estacionado"])
+                writer.writerow(["ID","ID_Vuelo","Pasajeros","Origen","Destino","Hora_Salida","Hora_Llegada","Aterrizado","Estacionado"])
             
-            writer.writerow([self.id,self.vueloId,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.aterrizado,self.estacionado])
+            writer.writerow([self.id,self.vueloId,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.aterrizado,self.estacionado])
             
 ###################################################################################################################
             #if not Aeronave.comienzo:
@@ -51,7 +52,7 @@ class Aeronave:
         self.aterrizado = True
         with open(logs,"a") as log:
             writer = csv.writer(log)
-            writer.writerow([self.id,self.vueloId,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.aterrizado,self.estacionado])
+            writer.writerow([self.id,self.vueloId,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.aterrizado,self.estacionado])
 
 ###################################################################################################################
             #print("",file=log)
@@ -71,7 +72,7 @@ class Aeronave:
         self.estacionado = True
         with open(logs,"a") as log:
             writer = csv.writer(log)
-            writer.writerow([self.id,self.vueloId,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.aterrizado,self.estacionado])
+            writer.writerow([self.id,self.vueloId,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.aterrizado,self.estacionado])
 
 ###################################################################################################################
             #print("",file=log)

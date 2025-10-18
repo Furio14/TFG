@@ -16,11 +16,12 @@ def generador():
     letra = random.choice("ABCDEFGHIJLKMNOPQRSTUVWXYZ") # genera letra random
     minutoSalida = random.randint(0,59)
     minutoLlegada = random.randint(0,59)
-    id = f"{letra}{random.randint(0,999)}" # genera un id para un avión aleatorio
-    idVuelo = f"{random.choice(vuelos)}{random.randint(0,999)}" # genera un id para un avión aleatorio
+    id = f"{letra}{random.randint(0,999)}" # genera un id para un avion aleatorio
+    idVuelo = f"{random.choice(vuelos)}{random.randint(0,999)}" # genera un id para un avion aleatorio
+    pasajeros = random.randint(150,300) # genera un numero random de pasajeros
     origen,destino = random.sample(ciudades,2) # genera 2 ciudades random
     duracion = random.randint(1,5)
-    if not comienzoSimulacion: # al inicio de la simulación ponemos unos parámetros iniciales
+    if not comienzoSimulacion: # al inicio de la simulacion ponemos unos parametros iniciales
         horaSalida = f"{horasAeronave:02d}:{minutosAeronave:02d}"
         horaLlegada = f"{(horasAeronave + duracion)%24:02d}:{minutoLlegada:02d}"
         horasAeronave = horasAeronave + duracion
@@ -34,4 +35,4 @@ def generador():
             horaLlegada = f"{(horasAeronave)%24:02d}:{minutosAeronave + duracion:02d}"
             minutosAeronave = minutosAeronave + duracion
             
-    return Aeronave(id,idVuelo,origen,destino,horaSalida,horaLlegada,aterrizado=False,estacionado=False)
+    return Aeronave(id,idVuelo,pasajeros,origen,destino,horaSalida,horaLlegada,aterrizado=False,estacionado=False)

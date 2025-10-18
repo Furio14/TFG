@@ -1,17 +1,15 @@
-ID,ID_Vuelo,Origen,Destino,Hora_Salida,Hora_Llegada,Aterrizado,Estacionado
-F480,AA506,Tokyo,Londres,00:00,04:26,False,False
-Q818,AA37,Milan,Madrid,23:25,04:35,False,False
-F480,AA506,Tokyo,Londres,00:00,04:26,True,False
-F480,AA506,Tokyo,Londres,00:00,04:26,True,True
-W33,AA586,Shanghai,Milan,23:23,04:40,False,False
-S108,AV23,Milan,Tokyo,00:53,04:44,False,False
-X799,BA174,Nueva York,Tokyo,00:34,04:48,False,False
-Q818,AA37,Milan,Madrid,23:25,04:35,True,False
-Q818,AA37,Milan,Madrid,23:25,04:35,True,True
-P177,V777,Madrid,Shanghai,00:46,04:52,False,False
-W33,AA586,Shanghai,Milan,23:23,04:40,True,False
-W33,AA586,Shanghai,Milan,23:23,04:40,True,True
-S108,AV23,Milan,Tokyo,00:53,04:44,True,False
-S108,AV23,Milan,Tokyo,00:53,04:44,True,True
-O286,DL779,Nueva York,Tokyo,02:22,04:54,False,False
-J520,LX565,Nueva York,Madrid,00:14,04:58,False,False
+ID,ID_Vuelo,Pasajeros,Origen,Destino,Hora_Salida,Hora_Llegada,Aterrizado,Estacionado
+D278,IB302,189,Beijing,Shanghai,00:00,04:16,False,False
+D278,IB302,189,Beijing,Shanghai,00:00,04:16,True,False
+D278,IB302,189,Beijing,Shanghai,00:00,04:16,True,True
+X152,AA61,230,Beijing,Londres,00:25,04:24,False,False
+U288,DL815,196,Shanghai,Tokyo,02:56,04:26,False,False
+X152,AA61,230,Beijing,Londres,00:25,04:24,True,False
+X152,AA61,230,Beijing,Londres,00:25,04:24,True,True
+U288,DL815,196,Shanghai,Tokyo,02:56,04:26,True,False
+U288,DL815,196,Shanghai,Tokyo,02:56,04:26,True,True
+D694,AA600,158,Tokyo,Madrid,23:19,04:31,False,False
+H975,AV153,150,Beijing,Tokyo,03:15,04:32,False,False
+F366,AA315,249,Milan,Shanghai,00:43,04:36,False,False
+H656,BA948,155,Shanghai,Beijing,02:26,04:38,False,False
+I549,DL642,220,Beijing,Tokyo,00:13,04:42,False,False
