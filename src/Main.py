@@ -6,7 +6,7 @@ from GeneradorAeronaves import *
 from Aeronaves import * 
 
 def main():
-    log = "../log.txt"
+    log = "../log.csv"
     #si log.txt tiene algo de información, cuando lo ejecutas se reinicia la info
     if os.path.exists(log):
         os.remove(log)

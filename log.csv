@@ -1,0 +1,17 @@
+ID,ID_Vuelo,Origen,Destino,Hora_Salida,Hora_Llegada,Aterrizado,Estacionado
+F480,AA506,Tokyo,Londres,00:00,04:26,False,False
+Q818,AA37,Milan,Madrid,23:25,04:35,False,False
+F480,AA506,Tokyo,Londres,00:00,04:26,True,False
+F480,AA506,Tokyo,Londres,00:00,04:26,True,True
+W33,AA586,Shanghai,Milan,23:23,04:40,False,False
+S108,AV23,Milan,Tokyo,00:53,04:44,False,False
+X799,BA174,Nueva York,Tokyo,00:34,04:48,False,False
+Q818,AA37,Milan,Madrid,23:25,04:35,True,False
+Q818,AA37,Milan,Madrid,23:25,04:35,True,True
+P177,V777,Madrid,Shanghai,00:46,04:52,False,False
+W33,AA586,Shanghai,Milan,23:23,04:40,True,False
+W33,AA586,Shanghai,Milan,23:23,04:40,True,True
+S108,AV23,Milan,Tokyo,00:53,04:44,True,False
+S108,AV23,Milan,Tokyo,00:53,04:44,True,True
+O286,DL779,Nueva York,Tokyo,02:22,04:54,False,False
+J520,LX565,Nueva York,Madrid,00:14,04:58,False,False
