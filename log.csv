@@ -1,25 +1,16 @@
-ID,ID_Vuelo,Pasajeros,Origen,Destino,Hora_Salida,Hora_Llegada,Aterrizado,Estacionado
-W398,IB693,261,Nueva York,Milan,00:00,03:21,False,False
-B687,AA478,154,Beijing,Londres,00:06,03:27,False,False
-W398,IB693,261,Nueva York,Milan,00:00,03:21,True,False
-K224,LX222,296,Madrid,Shanghai,23:46,03:31,False,False
-W398,IB693,261,Nueva York,Milan,00:00,03:21,True,True
-C659,BA414,156,Londres,Milan,22:14,03:36,False,False
-B687,AA478,154,Beijing,Londres,00:06,03:27,True,False
-B687,AA478,154,Beijing,Londres,00:06,03:27,True,True
-A808,V74,239,Tokyo,Beijing,00:49,03:39,False,False
-K224,LX222,296,Madrid,Shanghai,23:46,03:31,True,False
-K224,LX222,296,Madrid,Shanghai,23:46,03:31,True,True
-C659,BA414,156,Londres,Milan,22:14,03:36,True,False
-C659,BA414,156,Londres,Milan,22:14,03:36,True,True
-C24,LX467,255,Beijing,Milan,00:39,03:42,False,False
-A808,V74,239,Tokyo,Beijing,00:49,03:39,True,False
-A808,V74,239,Tokyo,Beijing,00:49,03:39,True,True
-C24,LX467,255,Beijing,Milan,00:39,03:42,True,False
-C24,LX467,255,Beijing,Milan,00:39,03:42,True,True
-J869,IB781,279,Beijing,Shanghai,23:11,03:46,False,False
-X381,DL730,202,Milan,Shanghai,23:49,03:50,False,False
-O266,V155,262,Beijing,Madrid,23:41,03:54,False,False
-I479,BA368,261,Shanghai,Beijing,23:58,03:58,False,False
-J869,IB781,279,Beijing,Shanghai,23:11,03:46,True,False
-J869,IB781,279,Beijing,Shanghai,23:11,03:46,True,True
+ID,ID_Vuelo,Estado,Pasajeros,Origen,Destino,Hora_Salida,Hora_Llegada
+O547,LX93,Llegando,243,Beijing,Tokyo,00:00,02:34
+X794,V450,Llegando,244,Madrid,Londres,22:45,02:40
+B728,DL694,Llegando,159,Tokyo,Londres,22:41,02:44
+B106,IB797,Llegando,249,Madrid,Londres,21:21,02:49
+P219,DL423,Llegando,226,Londres,Madrid,22:21,02:53
+O547,LX93,Aterrizaje,243,Beijing,Tokyo,00:00,02:34
+O547,LX93,estacionado,243,Beijing,Tokyo,00:00,02:34
+S566,LX588,Llegando,217,Milan,Londres,01:58,02:54
+G507,V854,Llegando,204,Milan,Shanghai,22:19,02:58
+Q258,DL440,Llegando,299,Tokyo,Shanghai,00:58,03:08
+X794,V450,Aterrizaje,244,Madrid,Londres,22:45,02:40
+X794,V450,estacionado,244,Madrid,Londres,22:45,02:40
+B728,DL694,Aterrizaje,159,Tokyo,Londres,22:41,02:44
+B728,DL694,estacionado,159,Tokyo,Londres,22:41,02:44
+D851,BA610,Llegando,246,Milan,Nueva York,02:53,03:19

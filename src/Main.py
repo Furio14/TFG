@@ -12,8 +12,7 @@ def main():
     if os.path.exists(log):
         os.remove(log)
     evento = simpy.Environment()
-
-
+    
     pista = simpy.Resource(evento,capacity=1)
     parking = simpy.Resource(evento,capacity=2)
 

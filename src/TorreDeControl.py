@@ -8,25 +8,31 @@ from Aeronaves import *
 
 colaAterrizajes = deque()
 colaEstacionados = deque()
+colaSalidas = deque()
 
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
-def torreDeControl(evento,pista,parking):
-    contador = 0
+def torreDeControl(evento,pistaAterrizajes,parking):
+    contadorAterrizajes = 0
+    contadorDespegues = 0
     while True:
         if random.random() < 0.2: # se generan aviones
             avion = generador()
-            contador += 1
-            evento.process(controlColaAterrizajes(evento,avion))
+            contadorAterrizajes += 1
+            evento.process(controlColas(evento,avion,colaAterrizajes))
             avion.infoColaAterrizaje()
-        if random.random() < 0.15 and contador > 0:
-            evento.process(controlAterrizajes(evento,pista,parking))
-            contador -= 1
-        
+        if random.random() < 0.15 and contadorAterrizajes > 0:
+            evento.process(controlAterrizajes(evento,pistaAterrizajes,parking))
+            contadorAterrizajes -= 1
+            contadorDespegues += 1
+        if random.random() < 0.2 and contadorDespegues > 0:
+            avion = generador()
+            evento.process(controlColas(evento,avion,colaSalidas))
+            contadorDespegues -= 1
         yield evento.timeout(0.5)
 
 # Añade las aeronaves a la torre de aterrizajes
-def controlColaAterrizajes(evento,avion):
-    colaAterrizajes.append(avion)
+def controlColas(evento,avion,colas):
+    colas.append(avion)
     yield evento.timeout(0.5)
     
 # Una vez llegan las aeronaves las retira de la otra cola y las añade a la de aterrizados
@@ -50,6 +56,17 @@ def controlEstacionados(evento,parking):
         with parking.request() as request: # si hay request de estacionar
             yield request
             estacionado.infoEstacionado()
+            yield evento.timeout(0.5)
+    else:
+        yield evento.timeout(0.1)
+
+# Una vez estan estacionadas las aeronaves se les asigna una tarea de salir a pista (no esta implementado el control de flujo de pasajeros)
+def controlSalidas(evento,pista):
+    if colaSalidas:
+        salida = colaSalidas.popleft()
+        with pista.request() as request:
+            yield request
+            salida.infoSalidas()
             yield evento.timeout(0.5)
     else:
         yield evento.timeout(0.1)

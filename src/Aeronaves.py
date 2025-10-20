@@ -6,16 +6,15 @@ import time
 
 class Aeronave:
     comienzo = False
-    def __init__(self,id,vueloId,pasajeros,origen,destino,horaSalida,horaLlegada,aterrizado,estacionado):
+    def __init__(self,id,vueloId,estado,pasajeros,origen,destino,horaSalida,horaLlegada):
         self.id = id
         self.vueloId = vueloId
+        self.estado = estado
         self.pasajeros = pasajeros
         self.origen = origen
         self.destino = destino
         self.horaSalida = horaSalida
         self.horaLlegada = horaLlegada
-        self.aterrizado = aterrizado
-        self.estacionado = estacionado
 
     def infoColaAterrizaje(self):
         logs = "../log.csv"
@@ -28,11 +27,10 @@ class Aeronave:
 
         with open(logs,"a", newline="") as log:
             writer = csv.writer(log)
-
             if not existeEncabezado:
-                writer.writerow(["ID","ID_Vuelo","Pasajeros","Origen","Destino","Hora_Salida","Hora_Llegada","Aterrizado","Estacionado"])
-            
-            writer.writerow([self.id,self.vueloId,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.aterrizado,self.estacionado])
+                writer.writerow(["ID","ID_Vuelo","Estado","Pasajeros","Origen","Destino","Hora_Salida","Hora_Llegada"])
+            self.estado = "Llegando"
+            writer.writerow([self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada])
             time.sleep(random.randint(1,2))
 ###################################################################################################################
             #if not Aeronave.comienzo:
@@ -51,10 +49,10 @@ class Aeronave:
     # Te da la info de las aeronaves que ya han aterrizado
     def infoAterrizaje(self):
         logs = "../log.csv"
-        self.aterrizado = True
+        self.estado = "Aterrizaje"
         with open(logs,"a") as log:
             writer = csv.writer(log)
-            writer.writerow([self.id,self.vueloId,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.aterrizado,self.estacionado])
+            writer.writerow([self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada])
             time.sleep(random.randint(1,2))
 ###################################################################################################################
             #print("",file=log)
@@ -71,10 +69,10 @@ class Aeronave:
     # Te da la info de las aeronaves que ya estan estacionadas
     def infoEstacionado(self):
         logs = "../log.csv"
-        self.estacionado = True
+        self.estado = "Estacionado"
         with open(logs,"a") as log:
             writer = csv.writer(log)
-            writer.writerow([self.id,self.vueloId,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.aterrizado,self.estacionado])
+            writer.writerow([self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada])
             time.sleep(random.randint(1,2))
 
 ###################################################################################################################
@@ -88,3 +86,10 @@ class Aeronave:
             #print(f"Hora de llegada: {self.horaLlegada}",file=log)
 ###################################################################################################################
     
+    def infoSalidas(self):
+        logs = "../logs.csv"
+        self.estado = "Despegando"
+        with open(logs,"a") as log:
+            writer = csv.writer(log)
+            writer.writerow([self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada])
+            time.sleep(random.randint(1,2))
