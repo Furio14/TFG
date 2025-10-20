@@ -1,4 +1,7 @@
 import time
+import heapq
+import simpy
+import random
 from collections import deque
 from GeneradorAeronaves import *
 from Aeronaves import *
@@ -7,35 +10,46 @@ colaAterrizajes = deque()
 colaEstacionados = deque()
 
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
-def torreDeControl():
+def torreDeControl(evento,pista,parking):
     contador = 0
-    for minuto in range(0,120):
-        if random.random() < 0.2:
+    while True:
+        if random.random() < 0.2: # se generan aviones
             avion = generador()
-            controlColaAterrizajes(avion)
             contador += 1
-            if avion.infoColaAterrizaje() is not None:
-                print(avion.infoColaAterrizaje())
-        if random.random() < 0.15 and contador > 0:     
-            controlAterrizajes()
+            evento.process(controlColaAterrizajes(evento,avion))
+            avion.infoColaAterrizaje()
+        if random.random() < 0.15 and contador > 0:
+            evento.process(controlAterrizajes(evento,pista,parking))
             contador -= 1
-            time.sleep(0.3)
-            controlEstacionados()
-        time.sleep(0.5)
+        
+        yield evento.timeout(0.5)
 
 # Añade las aeronaves a la torre de aterrizajes
-def controlColaAterrizajes(avion):
+def controlColaAterrizajes(evento,avion):
     colaAterrizajes.append(avion)
-    time.sleep(0.5)
+    yield evento.timeout(0.5)
     
 # Una vez llegan las aeronaves las retira de la otra cola y las añade a la de aterrizados
-def controlAterrizajes():
+def controlAterrizajes(evento,pista,parking):
     if colaAterrizajes:
         aterriza = colaAterrizajes.popleft()
-        aterriza.infoAterrizaje()
+        with pista.request( ) as request: # si hay request de aterrizar en pista
+            yield request
+            aterriza.infoAterrizaje()
+            yield evento.timeout(0.5)
         colaEstacionados.append(aterriza)
+        evento.process(controlEstacionados(evento,parking))
+        yield evento.timeout(0.5)
+    else:
+        yield evento.timeout(0.1)
 
 # Una vez aterrizan las aeronaves te informa de si esta estacionado
-def controlEstacionados():
-    estacionado = colaEstacionados.popleft()
-    estacionado.infoEstacionado()
+def controlEstacionados(evento,parking):
+    if colaEstacionados:
+        estacionado = colaEstacionados.popleft()
+        with parking.request() as request: # si hay request de estacionar
+            yield request
+            estacionado.infoEstacionado()
+            yield evento.timeout(0.5)
+    else:
+        yield evento.timeout(0.1)

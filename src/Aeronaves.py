@@ -1,5 +1,7 @@
 
 import csv
+import random
+import time
 
 
 class Aeronave:
@@ -31,7 +33,7 @@ class Aeronave:
                 writer.writerow(["ID","ID_Vuelo","Pasajeros","Origen","Destino","Hora_Salida","Hora_Llegada","Aterrizado","Estacionado"])
             
             writer.writerow([self.id,self.vueloId,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.aterrizado,self.estacionado])
-            
+            time.sleep(random.randint(1,2))
 ###################################################################################################################
             #if not Aeronave.comienzo:
             #    print("-----------COMIENZO SIMULACION-----------",file=log)
@@ -53,7 +55,7 @@ class Aeronave:
         with open(logs,"a") as log:
             writer = csv.writer(log)
             writer.writerow([self.id,self.vueloId,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.aterrizado,self.estacionado])
-
+            time.sleep(random.randint(1,2))
 ###################################################################################################################
             #print("",file=log)
             #print("***AVION ATERRIZADO***",file=log)
@@ -73,6 +75,7 @@ class Aeronave:
         with open(logs,"a") as log:
             writer = csv.writer(log)
             writer.writerow([self.id,self.vueloId,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.aterrizado,self.estacionado])
+            time.sleep(random.randint(1,2))
 
 ###################################################################################################################
             #print("",file=log)

@@ -1,5 +1,6 @@
 import random
 from Aeronaves import *
+from TorreDeControl import *
 
 horasAeronave = 0
 minutosAeronave = 0
@@ -36,3 +37,4 @@ def generador():
             minutosAeronave = minutosAeronave + duracion
             
     return Aeronave(id,idVuelo,pasajeros,origen,destino,horaSalida,horaLlegada,aterrizado=False,estacionado=False)
+

@@ -1,15 +1,25 @@
 ID,ID_Vuelo,Pasajeros,Origen,Destino,Hora_Salida,Hora_Llegada,Aterrizado,Estacionado
-D278,IB302,189,Beijing,Shanghai,00:00,04:16,False,False
-D278,IB302,189,Beijing,Shanghai,00:00,04:16,True,False
-D278,IB302,189,Beijing,Shanghai,00:00,04:16,True,True
-X152,AA61,230,Beijing,Londres,00:25,04:24,False,False
-U288,DL815,196,Shanghai,Tokyo,02:56,04:26,False,False
-X152,AA61,230,Beijing,Londres,00:25,04:24,True,False
-X152,AA61,230,Beijing,Londres,00:25,04:24,True,True
-U288,DL815,196,Shanghai,Tokyo,02:56,04:26,True,False
-U288,DL815,196,Shanghai,Tokyo,02:56,04:26,True,True
-D694,AA600,158,Tokyo,Madrid,23:19,04:31,False,False
-H975,AV153,150,Beijing,Tokyo,03:15,04:32,False,False
-F366,AA315,249,Milan,Shanghai,00:43,04:36,False,False
-H656,BA948,155,Shanghai,Beijing,02:26,04:38,False,False
-I549,DL642,220,Beijing,Tokyo,00:13,04:42,False,False
+W398,IB693,261,Nueva York,Milan,00:00,03:21,False,False
+B687,AA478,154,Beijing,Londres,00:06,03:27,False,False
+W398,IB693,261,Nueva York,Milan,00:00,03:21,True,False
+K224,LX222,296,Madrid,Shanghai,23:46,03:31,False,False
+W398,IB693,261,Nueva York,Milan,00:00,03:21,True,True
+C659,BA414,156,Londres,Milan,22:14,03:36,False,False
+B687,AA478,154,Beijing,Londres,00:06,03:27,True,False
+B687,AA478,154,Beijing,Londres,00:06,03:27,True,True
+A808,V74,239,Tokyo,Beijing,00:49,03:39,False,False
+K224,LX222,296,Madrid,Shanghai,23:46,03:31,True,False
+K224,LX222,296,Madrid,Shanghai,23:46,03:31,True,True
+C659,BA414,156,Londres,Milan,22:14,03:36,True,False
+C659,BA414,156,Londres,Milan,22:14,03:36,True,True
+C24,LX467,255,Beijing,Milan,00:39,03:42,False,False
+A808,V74,239,Tokyo,Beijing,00:49,03:39,True,False
+A808,V74,239,Tokyo,Beijing,00:49,03:39,True,True
+C24,LX467,255,Beijing,Milan,00:39,03:42,True,False
+C24,LX467,255,Beijing,Milan,00:39,03:42,True,True
+J869,IB781,279,Beijing,Shanghai,23:11,03:46,False,False
+X381,DL730,202,Milan,Shanghai,23:49,03:50,False,False
+O266,V155,262,Beijing,Madrid,23:41,03:54,False,False
+I479,BA368,261,Shanghai,Beijing,23:58,03:58,False,False
+J869,IB781,279,Beijing,Shanghai,23:11,03:46,True,False
+J869,IB781,279,Beijing,Shanghai,23:11,03:46,True,True
