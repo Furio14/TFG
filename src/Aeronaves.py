@@ -16,6 +16,7 @@ class Aeronave:
         self.horaSalida = horaSalida
         self.horaLlegada = horaLlegada
 
+
     def infoColaAterrizaje(self):
         logs = "../log.csv"
         #CSV
@@ -87,7 +88,7 @@ class Aeronave:
 ###################################################################################################################
     
     def infoSalidas(self):
-        logs = "../logs.csv"
+        logs = "../log.csv"
         self.estado = "Despegando"
         with open(logs,"a") as log:
             writer = csv.writer(log)
