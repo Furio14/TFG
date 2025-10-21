@@ -29,6 +29,8 @@ def torreDeControl(evento,pistaAterrizajes,parking):
                 avion = aeronaveSalida(avion)
                 evento.process(controlColas(evento,avion,colaSalidas))
                 avion.infoSalidas()
+                print(evento.now)
+
         yield evento.timeout(0.5)
 
 # Añade las aeronaves a la torre de aterrizajes
@@ -80,16 +82,22 @@ def aeronaveSalida(avion):
     numeroVuelo = int(''.join(filter(str.isdigit,avion.vueloId)))
     avion.vueloId = f"{vuelo}{numeroVuelo + random.randint(1,5)}"
     hora,min = map(int, avion.horaLlegada.split(':'))
-    horas = hora + random.randint(1,23)
-    mins = min + random.randint(0,59)
-    if mins > 59:
-        mins = mins - 60
-        horas += 1
-    if horas > 23:
-        horas = horas - 24
-    avion.horaSalida = f"{horas%24:02d}:{mins%24:02d}" # hora de salida respecto a la llegada
-    avion.horaLlegada = f"{horas + random.randint(1,5)}:{mins + random.randint(0,30)}"
+    horaSalida = hora + random.randint(1,23)
+    horaLlegada = horaSalida + random.randint(1,5)
+    minSalida = min + random.randint(0,59)
+    minLlegada = minSalida + random.randint(0,59)
+    funcTiempo(horaSalida,minSalida)
+    funcTiempo(horaLlegada,minLlegada)
+    avion.horaSalida = f"{horaSalida%24:02d}:{minSalida%24:02d}" # hora de salida respecto a la llegada
+    avion.horaLlegada = f"{horaLlegada%24:02d}:{minLlegada%24:02d}"
     return avion
 
+#################################################FUNCIONES AUXILIARES#################################################
 
+def funcTiempo(horas,minutos):
+    if minutos > 59:
+        minutos -= 60
+        horas += 1
+    if horas > 23:
+        horas -= 24
 
