@@ -11,9 +11,9 @@ colaEstacionados = deque()
 colaSalidas = deque()
 listaAviones = []
 
+
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
 def torreDeControl(evento,pistaAterrizajes,parking):
-    global avion
     while True:
         if random.random() < 0.2: # se generan aviones
             avion = generador()
@@ -23,14 +23,8 @@ def torreDeControl(evento,pistaAterrizajes,parking):
             avion.infoColaAterrizaje()
         for avion in listaAviones:
             if random.random() < 0.15 and  avion.contador > 0:
-                evento.process(controlAterrizajes(evento,pistaAterrizajes,parking))
-                avion.contador += 1
-            if random.random() < 0.2 and  avion.contador > 1 and avion.estado != "Programado":
-                avion = aeronaveSalida(avion)
-                evento.process(controlColas(evento,avion,colaSalidas))
-                avion.infoSalidas()
-                print(evento.now)
-
+                yield evento.process(controlAterrizajes(evento,pistaAterrizajes,parking))
+                yield evento.process(controlViajesProgramados(evento,avion))
         yield evento.timeout(0.5)
 
 # Añade las aeronaves a la torre de aterrizajes
@@ -64,15 +58,22 @@ def controlEstacionados(evento,parking):
         yield evento.timeout(0.1)
 
 # Una vez estan estacionadas las aeronaves se les asigna una tarea de salir a pista (no esta implementado el control de flujo de pasajeros)
-def controlSalidas(evento,pista):
-    if colaSalidas:
-        salida = colaSalidas.popleft()
-        with pista.request() as request:
-            yield request
-            salida.infoSalidas()
-            yield evento.timeout(0.5)
-    else:
-        yield evento.timeout(0.1)
+##def controlSalidas(evento,pista):
+ #   if colaSalidas:
+ #       salida = colaSalidas.popleft()
+ #       with pista.request() as request:
+ #           yield request
+ #           salida.infoSalidas()
+ #           yield evento.timeout(0.5)
+ #   else:
+ #       yield evento.timeout(0.1)
+
+# Una vez estacionan los aviones se programa un tiempo aprox en la q saldra el avion con diferente tiempo de vuelo
+def controlViajesProgramados(evento,avion):
+    avion = aeronaveSalida(avion)
+    evento.process(controlColas(evento,avion,colaSalidas))
+    avion.infoSalidas()
+    yield evento.timeout(0.5)
 
 # Una vez una aeronave aterriza (mirar flujo de pasajeros para ver si hay retraso), se le asigna otro destino con diferente id de vuelo y destino
 def aeronaveSalida(avion):
