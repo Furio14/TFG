@@ -16,6 +16,7 @@ class Aeronave:
         self.horaSalida = horaSalida
         self.horaLlegada = horaLlegada
         self.contador = 0
+        self.programado = False
 
 
     def infoColaAterrizaje(self):

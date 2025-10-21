@@ -1,29 +1,27 @@
 ID,ID_Vuelo,Estado,Pasajeros,Origen,Destino,Hora_Salida,Hora_Llegada
-O995,IB507,Llegando,212,Londres,Madrid,00:00,04:57
-B189,LX678,Llegando,198,Milan,Madrid,02:15,05:07
-O995,IB507,Aterrizaje,212,Londres,Madrid,00:00,04:57
-O995,IB507,Estacionado,212,Londres,Madrid,00:00,04:57
-O995,IB509,Programado,212,Madrid,Beijing,17:08,22:06
-T929,BA413,Llegando,161,Shanghai,Madrid,02:00,05:10
-B189,LX678,Aterrizaje,198,Milan,Madrid,02:15,05:07
-B189,LX678,Estacionado,198,Milan,Madrid,02:15,05:07
-O995,IB514,Programado,212,Beijing,Tokyo,06:08,10:01
-G551,AA80,Llegando,251,Shanghai,Madrid,00:58,05:15
-T929,BA413,Aterrizaje,161,Shanghai,Madrid,02:00,05:10
-T929,BA413,Estacionado,161,Shanghai,Madrid,02:00,05:10
-O995,IB519,Programado,212,Tokyo,Shanghai,21:02,22:11
-G551,AA80,Aterrizaje,251,Shanghai,Madrid,00:58,05:15
-G551,AA80,Estacionado,251,Shanghai,Madrid,00:58,05:15
-O995,IB524,Programado,212,Shanghai,Nueva York,07:03,11:01
-B189,LX682,Programado,198,Madrid,Londres,09:07,11:18
-B189,LX683,Programado,198,Londres,Shanghai,05:13,09:09
-T929,BA415,Programado,161,Madrid,Londres,07:12,08:11
-O995,IB529,Programado,212,Nueva York,Tokyo,01:09,05:10
-B189,LX687,Programado,198,Shanghai,Shanghai,11:22,15:23
-G551,AA82,Programado,251,Madrid,Milan,08:19,13:12
-Z518,IB798,Llegando,156,Shanghai,Madrid,02:49,05:18
-V563,AV120,Llegando,223,Nueva York,Madrid,00:25,05:23
-Z518,IB798,Aterrizaje,156,Shanghai,Madrid,02:49,05:18
-Z518,IB798,Estacionado,156,Shanghai,Madrid,02:49,05:18
-O995,IB532,Programado,212,Tokyo,Beijing,02:10,03:15
-V563,AV120,Aterrizaje,223,Nueva York,Madrid,00:25,05:23
+W818,IB441,Llegando,170,Beijing,Madrid,00:00,02:36
+W818,IB441,Aterrizaje,170,Beijing,Madrid,00:00,02:36
+W818,IB441,Estacionado,170,Beijing,Madrid,00:00,02:36
+C451,V850,Llegando,231,Londres,Madrid,22:16,02:42
+C451,V850,Aterrizaje,231,Londres,Madrid,22:16,02:42
+W818,IB444,Programado,170,Madrid,Shanghai,06:03,07:02
+C451,V850,Estacionado,231,Londres,Madrid,22:16,02:42
+G665,AA386,Llegando,187,Londres,Madrid,00:01,02:44
+G665,AA386,Aterrizaje,187,Londres,Madrid,00:01,02:44
+W818,IB448,Programado,170,Shanghai,Milan,17:07,20:02
+G665,AA386,Estacionado,187,Londres,Madrid,00:01,02:44
+U972,DL587,Llegando,297,Beijing,Madrid,21:37,02:49
+U972,DL587,Aterrizaje,297,Beijing,Madrid,21:37,02:49
+C451,V855,Programado,231,Madrid,Shanghai,16:19,21:05
+U972,DL587,Estacionado,297,Beijing,Madrid,21:37,02:49
+B536,IB351,Llegando,188,Shanghai,Madrid,01:50,02:50
+B536,IB351,Aterrizaje,188,Shanghai,Madrid,01:50,02:50
+W818,IB449,Programado,170,Milan,Londres,18:19,21:07
+B536,IB351,Estacionado,188,Shanghai,Madrid,01:50,02:50
+W10,AA636,Llegando,232,Londres,Madrid,22:43,02:54
+W10,AA636,Aterrizaje,232,Londres,Madrid,22:43,02:54
+G665,AA388,Programado,187,Madrid,Nueva York,14:04,15:05
+W10,AA636,Estacionado,232,Londres,Madrid,22:43,02:54
+I328,BA550,Llegando,186,Beijing,Madrid,21:57,02:59
+I328,BA550,Aterrizaje,186,Beijing,Madrid,21:57,02:59
+C451,V856,Programado,231,Shanghai,Beijing,05:11,08:10
