@@ -24,6 +24,7 @@ def generador():
     origen = random.choice(ciudades) # genera 2 ciudades random
     destino = "Madrid"
     duracion = random.randint(1,5)
+    contador = 0
     if not comienzoSimulacion: # al inicio de la simulacion ponemos unos parametros iniciales
         horaSalida = f"{horasAeronave:02d}:{minutosAeronave:02d}"
         horaLlegada = f"{(horasAeronave + duracion)%24:02d}:{minutoLlegada:02d}"

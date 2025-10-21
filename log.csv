@@ -1,23 +1,36 @@
 ID,ID_Vuelo,Estado,Pasajeros,Origen,Destino,Hora_Salida,Hora_Llegada
-H124,DL731,Llegando,262,Milan,Madrid,00:00,02:10
-I949,V556,Llegando,283,Milan,Madrid,22:34,02:16
-I949,V561,Programado,283,Madrid,Beijing,14:6,16:20
-H124,DL731,Aterrizaje,262,Milan,Madrid,00:00,02:10
-H124,DL731,Estacionado,262,Milan,Madrid,00:00,02:10
-A106,BA231,Llegando,265,Milan,Madrid,22:13,02:20
-X539,AV14,Llegando,196,Tokyo,Madrid,01:29,02:21
-I949,V561,Aterrizaje,283,Madrid,Beijing,14:6,16:20
-I949,V561,Estacionado,283,Madrid,Beijing,14:6,16:20
-T638,LX666,Llegando,275,Milan,Madrid,22:51,02:25
-N888,DL150,Llegando,174,Londres,Madrid,23:16,02:28
-A106,BA231,Aterrizaje,265,Milan,Madrid,22:13,02:20
-A106,BA231,Estacionado,265,Milan,Madrid,22:13,02:20
-U779,DL220,Llegando,191,Londres,Madrid,00:21,02:30
-X539,AV14,Aterrizaje,196,Tokyo,Madrid,01:29,02:21
-X539,AV14,Estacionado,196,Tokyo,Madrid,01:29,02:21
-F216,AA79,Llegando,183,Tokyo,Madrid,01:59,02:31
-Q72,IB580,Llegando,253,Beijing,Madrid,23:00,02:34
-P130,IB807,Llegando,275,Tokyo,Madrid,01:10,02:35
-P130,IB812,Programado,275,Madrid,Tokyo,3:57,8:62
-T638,LX666,Aterrizaje,275,Milan,Madrid,22:51,02:25
-T638,LX666,Estacionado,275,Milan,Madrid,22:51,02:25
+W473,V348,Llegando,235,Beijing,Madrid,00:00,04:27
+I497,AV575,Llegando,263,Beijing,Madrid,02:03,04:33
+V555,LX175,Llegando,231,Beijing,Madrid,00:47,04:37
+W473,V348,Aterrizaje,235,Beijing,Madrid,00:00,04:27
+M535,AV810,Llegando,152,Beijing,Madrid,23:20,04:42
+V555,LX179,Programado,231,Madrid,Beijing,08:22,12:56
+W473,V348,Estacionado,235,Beijing,Madrid,00:00,04:27
+I497,AV575,Aterrizaje,263,Beijing,Madrid,02:03,04:33
+B688,V564,Llegando,217,Londres,Madrid,02:24,04:44
+I497,AV575,Estacionado,263,Beijing,Madrid,02:03,04:33
+J690,V131,Llegando,294,Shanghai,Madrid,02:21,04:46
+V555,LX179,Aterrizaje,231,Madrid,Beijing,08:22,12:56
+V555,LX183,Programado,231,Beijing,Nueva York,03:04,5:58
+V555,LX183,Estacionado,231,Beijing,Nueva York,03:04,5:58
+M535,AV810,Aterrizaje,152,Beijing,Madrid,23:20,04:42
+T650,AA366,Llegando,261,Tokyo,Madrid,00:11,04:50
+M535,AV810,Estacionado,152,Beijing,Madrid,23:20,04:42
+B688,V564,Aterrizaje,217,Londres,Madrid,02:24,04:44
+J690,V136,Programado,294,Madrid,Beijing,17:19,19:68
+B688,V564,Estacionado,217,Londres,Madrid,02:24,04:44
+J690,V136,Aterrizaje,294,Madrid,Beijing,17:19,19:68
+J690,V136,Estacionado,294,Madrid,Beijing,17:19,19:68
+T650,AA366,Aterrizaje,261,Tokyo,Madrid,00:11,04:50
+W473,V351,Programado,235,Madrid,Londres,10:11,12:53
+I497,AV578,Programado,263,Madrid,Tokyo,03:18,4:48
+T650,AA366,Estacionado,261,Tokyo,Madrid,00:11,04:50
+C369,BA710,Llegando,163,Nueva York,Madrid,01:50,04:53
+C369,BA710,Aterrizaje,163,Nueva York,Madrid,01:50,04:53
+L585,LX767,Llegando,251,Beijing,Madrid,23:52,04:58
+B688,V567,Programado,217,Madrid,Nueva York,21:17,26:17
+C369,BA710,Estacionado,163,Nueva York,Madrid,01:50,04:53
+L585,LX767,Aterrizaje,251,Beijing,Madrid,23:52,04:58
+A600,IB94,Llegando,182,Londres,Madrid,03:59,05:03
+J690,V137,Programado,294,Beijing,Tokyo,22:06,24:80
+L585,LX767,Estacionado,251,Beijing,Madrid,23:52,04:58

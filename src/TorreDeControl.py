@@ -9,26 +9,26 @@ from Aeronaves import *
 colaAterrizajes = deque()
 colaEstacionados = deque()
 colaSalidas = deque()
+listaAviones = []
 
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
 def torreDeControl(evento,pistaAterrizajes,parking):
-    contadorAterrizajes = 0
-    contadorDespegues = 0
+    global avion
     while True:
         if random.random() < 0.2: # se generan aviones
             avion = generador()
-            contadorAterrizajes += 1
+            avion.contador += 1
+            listaAviones.append(avion)
             evento.process(controlColas(evento,avion,colaAterrizajes))
             avion.infoColaAterrizaje()
-        if random.random() < 0.15 and contadorAterrizajes > 0:
-            evento.process(controlAterrizajes(evento,pistaAterrizajes,parking))
-            contadorAterrizajes -= 1
-            contadorDespegues += 1
-        if random.random() < 0.2 and contadorDespegues > 0 and avion.estado != "Programado":
-            avion = aeronaveSalida(avion)
-            evento.process(controlColas(evento,avion,colaSalidas))
-            avion.infoSalidas()
-            contadorDespegues -= 1
+        for avion in listaAviones:
+            if random.random() < 0.15 and  avion.contador > 0:
+                evento.process(controlAterrizajes(evento,pistaAterrizajes,parking))
+                avion.contador += 1
+            if random.random() < 0.2 and  avion.contador > 1 and avion.estado != "Programado":
+                avion = aeronaveSalida(avion)
+                evento.process(controlColas(evento,avion,colaSalidas))
+                avion.infoSalidas()
         yield evento.timeout(0.5)
 
 # Añade las aeronaves a la torre de aterrizajes
@@ -87,7 +87,7 @@ def aeronaveSalida(avion):
         horas += 1
     if horas > 23:
         horas = horas - 24
-    avion.horaSalida = f"{horas}:{mins}" # hora de salida respecto a la llegada
+    avion.horaSalida = f"{horas%24:02d}:{mins%24:02d}" # hora de salida respecto a la llegada
     avion.horaLlegada = f"{horas + random.randint(1,5)}:{mins + random.randint(0,30)}"
     return avion
 
