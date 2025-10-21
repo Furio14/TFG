@@ -1,16 +1,23 @@
 ID,ID_Vuelo,Estado,Pasajeros,Origen,Destino,Hora_Salida,Hora_Llegada
-T284,AA354,Llegando,212,Londres,Madrid,00:00,05:08
-A581,LX582,Llegando,272,Nueva York,Madrid,04:13,05:14
-T284,AA354,Aterrizaje,212,Londres,Madrid,00:00,05:08
-T284,AA354,Estacionado,212,Londres,Madrid,00:00,05:08
-A581,LX587,Despegando,272,Madrid,Beijing,8:28,13:33
-A581,LX587,Aterrizaje,272,Madrid,Beijing,8:28,13:33
-A581,LX587,Estacionado,272,Madrid,Beijing,8:28,13:33
-A581,LX589,Despegando,272,Beijing,Londres,17:26,18:55
-A455,AV329,Llegando,254,Tokyo,Londres,01:48,05:18
-A455,AV331,Despegando,254,Londres,Madrid,19:17,23:39
-A455,AV331,Aterrizaje,254,Londres,Madrid,19:17,23:39
-K356,V397,Llegando,177,Shanghai,Nueva York,02:41,05:21
-K356,V401,Despegando,177,Nueva York,Milan,19:39,23:66
-A455,AV331,Estacionado,254,Londres,Madrid,19:17,23:39
-K356,V401,Aterrizaje,177,Nueva York,Milan,19:39,23:66
+H124,DL731,Llegando,262,Milan,Madrid,00:00,02:10
+I949,V556,Llegando,283,Milan,Madrid,22:34,02:16
+I949,V561,Programado,283,Madrid,Beijing,14:6,16:20
+H124,DL731,Aterrizaje,262,Milan,Madrid,00:00,02:10
+H124,DL731,Estacionado,262,Milan,Madrid,00:00,02:10
+A106,BA231,Llegando,265,Milan,Madrid,22:13,02:20
+X539,AV14,Llegando,196,Tokyo,Madrid,01:29,02:21
+I949,V561,Aterrizaje,283,Madrid,Beijing,14:6,16:20
+I949,V561,Estacionado,283,Madrid,Beijing,14:6,16:20
+T638,LX666,Llegando,275,Milan,Madrid,22:51,02:25
+N888,DL150,Llegando,174,Londres,Madrid,23:16,02:28
+A106,BA231,Aterrizaje,265,Milan,Madrid,22:13,02:20
+A106,BA231,Estacionado,265,Milan,Madrid,22:13,02:20
+U779,DL220,Llegando,191,Londres,Madrid,00:21,02:30
+X539,AV14,Aterrizaje,196,Tokyo,Madrid,01:29,02:21
+X539,AV14,Estacionado,196,Tokyo,Madrid,01:29,02:21
+F216,AA79,Llegando,183,Tokyo,Madrid,01:59,02:31
+Q72,IB580,Llegando,253,Beijing,Madrid,23:00,02:34
+P130,IB807,Llegando,275,Tokyo,Madrid,01:10,02:35
+P130,IB812,Programado,275,Madrid,Tokyo,3:57,8:62
+T638,LX666,Aterrizaje,275,Milan,Madrid,22:51,02:25
+T638,LX666,Estacionado,275,Milan,Madrid,22:51,02:25

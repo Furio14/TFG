@@ -7,7 +7,7 @@ minutosAeronave = 0
 comienzoSimulacion = False
 
 #Ciudades
-ciudades = ["Madrid", "Nueva York", "Milan", "Tokyo", "Beijing", "Shanghai", "Londres"]
+ciudades = ["Nueva York", "Milan", "Tokyo", "Beijing", "Shanghai", "Londres"]
 vuelos = ["IB","BA","AA","V","AV","LX","DL"]
 
 def generador():
@@ -21,7 +21,8 @@ def generador():
     idVuelo = f"{random.choice(vuelos)}{random.randint(0,999)}" # genera un id para un avion aleatorio
     estado = "Llegando" # estado de la aeronave
     pasajeros = random.randint(150,300) # genera un numero random de pasajeros
-    origen,destino = random.sample(ciudades,2) # genera 2 ciudades random
+    origen = random.choice(ciudades) # genera 2 ciudades random
+    destino = "Madrid"
     duracion = random.randint(1,5)
     if not comienzoSimulacion: # al inicio de la simulacion ponemos unos parametros iniciales
         horaSalida = f"{horasAeronave:02d}:{minutosAeronave:02d}"

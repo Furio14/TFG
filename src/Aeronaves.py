@@ -3,7 +3,7 @@ import csv
 import random
 import time
 
-
+logs = "../log.csv"
 class Aeronave:
     comienzo = False
     def __init__(self,id,vueloId,estado,pasajeros,origen,destino,horaSalida,horaLlegada):
@@ -18,8 +18,6 @@ class Aeronave:
 
 
     def infoColaAterrizaje(self):
-        logs = "../log.csv"
-        #CSV
         try:
             with open(logs,"r") as log:
                 existeEncabezado = True
@@ -49,7 +47,6 @@ class Aeronave:
 
     # Te da la info de las aeronaves que ya han aterrizado
     def infoAterrizaje(self):
-        logs = "../log.csv"
         self.estado = "Aterrizaje"
         with open(logs,"a") as log:
             writer = csv.writer(log)
@@ -69,7 +66,6 @@ class Aeronave:
 #         
     # Te da la info de las aeronaves que ya estan estacionadas
     def infoEstacionado(self):
-        logs = "../log.csv"
         self.estado = "Estacionado"
         with open(logs,"a") as log:
             writer = csv.writer(log)
@@ -87,8 +83,16 @@ class Aeronave:
             #print(f"Hora de llegada: {self.horaLlegada}",file=log)
 ###################################################################################################################
     
+    # Te da la info aproximada de cuando va a salir un vuelo
     def infoSalidas(self):
-        logs = "../log.csv"
+        self.estado = "Programado"
+        with open(logs,"a") as log:
+            writer = csv.writer(log)
+            writer.writerow([self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada])
+            time.sleep(random.randint(1,2))
+
+    # Te da la info de cuando ha despegado un avion, si han habido retrasos etc etc
+    def infoDespegues(self):
         self.estado = "Despegando"
         with open(logs,"a") as log:
             writer = csv.writer(log)

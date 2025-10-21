@@ -24,7 +24,7 @@ def torreDeControl(evento,pistaAterrizajes,parking):
             evento.process(controlAterrizajes(evento,pistaAterrizajes,parking))
             contadorAterrizajes -= 1
             contadorDespegues += 1
-        if random.random() < 0.2 and contadorDespegues > 0:
+        if random.random() < 0.2 and contadorDespegues > 0 and avion.estado != "Programado":
             avion = aeronaveSalida(avion)
             evento.process(controlColas(evento,avion,colaSalidas))
             avion.infoSalidas()
@@ -75,7 +75,7 @@ def controlSalidas(evento,pista):
 # Una vez una aeronave aterriza (mirar flujo de pasajeros para ver si hay retraso), se le asigna otro destino con diferente id de vuelo y destino
 def aeronaveSalida(avion):
     avion.origen = avion.destino
-    avion.destino = random.choice([i for i in ciudades if i!=avion.origen]) # El origen no puede ser también el destino
+    avion.destino = random.choice(ciudades) # El origen no puede ser también el destino
     vuelo = ''.join(filter(str.isalpha,avion.vueloId))
     numeroVuelo = int(''.join(filter(str.isdigit,avion.vueloId)))
     avion.vueloId = f"{vuelo}{numeroVuelo + random.randint(1,5)}"
