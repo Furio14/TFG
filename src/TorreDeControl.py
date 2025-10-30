@@ -16,10 +16,11 @@ def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues):
     while True:
         if random.random() < 0.2: # se generan aviones
             avion = generador()
-            
+            # Ciclo completo de cada avion
             evento.process(cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues))
         yield evento.timeout(0.5)
 
+# Nos indica el ciclo completo de cada avion
 def cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues):
     # Nos indica primero si esta llegando el avion
     yield evento.process(controlColas(evento,avion,colaAterrizajes))
@@ -30,7 +31,7 @@ def cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues):
     yield evento.process(controlEstacionados(evento,parking))
     # Después de estacionar nos dice a que hora está programado el vuelo
     yield evento.process(controlSalidas(evento,anuncio))
-    # Nos indica si el avión esta despegando
+    # Nos indica si el avion esta despegando
     yield evento.process(controlDespegues(evento,pistaDespegues))
 
 
@@ -81,7 +82,7 @@ def controlDespegues(evento,pista):
     if colaSalidas:
         salida = colaDespegues.popleft()
         avion = salida
-        with pista.request() as request:
+        with pista.request() as request: #hace request por si no hay ningún avión en la pista
             yield request
             avion.infoDespegues()
             yield evento.timeout(0.5)
