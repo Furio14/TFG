@@ -14,10 +14,11 @@ def main():
     evento = simpy.Environment()
     
     pistaAterrizaje = simpy.Resource(evento,capacity=1)
+    pistaDespegue = simpy.Resource(evento,capacity=1)
     anuncio = simpy.Resource(evento,capacity=1)
     parking = simpy.Resource(evento,capacity=2)
 
-    evento.process(torreDeControl(evento,pistaAterrizaje,anuncio,parking))
+    evento.process(torreDeControl(evento,anuncio,parking,pistaAterrizaje,pistaDespegue))
     evento.run(until=140)
 
 if __name__ == "__main__":

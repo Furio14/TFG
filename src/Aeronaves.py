@@ -16,8 +16,6 @@ class Aeronave:
         self.horaSalida = horaSalida
         self.horaLlegada = horaLlegada
         self.contador = 0
-        self.programado = False
-
 
     def infoColaAterrizaje(self):
         try:
@@ -95,6 +93,7 @@ class Aeronave:
 
     # Te da la info de cuando ha despegado un avion, si han habido retrasos etc etc
     def infoDespegues(self):
+        print("buenas")
         self.estado = "Despegando"
         with open(logs,"a") as log:
             writer = csv.writer(log)

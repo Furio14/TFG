@@ -9,26 +9,30 @@ from Aeronaves import *
 colaAterrizajes = deque()
 colaEstacionados = deque()
 colaSalidas = deque()
-listaAviones = []
-
+colaDespegues = deque()
 
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
-def torreDeControl(evento,pistaAterrizajes,anuncio,parking):
+def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues):
     while True:
         if random.random() < 0.2: # se generan aviones
             avion = generador()
-            avion.contador += 1
-            listaAviones.append(avion)
-            evento.process(controlColas(evento,avion,colaAterrizajes))
-            avion.infoColaAterrizaje()
-        for avion in listaAviones:
-            if not avion.programado and  avion.contador > 0:
-                    evento.process(controlAterrizajes(evento,pistaAterrizajes,parking))
-                    if avion.estado != "Programado":
-                        print(avion.estado)
-                        evento.process(controlSalidas(evento,anuncio))
-                    avion.programado = True
+            
+            evento.process(cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues))
         yield evento.timeout(0.5)
+
+def cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues):
+    # Nos indica primero si esta llegando el avion
+    yield evento.process(controlColas(evento,avion,colaAterrizajes))
+    avion.infoColaAterrizaje()
+    # Despues de seguido indica si efectivamente ha aterrizado el avion
+    yield evento.process(controlAterrizajes(evento,pistaAterrizajes,parking))
+    # Después nos indica cuando ha estacionado la aeronave
+    yield evento.process(controlEstacionados(evento,parking))
+    # Después de estacionar nos dice a que hora está programado el vuelo
+    yield evento.process(controlSalidas(evento,anuncio))
+    # Nos indica si el avión esta despegando
+    yield evento.process(controlDespegues(evento,pistaDespegues))
+
 
 # Añade las aeronaves a la torre de aterrizajes
 def controlColas(evento,avion,colas):
@@ -45,7 +49,6 @@ def controlAterrizajes(evento,pista,parking):
             yield evento.timeout(0.5)
         colaEstacionados.append(aterriza)
         colaSalidas.append(aterriza)
-        evento.process(controlEstacionados(evento,parking))
         yield evento.timeout(0.5)
     else:
         yield evento.timeout(0.1)
@@ -68,8 +71,19 @@ def controlSalidas(evento,anuncio):
         avion = aeronaveSalida(salida)
         with anuncio.request() as request:
             yield request
-            evento.process(controlColas(evento,avion,colaSalidas))
+            evento.process(controlColas(evento,avion,colaDespegues))
             avion.infoSalidas()
+            yield evento.timeout(0.5)
+    else:
+        yield evento.timeout(0.1)
+
+def controlDespegues(evento,pista):
+    if colaSalidas:
+        salida = colaDespegues.popleft()
+        avion = salida
+        with pista.request() as request:
+            yield request
+            avion.infoDespegues()
             yield evento.timeout(0.5)
     else:
         yield evento.timeout(0.1)
