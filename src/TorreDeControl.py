@@ -65,7 +65,7 @@ def controlEstacionados(evento,parking):
     else:
         yield evento.timeout(0.1)
 
-# Una vez estan estacionadas las aeronaves se les asigna una tarea de salir a pista (no esta implementado el control de flujo de pasajeros)
+# Una vez estan estacionadas las aeronaves se les asigna una hora de salida para ser anunciado
 def controlSalidas(evento,anuncio):
     if colaSalidas:
         salida = colaSalidas.popleft()
@@ -78,6 +78,7 @@ def controlSalidas(evento,anuncio):
     else:
         yield evento.timeout(0.1)
 
+# Una vez estan estacionadas las aeronaves se les asigna una tarea de salir a pista (no esta implementado el control de flujo de pasajeros)
 def controlDespegues(evento,pista):
     if colaSalidas:
         salida = colaDespegues.popleft()
