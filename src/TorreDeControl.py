@@ -14,11 +14,12 @@ colaDespegues = deque()
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
 def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues):
     while True:
-        if random.random() < 0.2: # se generan aviones
-            avion = generador()
+            probAviones = random.expovariate(0.2)
+            yield evento.timeout(probAviones)
+            avion = generador() # se generan aviones
             # Ciclo completo de cada avion
             evento.process(cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues))
-        yield evento.timeout(0.5)
+            yield evento.timeout(0.5)
 
 # Nos indica el ciclo completo de cada avion
 def cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues):
