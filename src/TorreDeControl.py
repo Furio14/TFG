@@ -104,10 +104,10 @@ def aeronaveSalida(avion):
     horaLlegada = horaSalida + random.randint(1,5)
     minSalida = min + random.randint(0,59)
     minLlegada = minSalida + random.randint(0,59)
-    funcTiempo(horaSalida,minSalida)
-    funcTiempo(horaLlegada,minLlegada)
-    avion.horaSalida = f"{horaSalida%24:02d}:{minSalida%24:02d}" # hora de salida respecto a la llegada
-    avion.horaLlegada = f"{horaLlegada%24:02d}:{minLlegada%24:02d}"
+    horaSalida,minSalida = funcTiempo(horaSalida,minSalida)
+    horaLlegada,minLlegada = funcTiempo(horaLlegada,minLlegada)
+    avion.horaSalida = f"{horaSalida:02d}:{minSalida:02d}" # hora de salida respecto a la llegada
+    avion.horaLlegada = f"{horaLlegada:02d}:{minLlegada:02d}"
     return avion
 
 #################################################FUNCIONES AUXILIARES#################################################
@@ -115,15 +115,16 @@ def funcHoras(avion,mins,horaFunc):
     hora,min = map(int, avion.horaLlegada.split(':'))
     horaModo = hora
     minModo = min + mins
-    funcTiempo(horaModo,minModo)
-    horaFunc = f"{horaModo%24:02d}:{minModo%60:02d}"
+    horasTiempo,minsTiempo = funcTiempo(horaModo,minModo)
+    horaFunc = f"{horasTiempo%24:02d}:{minsTiempo%60:02d}"
     return horaFunc
-
 
 def funcTiempo(horas,minutos):
     if minutos > 59:
-        minutos -= 60
-        horas += 1
+        hora = minutos // 60
+        minutos %= 60
+        horas += hora
     if horas > 23:
-        horas -= 24
+        horas %= 24
+    return horas,minutos
 
