@@ -23,8 +23,7 @@ def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues):
 # Nos indica el ciclo completo de cada avion
 def cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues):
     # Nos indica primero si esta llegando el avion
-    yield evento.process(controlColas(evento,avion,colaAterrizajes))
-    avion.infoColaAterrizaje()
+    yield evento.process(controlLlegadas(evento,avion))
     # Despues de seguido indica si efectivamente ha aterrizado el avion
     yield evento.process(controlAterrizajes(evento,pistaAterrizajes,parking))
     # Después nos indica cuando ha estacionado la aeronave
@@ -40,16 +39,21 @@ def controlColas(evento,avion,colas):
     colas.append(avion)
     yield evento.timeout(0.5)
     
+# Una vez solicitan aterrizar los aviones se les añade a la cola de llegadas
+def controlLlegadas(evento,avion):
+    colaAterrizajes.append(avion)
+    avion.infoColaAterrizaje()
+    yield evento.timeout(0.5)
+
 # Una vez llegan las aeronaves las retira de la otra cola y las añade a la de aterrizados
 def controlAterrizajes(evento,pista,parking):
     if colaAterrizajes:
         aterriza = colaAterrizajes.popleft()
         with pista.request( ) as request: # si hay request de aterrizar en pista
             yield request
+            yield evento.process(controlColas(evento,aterriza,colaEstacionados))
             aterriza.infoAterrizaje()
             yield evento.timeout(0.5)
-        colaEstacionados.append(aterriza)
-        colaSalidas.append(aterriza)
         yield evento.timeout(0.5)
     else:
         yield evento.timeout(0.1)
@@ -60,6 +64,7 @@ def controlEstacionados(evento,parking):
         estacionado = colaEstacionados.popleft()
         with parking.request() as request: # si hay request de estacionar
             yield request
+            yield evento.process(controlColas(evento,estacionado,colaSalidas))
             estacionado.infoEstacionado()
             yield evento.timeout(0.5)
     else:
@@ -72,7 +77,7 @@ def controlSalidas(evento,anuncio):
         avion = aeronaveSalida(salida)
         with anuncio.request() as request:
             yield request
-            evento.process(controlColas(evento,avion,colaDespegues))
+            yield evento.process(controlColas(evento,avion,colaDespegues))
             avion.infoSalidas()
             yield evento.timeout(0.5)
     else:
@@ -80,7 +85,7 @@ def controlSalidas(evento,anuncio):
 
 # Una vez estan estacionadas las aeronaves se les asigna una tarea de salir a pista (no esta implementado el control de flujo de pasajeros)
 def controlDespegues(evento,pista):
-    if colaSalidas:
+    if colaDespegues:
         salida = colaDespegues.popleft()
         avion = salida
         with pista.request() as request: #hace request por si no hay ningún avión en la pista
