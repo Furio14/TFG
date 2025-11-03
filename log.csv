@@ -1,112 +1,165 @@
 ID,ID_Vuelo,Estado,Pasajeros,Origen,Destino,Hora_Salida,Hora_Llegada,Hora_Estacionamiento,Hora_Programa,Hora_Despegue
-Q158,IB413,Llegando,155,Beijing,Madrid,00:00,05:41,---,---,---
-Q158,IB413,Aterrizaje,155,Beijing,Madrid,00:00,05:41,---,---,---
-Q158,IB413,Estacionado,155,Beijing,Madrid,00:00,05:41,05:51,---,---
-H559,AA47,Llegando,285,Beijing,Madrid,02:04,05:49,---,---,---
-H559,AA47,Aterrizaje,285,Beijing,Madrid,02:04,05:49,---,---,---
-N821,V942,Llegando,292,Nueva York,Madrid,02:46,05:52,---,---,---
-N821,V942,Aterrizaje,292,Nueva York,Madrid,02:46,05:52,---,---,---
-H559,AA47,Estacionado,285,Beijing,Madrid,02:04,05:49,05:59,---,---
-J668,DL744,Llegando,165,Shanghai,Madrid,01:46,05:56,---,---,---
-J668,DL744,Aterrizaje,165,Shanghai,Madrid,01:46,05:56,---,---,---
-N821,V942,Estacionado,292,Nueva York,Madrid,02:46,05:52,06:03,---,---
-Q158,IB414,Programado,155,Madrid,Milan,02:35,03:44,05:51,---,---
-Q158,IB414,Despegando,155,Madrid,Milan,02:35,03:44,05:51,---,---
-L732,V288,Llegando,252,Milan,Madrid,02:40,06:07,---,---,---
-L732,V288,Aterrizaje,252,Milan,Madrid,02:40,06:07,---,---,---
-J668,DL744,Estacionado,165,Shanghai,Madrid,01:46,05:56,06:07,---,---
-H559,AA50,Programado,285,Madrid,Nueva York,01:37,07:34,05:59,---,---
-H559,AA50,Despegando,285,Madrid,Nueva York,01:37,07:34,05:59,---,---
-F869,BA626,Llegando,170,Tokyo,Madrid,01:42,06:12,---,---,---
-F869,BA626,Aterrizaje,170,Tokyo,Madrid,01:42,06:12,---,---,---
-H450,AV915,Llegando,297,Londres,Madrid,04:20,06:14,---,---,---
-L732,V288,Estacionado,252,Milan,Madrid,02:40,06:07,06:19,---,---
-N821,V947,Programado,292,Madrid,Milan,07:38,11:02,06:03,---,---
-H450,AV915,Aterrizaje,297,Londres,Madrid,04:20,06:14,---,---,---
-N821,V947,Despegando,292,Madrid,Milan,07:38,11:02,06:03,---,---
-F869,BA626,Estacionado,170,Tokyo,Madrid,01:42,06:12,06:22,---,---
-J668,DL745,Programado,165,Madrid,Tokyo,01:06,04:13,06:07,---,---
-J668,DL745,Despegando,165,Madrid,Tokyo,01:06,04:13,06:07,---,---
-H450,AV915,Estacionado,297,Londres,Madrid,04:20,06:14,06:23,---,---
-L732,V289,Programado,252,Madrid,Nueva York,07:30,11:40,06:19,---,---
-L732,V289,Despegando,252,Madrid,Nueva York,07:30,11:40,06:19,---,---
-C950,V492,Llegando,170,Londres,Madrid,02:10,06:18,---,---,---
-F869,BA628,Programado,170,Madrid,Beijing,08:06,09:35,06:22,---,---
-C950,V492,Aterrizaje,170,Londres,Madrid,02:10,06:18,---,---,---
-F869,BA628,Despegando,170,Madrid,Beijing,08:06,09:35,06:22,---,---
-C950,V492,Estacionado,170,Londres,Madrid,02:10,06:18,06:30,---,---
-H450,AV918,Programado,297,Madrid,Shanghai,14:54,16:16,06:23,---,---
-H450,AV918,Despegando,297,Madrid,Shanghai,14:54,16:16,06:23,---,---
-F939,AV283,Llegando,251,Shanghai,Madrid,01:31,06:23,---,---,---
-F939,AV283,Aterrizaje,251,Shanghai,Madrid,01:31,06:23,---,---,---
-F939,AV283,Estacionado,251,Shanghai,Madrid,01:31,06:23,06:34,---,---
-D65,V763,Llegando,235,Shanghai,Madrid,03:23,06:26,---,---,---
-D65,V763,Aterrizaje,235,Shanghai,Madrid,03:23,06:26,---,---,---
-D65,V763,Estacionado,235,Shanghai,Madrid,03:23,06:26,06:32,---,---
-C950,V493,Programado,170,Madrid,Londres,21:58,03:40,06:30,---,---
-C950,V493,Despegando,170,Madrid,Londres,21:58,03:40,06:30,---,---
-F939,AV284,Programado,251,Madrid,Tokyo,07:53,13:42,06:34,---,---
-F939,AV284,Despegando,251,Madrid,Tokyo,07:53,13:42,06:34,---,---
-Q593,LX527,Llegando,179,Shanghai,Madrid,01:24,06:31,---,---,---
-D65,V765,Programado,235,Madrid,Nueva York,14:39,16:48,06:32,---,---
-Q593,LX527,Aterrizaje,179,Shanghai,Madrid,01:24,06:31,---,---,---
-D65,V765,Despegando,235,Madrid,Nueva York,14:39,16:48,06:32,---,---
-Q593,LX527,Estacionado,179,Shanghai,Madrid,01:24,06:31,06:39,---,---
-A157,LX517,Llegando,183,Shanghai,Madrid,01:41,06:36,---,---,---
-A157,LX517,Aterrizaje,183,Shanghai,Madrid,01:41,06:36,---,---,---
-A157,LX517,Estacionado,183,Shanghai,Madrid,01:41,06:36,06:48,---,---
-Q593,LX529,Programado,179,Madrid,Nueva York,10:12,11:46,06:39,---,---
-Q593,LX529,Despegando,179,Madrid,Nueva York,10:12,11:46,06:39,---,---
-A157,LX522,Programado,183,Madrid,Nueva York,14:06,19:39,06:48,---,---
-A157,LX522,Despegando,183,Madrid,Nueva York,14:06,19:39,06:48,---,---
-K46,V187,Llegando,280,Tokyo,Madrid,05:04,06:37,---,---,---
-K46,V187,Aterrizaje,280,Tokyo,Madrid,05:04,06:37,---,---,---
-K46,V187,Estacionado,280,Tokyo,Madrid,05:04,06:37,06:42,---,---
-K46,V190,Programado,280,Madrid,Milan,19:21,22:40,06:42,---,---
-K46,V190,Despegando,280,Madrid,Milan,19:21,22:40,06:42,---,---
-L402,DL23,Llegando,212,Londres,Madrid,02:55,06:41,---,---,---
-L402,DL23,Aterrizaje,212,Londres,Madrid,02:55,06:41,---,---,---
-P785,LX175,Llegando,265,Milan,Madrid,03:24,06:44,---,---,---
-L402,DL23,Estacionado,212,Londres,Madrid,02:55,06:41,06:51,---,---
-P785,LX175,Aterrizaje,265,Milan,Madrid,03:24,06:44,---,---,---
-P785,LX175,Estacionado,265,Milan,Madrid,03:24,06:44,06:53,---,---
-J658,LX973,Llegando,231,Tokyo,Madrid,03:29,06:47,---,---,---
-J658,LX973,Aterrizaje,231,Tokyo,Madrid,03:29,06:47,---,---,---
-Y645,IB796,Llegando,231,Milan,Madrid,02:25,06:51,---,---,---
-Y645,IB796,Aterrizaje,231,Milan,Madrid,02:25,06:51,---,---,---
-J658,LX973,Estacionado,231,Tokyo,Madrid,03:29,06:47,06:54,---,---
-L402,DL25,Programado,212,Madrid,Milan,03:30,08:17,06:51,---,---
-Y645,IB796,Estacionado,231,Milan,Madrid,02:25,06:51,07:04,---,---
-P785,LX176,Programado,265,Madrid,Londres,20:40,23:32,06:53,---,---
-L402,DL25,Despegando,212,Madrid,Milan,03:30,08:17,06:51,---,---
-P785,LX176,Despegando,265,Madrid,Londres,20:40,23:32,06:53,---,---
-G312,DL174,Llegando,163,Londres,Madrid,03:48,06:54,---,---,---
-G312,DL174,Aterrizaje,163,Londres,Madrid,03:48,06:54,---,---,---
-Z896,AV358,Llegando,284,Shanghai,Madrid,01:04,06:59,---,---,---
-Z896,AV358,Aterrizaje,284,Shanghai,Madrid,01:04,06:59,---,---,---
-G312,DL174,Estacionado,163,Londres,Madrid,03:48,06:54,07:06,---,---
-J658,LX977,Programado,231,Madrid,Shanghai,18:07,23:19,06:54,---,---
-J658,LX977,Despegando,231,Madrid,Shanghai,18:07,23:19,06:54,---,---
-P56,AV768,Llegando,204,Tokyo,Madrid,04:57,07:05,---,---,---
-P56,AV768,Aterrizaje,204,Tokyo,Madrid,04:57,07:05,---,---,---
-J682,AV497,Llegando,286,Beijing,Madrid,02:54,07:10,---,---,---
-J682,AV497,Aterrizaje,286,Beijing,Madrid,02:54,07:10,---,---,---
-F310,V130,Llegando,158,Tokyo,Madrid,04:18,07:13,---,---,---
-F310,V130,Aterrizaje,158,Tokyo,Madrid,04:18,07:13,---,---,---
-Z896,AV358,Estacionado,284,Shanghai,Madrid,01:04,06:59,07:08,---,---
-Y645,IB798,Programado,231,Madrid,Beijing,17:36,22:24,07:04,---,---
-Y645,IB798,Despegando,231,Madrid,Beijing,17:36,22:24,07:04,---,---
-F265,DL105,Llegando,283,Shanghai,Madrid,03:09,07:17,---,---,---
-F265,DL105,Aterrizaje,283,Shanghai,Madrid,03:09,07:17,---,---,---
-O722,AV933,Llegando,187,Nueva York,Madrid,06:27,07:18,---,---,---
-O722,AV933,Aterrizaje,187,Nueva York,Madrid,06:27,07:18,---,---,---
-P56,AV768,Estacionado,204,Tokyo,Madrid,04:57,07:05,07:14,---,---
-G312,DL179,Programado,163,Madrid,Beijing,14:51,20:23,07:06,---,---
-G312,DL179,Despegando,163,Madrid,Beijing,14:51,20:23,07:06,---,---
-N961,AA405,Llegando,245,Londres,Madrid,05:24,07:20,---,---,---
-J682,AV497,Estacionado,286,Beijing,Madrid,02:54,07:10,07:22,---,---
-Z896,AV361,Programado,284,Madrid,Nueva York,06:26,08:27,07:08,---,---
-N961,AA405,Aterrizaje,245,Londres,Madrid,05:24,07:20,---,---,---
-Z896,AV361,Despegando,284,Madrid,Nueva York,06:26,08:27,07:08,---,---
-B327,AA981,Llegando,177,Londres,Madrid,05:49,07:22,---,---,---
-B327,AA981,Aterrizaje,177,Londres,Madrid,05:49,07:22,---,---,---
+M657,IB699,Llegando,257,Nueva York,Madrid,00:00,05:31,---,---,---
+M657,IB699,Aterrizaje,257,Nueva York,Madrid,00:00,05:31,---,---,---
+
+M657,IB699,Estacionado,257,Nueva York,Madrid,00:00,05:31,05:45,---,---
+
+K1,IB473,Llegando,216,Nueva York,Madrid,01:29,05:40,---,---,---
+K1,IB473,Aterrizaje,216,Nueva York,Madrid,01:29,05:40,---,---,---
+
+K1,IB473,Estacionado,216,Nueva York,Madrid,01:29,05:40,05:53,---,---
+
+G738,V38,Llegando,285,Shanghai,Madrid,03:39,05:42,---,---,---
+G738,V38,Aterrizaje,285,Shanghai,Madrid,03:39,05:42,---,---,---
+
+X891,DL402,Llegando,155,Shanghai,Madrid,02:30,05:45,---,---,---
+X891,DL402,Aterrizaje,155,Shanghai,Madrid,02:30,05:45,---,---,---
+
+E723,DL406,Llegando,225,Londres,Madrid,00:56,05:50,---,---,---
+E723,DL406,Aterrizaje,225,Londres,Madrid,00:56,05:50,---,---,---
+
+G738,V38,Estacionado,285,Shanghai,Madrid,03:39,05:42,05:54,---,---
+
+M657,IB704,Programado,257,Madrid,Beijing,23:28,00:59,05:45,23:28,---
+
+M657,IB704,Despegando,257,Madrid,Beijing,23:28,00:59,05:45,23:28,---
+
+X891,DL402,Estacionado,155,Shanghai,Madrid,02:30,05:45,05:54,---,---
+
+K1,IB474,Programado,216,Madrid,Shanghai,00:05,01:09,05:53,00:05,---
+
+K1,IB474,Despegando,216,Madrid,Shanghai,00:05,01:09,05:53,00:05,---
+
+E723,DL406,Estacionado,225,Londres,Madrid,00:56,05:50,06:01,---,---
+
+G738,V41,Programado,285,Madrid,Tokyo,03:59,06:14,05:54,03:59,---
+
+X891,DL407,Programado,155,Madrid,Tokyo,10:53,16:26,05:54,10:53,---
+
+G738,V41,Despegando,285,Madrid,Tokyo,03:59,06:14,05:54,03:59,---
+
+X891,DL407,Despegando,155,Madrid,Tokyo,10:53,16:26,05:54,10:53,---
+
+E55,DL247,Llegando,289,Londres,Madrid,04:13,05:51,---,---,---
+E55,DL247,Aterrizaje,289,Londres,Madrid,04:13,05:51,---,---,---
+
+E55,DL247,Estacionado,289,Londres,Madrid,04:13,05:51,06:02,---,---
+
+K676,DL253,Llegando,261,Beijing,Madrid,04:35,05:52,---,---,---
+K676,DL253,Aterrizaje,261,Beijing,Madrid,04:35,05:52,---,---,---
+
+K676,DL253,Estacionado,261,Beijing,Madrid,04:35,05:52,05:58,---,---
+
+E723,DL407,Programado,225,Madrid,Tokyo,21:05,00:39,06:01,21:05,---
+
+E723,DL407,Despegando,225,Madrid,Tokyo,21:05,00:39,06:01,21:05,---
+
+G409,AV95,Llegando,197,Shanghai,Madrid,02:00,05:55,---,---,---
+G409,AV95,Aterrizaje,197,Shanghai,Madrid,02:00,05:55,---,---,---
+
+G409,AV95,Estacionado,197,Shanghai,Madrid,02:00,05:55,06:04,---,---
+
+E55,DL249,Programado,289,Madrid,Milan,17:32,18:46,06:02,17:32,---
+
+E55,DL249,Despegando,289,Madrid,Milan,17:32,18:46,06:02,17:32,---
+
+K676,DL258,Programado,261,Madrid,Beijing,00:20,02:11,05:58,00:20,---
+
+K676,DL258,Despegando,261,Madrid,Beijing,00:20,02:11,05:58,00:20,---
+
+G409,AV96,Programado,197,Madrid,Milan,03:06,05:35,06:04,03:06,---
+
+G409,AV96,Despegando,197,Madrid,Milan,03:06,05:35,06:04,03:06,---
+
+T503,AA638,Llegando,257,Tokyo,Madrid,03:01,05:57,---,---,---
+T503,AA638,Aterrizaje,257,Tokyo,Madrid,03:01,05:57,---,---,---
+
+T503,AA638,Estacionado,257,Tokyo,Madrid,03:01,05:57,06:09,---,---
+
+E539,AA282,Llegando,265,Nueva York,Madrid,02:31,06:06,---,---,---
+E539,AA282,Aterrizaje,265,Nueva York,Madrid,02:31,06:06,---,---,---
+
+E539,AA282,Estacionado,265,Nueva York,Madrid,02:31,06:06,06:16,---,---
+
+T503,AA642,Programado,257,Madrid,Shanghai,00:54,03:38,06:09,00:54,---
+
+E539,AA285,Programado,265,Madrid,Shanghai,07:12,13:08,06:16,07:12,---
+
+T503,AA642,Despegando,257,Madrid,Shanghai,00:54,03:38,06:09,00:54,---
+
+E539,AA285,Despegando,265,Madrid,Shanghai,07:12,13:08,06:16,07:12,---
+
+B516,IB507,Llegando,152,Nueva York,Madrid,05:13,06:07,---,---,---
+B516,IB507,Aterrizaje,152,Nueva York,Madrid,05:13,06:07,---,---,---
+
+B516,IB507,Estacionado,152,Nueva York,Madrid,05:13,06:07,06:18,---,---
+
+M583,DL453,Llegando,299,Nueva York,Madrid,04:40,06:09,---,---,---
+M583,DL453,Aterrizaje,299,Nueva York,Madrid,04:40,06:09,---,---,---
+
+M583,DL453,Estacionado,299,Nueva York,Madrid,04:40,06:09,06:22,---,---
+
+Q72,IB408,Llegando,259,Nueva York,Madrid,02:26,06:13,---,---,---
+Q72,IB408,Aterrizaje,259,Nueva York,Madrid,02:26,06:13,---,---,---
+
+Q72,IB408,Estacionado,259,Nueva York,Madrid,02:26,06:13,06:23,---,---
+
+B516,IB511,Programado,152,Madrid,Tokyo,04:37,06:40,06:18,04:37,---
+
+B516,IB511,Despegando,152,Madrid,Tokyo,04:37,06:40,06:18,04:37,---
+
+R373,AA586,Llegando,172,Beijing,Madrid,03:23,06:16,---,---,---
+R373,AA586,Aterrizaje,172,Beijing,Madrid,03:23,06:16,---,---,---
+
+M583,DL454,Programado,299,Madrid,Nueva York,00:54,05:27,06:22,00:54,---
+
+M583,DL454,Despegando,299,Madrid,Nueva York,00:54,05:27,06:22,00:54,---
+
+R373,AA586,Estacionado,172,Beijing,Madrid,03:23,06:16,06:24,---,---
+
+Q72,IB410,Programado,259,Madrid,Beijing,11:53,16:17,06:23,11:53,---
+
+Q72,IB410,Despegando,259,Madrid,Beijing,11:53,16:17,06:23,11:53,---
+
+S470,DL579,Llegando,214,Milan,Madrid,03:02,06:19,---,---,---
+S470,DL579,Aterrizaje,214,Milan,Madrid,03:02,06:19,---,---,---
+
+S470,DL579,Estacionado,214,Milan,Madrid,03:02,06:19,06:27,---,---
+
+R373,AA588,Programado,172,Madrid,Tokyo,19:04,23:01,06:24,19:04,---
+
+R373,AA588,Despegando,172,Madrid,Tokyo,19:04,23:01,06:24,19:04,---
+
+Z728,V579,Llegando,175,Milan,Madrid,05:10,06:20,---,---,---
+Z728,V579,Aterrizaje,175,Milan,Madrid,05:10,06:20,---,---,---
+
+Z728,V579,Estacionado,175,Milan,Madrid,05:10,06:20,06:31,---,---
+
+S470,DL582,Programado,214,Madrid,Milan,18:58,21:41,06:27,18:58,---
+
+S470,DL582,Despegando,214,Madrid,Milan,18:58,21:41,06:27,18:58,---
+
+Z728,V581,Programado,175,Madrid,Nueva York,15:24,21:19,06:31,15:24,---
+
+Z728,V581,Despegando,175,Madrid,Nueva York,15:24,21:19,06:31,15:24,---
+
+I579,DL984,Llegando,231,Londres,Madrid,04:38,06:22,---,---,---
+I579,DL984,Aterrizaje,231,Londres,Madrid,04:38,06:22,---,---,---
+
+I579,DL984,Estacionado,231,Londres,Madrid,04:38,06:22,06:34,---,---
+
+V948,AV375,Llegando,267,Tokyo,Madrid,04:40,06:24,---,---,---
+V948,AV375,Aterrizaje,267,Tokyo,Madrid,04:40,06:24,---,---,---
+
+V948,AV375,Estacionado,267,Tokyo,Madrid,04:40,06:24,06:35,---,---
+
+G109,BA97,Llegando,220,Londres,Madrid,01:34,06:29,---,---,---
+G109,BA97,Aterrizaje,220,Londres,Madrid,01:34,06:29,---,---,---
+
+I579,DL986,Programado,231,Madrid,Nueva York,22:21,02:57,06:34,22:21,---
+
+I579,DL986,Despegando,231,Madrid,Nueva York,22:21,02:57,06:34,22:21,---
+
+G109,BA97,Estacionado,220,Londres,Madrid,01:34,06:29,06:37,---,---
+
+D334,AA381,Llegando,228,Nueva York,Madrid,04:04,06:31,---,---,---

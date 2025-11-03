@@ -108,6 +108,7 @@ def aeronaveSalida(avion):
     horaLlegada,minLlegada = funcTiempo(horaLlegada,minLlegada)
     avion.horaSalida = f"{horaSalida:02d}:{minSalida:02d}" # hora de salida respecto a la llegada
     avion.horaLlegada = f"{horaLlegada:02d}:{minLlegada:02d}"
+    avion.horaProgramadaSalida = avion.horaSalida
     return avion
 
 #################################################FUNCIONES AUXILIARES#################################################
