@@ -14,7 +14,7 @@ colaDespegues = deque()
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
 def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues):
     while True:
-            probAviones = random.expovariate(0.2)
+            probAviones = random.expovariate(0.2) # 1/lambda
             yield evento.timeout(probAviones)
             avion = generador() # se generan aviones
             # Ciclo completo de cada avion
@@ -33,12 +33,6 @@ def cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues):
     yield evento.process(controlSalidas(evento,anuncio))
     # Nos indica si el avion esta despegando
     yield evento.process(controlDespegues(evento,pistaDespegues))
-
-
-# Añade las aeronaves a la torre de aterrizajes
-def controlColas(evento,avion,colas):
-    colas.append(avion)
-    yield evento.timeout(0.5)
     
 # Una vez solicitan aterrizar los aviones se les añade a la cola de llegadas
 def controlLlegadas(evento,avion):
@@ -52,7 +46,7 @@ def controlAterrizajes(evento,pista,parking):
         aterriza = colaAterrizajes.popleft()
         with pista.request( ) as request: # si hay request de aterrizar en pista
             yield request
-            yield evento.process(controlColas(evento,aterriza,colaEstacionados))
+            colaEstacionados .append(aterriza)
             aterriza.infoAterrizaje()
             yield evento.timeout(0.5)
         yield evento.timeout(0.5)
@@ -65,7 +59,7 @@ def controlEstacionados(evento,parking):
         estacionado = colaEstacionados.popleft()
         with parking.request() as request: # si hay request de estacionar
             yield request
-            yield evento.process(controlColas(evento,estacionado,colaSalidas))
+            colaSalidas.append(estacionado)
             estacionado.infoEstacionado()
             yield evento.timeout(0.5)
     else:
@@ -78,7 +72,7 @@ def controlSalidas(evento,anuncio):
         avion = aeronaveSalida(salida)
         with anuncio.request() as request:
             yield request
-            yield evento.process(controlColas(evento,avion,colaDespegues))
+            colaDespegues.append(salida)
             avion.infoSalidas()
             yield evento.timeout(0.5)
     else:

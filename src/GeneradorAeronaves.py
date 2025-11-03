@@ -38,5 +38,5 @@ def generador():
             horaLlegada = f"{(horasAeronave)%24:02d}:{minutosAeronave + duracion:02d}"
             minutosAeronave = minutosAeronave + duracion
             
-    return Aeronave(id,idVuelo,estado,pasajeros,origen,destino,horaSalida,horaLlegada)
+    return Aeronave(id,idVuelo,estado,pasajeros,origen,destino,horaSalida,horaLlegada,horaEstacionado="---",horaProgramadaSalida="---",horaDespegue="---")
 
