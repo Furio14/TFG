@@ -26,7 +26,7 @@ def cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues):
     # Nos indica primero si esta llegando el avion
     yield evento.process(controlLlegadas(evento,avion))
     # Despues de seguido indica si efectivamente ha aterrizado el avion
-    yield evento.process(controlAterrizajes(evento,pistaAterrizajes,parking))
+    yield evento.process(controlAterrizajes(evento,pistaAterrizajes))
     # Después nos indica cuando ha estacionado la aeronave
     yield evento.process(controlEstacionados(evento,parking))
     # Después de estacionar nos dice a que hora está programado el vuelo
@@ -41,7 +41,7 @@ def controlLlegadas(evento,avion):
     yield evento.timeout(0.5)
 
 # Una vez llegan las aeronaves las retira de la otra cola y las añade a la de aterrizados
-def controlAterrizajes(evento,pista,parking):
+def controlAterrizajes(evento,pista):
     if colaAterrizajes:
         aterriza = colaAterrizajes.popleft()
         with pista.request( ) as request: # si hay request de aterrizar en pista
@@ -59,9 +59,11 @@ def controlEstacionados(evento,parking):
         estacionado = colaEstacionados.popleft()
         with parking.request() as request: # si hay request de estacionar
             yield request
+            tiempoHastaEstacionamiento = int(random.triangular(5.0,15.0,mode=10.0))
+            estacionado.horaEstacionado = funcHoras(estacionado,tiempoHastaEstacionamiento,estacionado.horaEstacionado)
             colaSalidas.append(estacionado)
             estacionado.infoEstacionado()
-            yield evento.timeout(0.5)
+            yield evento.timeout(tiempoHastaEstacionamiento)
     else:
         yield evento.timeout(0.1)
 
@@ -109,6 +111,14 @@ def aeronaveSalida(avion):
     return avion
 
 #################################################FUNCIONES AUXILIARES#################################################
+def funcHoras(avion,mins,horaFunc):
+    hora,min = map(int, avion.horaLlegada.split(':'))
+    horaModo = hora
+    minModo = min + mins
+    funcTiempo(horaModo,minModo)
+    horaFunc = f"{horaModo%24:02d}:{minModo%60:02d}"
+    return horaFunc
+
 
 def funcTiempo(horas,minutos):
     if minutos > 59:
