@@ -16,7 +16,7 @@ def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues):
     while True:
             probAviones = random.expovariate(0.2) # 1/lambda
             yield evento.timeout(probAviones)
-            avion = generador() # se generan aviones
+            avion = generador(evento) # se generan aviones
             # Ciclo completo de cada avion
             evento.process(cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues))
             yield evento.timeout(0.5)
@@ -71,12 +71,15 @@ def controlEstacionados(evento,parking):
 def controlSalidas(evento,anuncio):
     if colaSalidas:
         salida = colaSalidas.popleft()
-        avion = aeronaveSalida(salida)
+        avion = aeronaveSalida(evento,salida)
         with anuncio.request() as request:
             yield request
             colaDespegues.append(salida)
             avion.infoSalidas()
-            yield evento.timeout(0.5)
+            horaProgramada,minProgramado = funcSplit(avion.horaProgramadaSalida)
+            tiempoProgramado = horaProgramada*60 + minProgramado
+            tiempoEspera = max(0,tiempoProgramado - int(evento.now)) 
+            yield evento.timeout(tiempoEspera)
     else:
         yield evento.timeout(0.1)
 
@@ -93,27 +96,25 @@ def controlDespegues(evento,pista):
         yield evento.timeout(0.1)
 
 # Una vez una aeronave aterriza (mirar flujo de pasajeros para ver si hay retraso), se le asigna otro destino con diferente id de vuelo y destino
-def aeronaveSalida(avion):
+def aeronaveSalida(evento,avion):
     avion.origen = avion.destino
     avion.destino = random.choice(ciudades) # El origen no puede ser también el destino
     vuelo = ''.join(filter(str.isalpha,avion.vueloId))
     numeroVuelo = int(''.join(filter(str.isdigit,avion.vueloId)))
     avion.vueloId = f"{vuelo}{numeroVuelo + random.randint(1,5)}"
-    hora,min = map(int, avion.horaLlegada.split(':'))
-    horaSalida = hora + random.randint(1,23)
-    horaLlegada = horaSalida + random.randint(1,5)
-    minSalida = min + random.randint(0,59)
-    minLlegada = minSalida + random.randint(0,59)
-    horaSalida,minSalida = funcTiempo(horaSalida,minSalida)
-    horaLlegada,minLlegada = funcTiempo(horaLlegada,minLlegada)
+    tiempoActual =int(evento.now) 
+    horaSalida = tiempoActual + int(random.triangular(100,200,140)) # asignamos tiempo random de salida
+    horaLlegada = horaSalida + random.randint(120,300)
+    horaSalida,minSalida = funcMin(horaSalida)
+    horaLlegada,minLlegada = funcMin(horaLlegada)
     avion.horaSalida = f"{horaSalida:02d}:{minSalida:02d}" # hora de salida respecto a la llegada
     avion.horaLlegada = f"{horaLlegada:02d}:{minLlegada:02d}"
-    avion.horaProgramadaSalida = avion.horaSalida
+    avion.horaProgramadaSalida = avion.horaSalida # lahora programa es igual que la d salida nueva
     return avion
 
 #################################################FUNCIONES AUXILIARES#################################################
 def funcHoras(avion,mins,horaFunc):
-    hora,min = map(int, avion.horaLlegada.split(':'))
+    hora,min = funcSplit(avion.horaLlegada)
     horaModo = hora
     minModo = min + mins
     horasTiempo,minsTiempo = funcTiempo(horaModo,minModo)
@@ -129,3 +130,11 @@ def funcTiempo(horas,minutos):
         horas %= 24
     return horas,minutos
 
+def funcMin(tiempo):
+    hora = (tiempo // 60) % 24
+    min = tiempo % 60
+    return hora,min
+
+def funcSplit(param):
+    hora,min = map(int, param.split(':'))
+    return hora,min

@@ -19,7 +19,7 @@ def main():
     parking = simpy.Resource(evento,capacity=2)
 
     evento.process(torreDeControl(evento,anuncio,parking,pistaAterrizaje,pistaDespegue))
-    evento.run(until=140)
+    evento.run(until=1440)
 
 if __name__ == "__main__":
     main()
