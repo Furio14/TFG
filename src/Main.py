@@ -17,8 +17,12 @@ def main():
     pistaDespegue = simpy.Resource(evento,capacity=1)
     anuncio = simpy.Resource(evento,capacity=1)
     parking = simpy.Resource(evento,capacity=2)
+    colaAterrizajes = simpy.Store(evento,capacity = 10)
+    colaEstacionados = simpy.Store(evento)
+    colaSalidas = simpy.Store(evento)
+    colaDespegues = simpy.Store(evento,capacity = 10)
 
-    evento.process(torreDeControl(evento,anuncio,parking,pistaAterrizaje,pistaDespegue))
+    evento.process(torreDeControl(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues))
     evento.run(until=1440)
 
 if __name__ == "__main__":
