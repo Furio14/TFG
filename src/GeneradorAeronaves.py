@@ -3,7 +3,7 @@ from Aeronaves import *
 from TorreDeControl import *
 
 
-#Ciudades
+#Ciudades (Habria que ver algun dataset o crearlo con estos datos)
 ciudades = ["Nueva York", "Milan", "Tokyo", "Beijing", "Shanghai", "Londres"]
 vuelos = ["IB","BA","AA","V","AV","LX","DL"]
 
@@ -23,7 +23,6 @@ def generador(evento):
     horasHastaLlegada = (horasAeronave // 60) % 24
     minsHastaLlegada = horasAeronave % 60
     horaSalida = f"{horasHastaSalida:02d}:{minsHastaSalida:02d}"
-    horaLlegada = f"{(horasHastaLlegada)%24:02d}:{minsHastaLlegada:02d}"
-            
-    return Aeronave(id,idVuelo,estado,pasajeros,origen,destino,horaSalida,horaLlegada,horaEstacionado="---",horaProgramadaSalida="---",horaDespegue="---")
+    horaLlegada = f"{(horasHastaLlegada)%24:02d}:{minsHastaLlegada:02d}"            
+    return Aeronave(id,idVuelo,estado,pasajeros,origen,destino,horaSalida,horaLlegada,horaLlegadaReal="---",horaEstacionado="---",horaProgramadaSalida="---",horaDespegue="---",tiempoCicloAvion="---")
 
