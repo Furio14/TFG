@@ -31,7 +31,7 @@ def cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,cola
 # Una vez solicitan aterrizar los aviones se les añade a la cola de llegadas
 def controlLlegadas(evento,avion,colaAterrizajes):
     yield colaAterrizajes.put(avion)
-    avion.infoColaAterrizaje()
+    avion.infoColaAterrizaje(evento)
     yield evento.timeout(0.5)
 
 # Una vez llegan las aeronaves las retira de la otra cola y las añade a la de aterrizados
@@ -43,7 +43,7 @@ def controlAterrizajes(evento,pista,colaAterrizajes,colaEstacionados):
             tiempoHastaAterrizar = 0
             yield evento.timeout(tiempoHastaAterrizar)
             aterriza.horaLlegadaReal = tiempoEvento(evento.now)
-            aterriza.infoAterrizaje()
+            aterriza.infoAterrizaje(evento)
             yield colaEstacionados.put(aterriza)   
     else:
         yield evento.timeout(0.1)
@@ -57,7 +57,7 @@ def controlEstacionados(evento,parking,colaEstacionados,colaSalidas):
             tiempoHastaEstacionamiento = int(random.triangular(5.0,15.0,mode=10.0))
             yield evento.timeout(tiempoHastaEstacionamiento)
             estacionado.horaEstacionado = tiempoEvento(evento.now)
-            estacionado.infoEstacionado()
+            estacionado.infoEstacionado(evento)
             yield colaSalidas.put(estacionado)
     else:
         yield evento.timeout(0.1)
@@ -69,7 +69,7 @@ def controlSalidas(evento,anuncio,colaSalidas,colaDespegues):
         avion = aeronaveSalida(evento,salida)
         with anuncio.request() as request:
             yield request
-            avion.infoSalidas()
+            avion.infoSalidas(evento)
             horaProgramada,minProgramado = funcSplit(avion.horaProgramadaSalida)
             tiempoProgramado = horaProgramada*60 + minProgramado
             tiempoEspera = max(0,tiempoProgramado - int(evento.now)) 
@@ -92,7 +92,7 @@ def controlDespegues(evento,pista,colaDespegues):
             tiempoCiclo = abs(hora*60+min - int(evento.now))
             avion.tiempoCicloAvion = tiempoEvento(tiempoCiclo)
             avion.horaLlegadaReal = "---"
-            avion.infoDespegues()
+            avion.infoDespegues(evento)
     else:
         yield evento.timeout(0.1)
 
