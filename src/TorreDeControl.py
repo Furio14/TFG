@@ -5,11 +5,13 @@ import random
 from collections import deque
 from GeneradorAeronaves import *
 from Aeronaves import *
+from FactoresExternos import *
 
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
 def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues):
     while True:
-            probAviones = random.expovariate(0.2) # 1/lambda
+            hora = horaActual(evento.now)
+            probAviones = random.expovariate(tasaHora[hora]) # 1/lambda
             yield evento.timeout(probAviones)
             avion = generador(evento) # se generan aviones
             # Ciclo completo de cada avion
@@ -43,6 +45,7 @@ def controlAterrizajes(evento,pista,colaAterrizajes,colaEstacionados):
             tiempoHastaAterrizar = 0
             yield evento.timeout(tiempoHastaAterrizar)
             aterriza.horaLlegadaReal = tiempoEvento(evento.now)
+            Aeronave.totalPasajeros += aterriza.pasajeros
             aterriza.infoAterrizaje(evento)
             yield colaEstacionados.put(aterriza)   
     else:
@@ -92,6 +95,7 @@ def controlDespegues(evento,pista,colaDespegues):
             tiempoCiclo = abs(hora*60+min - int(evento.now))
             avion.tiempoCicloAvion = tiempoEvento(tiempoCiclo)
             avion.horaLlegadaReal = "---"
+            Aeronave.totalPasajeros += avion.pasajeros
             avion.infoDespegues(evento)
     else:
         yield evento.timeout(0.1)
@@ -116,23 +120,19 @@ def aeronaveSalida(evento,avion):
 #################################################FUNCIONES AUXILIARES#################################################
 def tiempoEvento(evento):
     hora,min = funcMin(int(evento))
-    horasTiempo,minsTiempo = funcTiempo(hora,min)
-    horaFunc = f"{horasTiempo%24:02d}:{minsTiempo%60:02d}"
+    horaFunc = f"{hora%24:02d}:{min%60:02d}"
     return horaFunc
-
-def funcTiempo(horas,minutos):
-    if minutos > 59:
-        hora = minutos // 60
-        minutos %= 60
-        horas += hora
-    if horas > 23:
-        horas %= 24
-    return horas,minutos
 
 def funcMin(tiempo):
     hora = (tiempo // 60) % 24
     min = tiempo % 60
     return hora,min
+
+def horaActual(evento):
+    minTotal = int(evento)
+    mins = minTotal%1440
+    horaActual = mins // 60
+    return horaActual
 
 def funcSplit(param):
     hora,min = map(int, param.split(':'))
