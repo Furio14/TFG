@@ -27,11 +27,13 @@ def logicaClima(evento,estado):
         elif mes in ["Junio","Julio","Agosto"]: estacionActual = Verano
         else: estacionActual = Otonio
         clima = climaRandom(estacionActual)
-        if clima in ['Lluvioso','Niebla','Tormenta']:
-            estado['retraso'] = 1.5
-        elif clima == 'Nublado':
-            estado['retraso'] = 0.5
-        else: estado['retraso'] = 0
+        if clima != estado['clima']:
+            estado['clima'] = clima
+            if clima in ['Lluvioso','Niebla','Tormenta']:
+                estado['retraso'] = 1.5
+            elif clima == 'Nublado':
+                estado['retraso'] = 0.5
+            else: estado['retraso'] = 0
         yield evento.timeout(60) 
 
 
