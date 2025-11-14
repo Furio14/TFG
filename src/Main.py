@@ -5,6 +5,7 @@ import simpy
 from TorreDeControl import *
 from GeneradorAeronaves import *
 from Aeronaves import * 
+from FactoresExternos import *
 
 def main():
     log = "../log.csv"
@@ -21,8 +22,13 @@ def main():
     colaEstacionados = simpy.Store(evento)
     colaSalidas = simpy.Store(evento)
     colaDespegues = simpy.Store(evento,capacity = 10)
+    estadoClima = {
+    'clima':'Soleado',
+    'retraso': 0.0
+}
+    evento.process(torreDeControl(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima))
+    evento.process(logicaClima(evento,estadoClima))
 
-    evento.process(torreDeControl(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues))
     evento.run(until=1440)
 
 if __name__ == "__main__":
