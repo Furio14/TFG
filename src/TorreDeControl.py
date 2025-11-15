@@ -13,6 +13,7 @@ def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAt
     while True:
             hora = horaActual(evento.now)
             controlTurnos(hora,turnos)
+            controlHorario(evento,turnos)
             probAviones = random.expovariate(tasaHora[hora]) # 1/lambda
             operaciones = operacionesMes(mes)
             tasaLlegada = probAviones / operaciones
@@ -152,3 +153,10 @@ def controlTurnos(hora,turnos):
         turnos["Tarde"] += 1
     else:
         turnos["Noche"] += 1
+
+def controlHorario(evento,turnos):
+    if evento.now > 1440 * turnos["dias"]:
+        turnos["dias"] += 1
+            
+        
+        
