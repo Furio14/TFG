@@ -9,7 +9,6 @@ vuelos = ["IB","BA","AA","V","AV","LX","DL"]
 
 def generador(evento):
     letra = random.choice("ABCDEFGHIJLKMNOPQRSTUVWXYZ") # genera letra random
-    minutoLlegada = random.randint(0,59)
     id = f"{letra}{random.randint(0,999)}" # genera un id para un avion aleatorio
     idVuelo = f"{random.choice(vuelos)}{random.randint(0,999)}" # genera un id para un avion aleatorio
     estado = "Llegando" # estado de la aeronave

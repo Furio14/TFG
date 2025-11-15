@@ -19,53 +19,57 @@ def climaRandom(estados):
     prob = list(estados.values())
     return random.choices(estado,prob,k=1)[0]
 
-def logicaClima(evento,estado):
+def logicaClima(evento,estado,mes):
     while True:
-        mes = Aeronave.mes
-        if mes in ["Diciembre","Enero","Febrero"]: estacionActual = Invierno
-        elif mes in ["Marzo","Abril","Mayo"]: estacionActual = Primavera
-        elif mes in ["Junio","Julio","Agosto"]: estacionActual = Verano
+        if mes in ["DICIEMBRE","ENERO","FEBRERO"]: estacionActual = Invierno
+        elif mes in ["MARZO","ABRIL","MAYO"]: estacionActual = Primavera
+        elif mes in ["JUNIO","JULIO","AGOSTO"]: estacionActual = Verano
         else: estacionActual = Otonio
         clima = climaRandom(estacionActual)
         if clima != estado['clima']:
             estado['clima'] = clima
-            if clima in ['Lluvioso','Niebla','Tormenta']:
+            if clima == 'Nublado':
                 estado['retraso'] = 1.5
-            elif clima == 'Nublado':
-                estado['retraso'] = 0.5
+            elif clima == 'Lluvioso':
+                estado['retraso'] = 3
+            elif clima == 'Niebla':
+                estado['retraso'] = 4
+            elif clima == 'Tormenta':
+                estado['retraso'] = 5
             else: estado['retraso'] = 0
+
         yield evento.timeout(60) 
 
 
 #############################################Flujo de Pasajeros#############################################
 
-def demandaPasajeros(mes):
-    global demandaMensual
+def operacionesMes(mes):
     # Calculado teniendo en cuenta la media de operaciones del año 2024 y las operaciones del mes 
     # del aeropuerto de Madrid (proporcionado por AENA)
     # (operaciones del mes / media de operaciones de todo el año)
     match mes:
-        case "Enero":
+        case "ENERO":
             demandaMensual = 0.9    
-        case "Febrero":
+        case "FEBRERO":
             demandaMensual = 0.88
-        case "Marzo":
+        case "MARZO":
             demandaMensual = 0.98
-        case "Abril":
+        case "ABRIL":
             demandaMensual = 0.99
-        case "Mayo":
+        case "MAYO":
             demandaMensual = 1.04
-        case "Junio":
+        case "JUNIO":
             demandaMensual = 1.04
-        case "Julio":
+        case "JULIO":
             demandaMensual = 1.08
-        case "Agosto":
+        case "AGOSTO":
             demandaMensual = 1.05
-        case "Septiembre":
+        case "SEPTIEMBRE":
             demandaMensual = 1.04
-        case "Octubre":
+        case "OCTUBRE":
             demandaMensual = 1.01
-        case "Noviembre":
+        case "NOVIEMBRE":
             demandaMensual = 0.98
-        case "Diciembre":
+        case "DICIEMBRE":
             demandaMensual = 1.02
+    return demandaMensual

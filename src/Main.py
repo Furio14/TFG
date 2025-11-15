@@ -7,10 +7,45 @@ from GeneradorAeronaves import *
 from Aeronaves import * 
 from FactoresExternos import *
 
-def procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,retraso):
+def parametrosIniciales():
+        #DATOS DE LOS PARAMETROS
+        horas = input("Cuantas horas quieres simular? : ")
+        mes = input("En que mes quieres que empiece la simulacion? [EN MAYUSCULA] : ")
+        turnos = input("En que turno quieres comenzar la simulacion? [Madrugada,Mañana,Tarde,Noche] : ")
+        meses = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE"
+                ,"OCTUBRE","NOVIEMBRE","DICIEMBRE"]
+        turnoNoche = ["Noche","noche"]
+        turnoTarde = ["Tarde","tarde"]
+        turnoMañana = ["Mañana","mañana"]
+        turnoMadrugada = ["Madrugada","madrugada"]
+
+        #LOGICA DE LOS PARAMETROS
+        #MES
+        if mes not in meses:
+            print("Introdzca un mes valido")
+
+        #TURNOS
+        if turnos in turnoMadrugada:
+            retraso = 0
+        elif turnos in turnoMañana:
+            retraso = 360
+        elif turnos in turnoTarde:
+            retraso = 720
+        elif turnos in turnoNoche:
+            retraso = 1080
+        else: 
+            print("Pon un turno correcto")
+
+        #HORAS
+        hora = int(horas) * 60 + retraso
+        if hora <= 0:
+            print("El numero de horas tiene que ser mayor que 0")
+        return hora,mes,retraso
+
+def procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,retraso):
     yield evento.timeout(retraso)
-    evento.process(torreDeControl(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima))
-    evento.process(logicaClima(evento,estadoClima))
+    evento.process(torreDeControl(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes))
+    evento.process(logicaClima(evento,estadoClima,mes))
 
 def main():
     log = "../log.csv"
@@ -31,28 +66,9 @@ def main():
         estadoClima = {
         'clima':'Soleado',
         'retraso': 0.0
-    }
-        horas = input("Cuantas horas quieres simular? : ")
-        hora = int(horas) * 60
-        turnos = input("En que turo quieres comenzar? [Madrugada,Mañana,Tarde,Noche] : ")
-        turnoNoche = ["Noche","noche"]
-        turnoTarde = ["Tarde","tarde"]
-        turnoMañana = ["Mañana","mañana"]
-        turnoMadrugada = ["Madrugada","madrugada"]
-        if turnos in turnoMadrugada:
-            retraso = 0
-        elif turnos in turnoMañana:
-            retraso = 360
-        elif turnos in turnoTarde:
-            retraso = 720
-        elif turnos in turnoNoche:
-            retraso = 1080
-        else: 
-            print("Pon un turno correcto")
-
-        if hora <= 0:
-            print("El numero de horas tiene que ser mayor que 0")
-        evento.process(procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,retraso))
+        }
+        hora,mes,retraso = parametrosIniciales()
+        evento.process(procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,retraso))
         evento.run(until=hora)
         print("------Resultados Finales de la Simulación------")
         print("Total Aeronaves Simuladas: ",Aeronave.totalAeronaves)

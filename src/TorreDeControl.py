@@ -6,39 +6,42 @@ from collections import deque
 from GeneradorAeronaves import *
 from Aeronaves import *
 from Main import *
+from FactoresExternos import *
 
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
-def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima):
+def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes):
     while True:
             hora = horaActual(evento.now)
             probAviones = random.expovariate(tasaHora[hora]) # 1/lambda
-            yield evento.timeout(probAviones)
+            operaciones = operacionesMes(mes)
+            tasaLlegada = probAviones / operaciones
+            yield evento.timeout(tasaLlegada)
             avion = generador(evento) # se generan aviones
             Aeronave.totalAeronaves += 1
             # Ciclo completo de cada avion
-            evento.process(cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima))
+            evento.process(cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes))
 
 # Nos indica el ciclo completo de cada avion
-def cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima):
+def cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes):
     # Nos indica primero si esta llegando el avion
-    yield evento.process(controlLlegadas(evento,avion,colaAterrizajes,estadoClima))
+    yield evento.process(controlLlegadas(evento,avion,colaAterrizajes,estadoClima,mes))
     # Despues de seguido indica si efectivamente ha aterrizado el avion
-    yield evento.process(controlAterrizajes(evento,pistaAterrizajes,colaAterrizajes,colaEstacionados,estadoClima))
+    yield evento.process(controlAterrizajes(evento,pistaAterrizajes,colaAterrizajes,colaEstacionados,estadoClima,mes))
     # Después nos indica cuando ha estacionado la aeronave
-    yield evento.process(controlEstacionados(evento,parking,colaEstacionados,colaSalidas,estadoClima))
+    yield evento.process(controlEstacionados(evento,parking,colaEstacionados,colaSalidas,estadoClima,mes))
     # Después de estacionar nos dice a que hora está programado el vuelo
-    yield evento.process(controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima))
+    yield evento.process(controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima,mes))
     # Nos indica si el avion esta despegando
-    yield evento.process(controlDespegues(evento,pistaDespegues,colaDespegues,estadoClima))
+    yield evento.process(controlDespegues(evento,pistaDespegues,colaDespegues,estadoClima,mes))
     
 # Una vez solicitan aterrizar los aviones se les añade a la cola de llegadas
-def controlLlegadas(evento,avion,colaAterrizajes,estadoClima):
+def controlLlegadas(evento,avion,colaAterrizajes,estadoClima,mes):
     yield colaAterrizajes.put(avion)
-    avion.infoColaAterrizaje(evento,estadoClima)
+    avion.infoColaAterrizaje(evento,estadoClima,mes)
     yield evento.timeout(0.5)
 
 # Una vez llegan las aeronaves las retira de la otra cola y las añade a la de aterrizados
-def controlAterrizajes(evento,pista,colaAterrizajes,colaEstacionados,estadoClima):
+def controlAterrizajes(evento,pista,colaAterrizajes,colaEstacionados,estadoClima,mes):
     if colaAterrizajes:
         aterriza = yield colaAterrizajes.get()
         with pista.request( ) as request: # si hay request de aterrizar en pista
@@ -47,13 +50,13 @@ def controlAterrizajes(evento,pista,colaAterrizajes,colaEstacionados,estadoClima
             yield evento.timeout(tiempoHastaAterrizar)
             aterriza.horaLlegadaReal = tiempoEvento(evento.now)
             Aeronave.totalPasajeros += aterriza.pasajeros
-            aterriza.infoAterrizaje(evento,estadoClima)
+            aterriza.infoAterrizaje(evento,estadoClima,mes)
             yield colaEstacionados.put(aterriza)   
     else:
         yield evento.timeout(0.1)
 
 # Una vez aterrizan las aeronaves te informa de si esta estacionado
-def controlEstacionados(evento,parking,colaEstacionados,colaSalidas,estadoClima):
+def controlEstacionados(evento,parking,colaEstacionados,colaSalidas,estadoClima,mes):
     if colaEstacionados:
         estacionado = yield colaEstacionados.get()
         with parking.request() as request: # si hay request de estacionar
@@ -61,19 +64,19 @@ def controlEstacionados(evento,parking,colaEstacionados,colaSalidas,estadoClima)
             tiempoHastaEstacionamiento = int(random.triangular(5.0,15.0,mode=10.0))
             yield evento.timeout(tiempoHastaEstacionamiento)
             estacionado.horaEstacionado = tiempoEvento(evento.now)
-            estacionado.infoEstacionado(evento,estadoClima)
+            estacionado.infoEstacionado(evento,estadoClima,mes)
             yield colaSalidas.put(estacionado)
     else:
         yield evento.timeout(0.1)
 
 # Una vez estan estacionadas las aeronaves se les asigna una hora de salida para ser anunciado
-def controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima):
+def controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima,mes):
     if colaSalidas:
         salida = yield colaSalidas.get()
         avion = aeronaveSalida(evento,salida)
         with anuncio.request() as request:
             yield request
-            avion.infoSalidas(evento,estadoClima)
+            avion.infoSalidas(evento,estadoClima,mes)
             horaProgramada,minProgramado = funcSplit(avion.horaProgramadaSalida)
             tiempoProgramado = horaProgramada*60 + minProgramado
             tiempoEspera = max(0,tiempoProgramado - int(evento.now)) 
@@ -83,7 +86,7 @@ def controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima):
         yield evento.timeout(0.1)
 
 # Una vez estan estacionadas las aeronaves se les asigna una tarea de salir a pista (no esta implementado el control de flujo de pasajeros)
-def controlDespegues(evento,pista,colaDespegues,estadoClima):
+def controlDespegues(evento,pista,colaDespegues,estadoClima,mes):
     if colaDespegues:
         salida = yield colaDespegues.get()
         avion = salida
@@ -97,7 +100,7 @@ def controlDespegues(evento,pista,colaDespegues,estadoClima):
             avion.tiempoCicloAvion = tiempoEvento(tiempoCiclo)
             avion.horaLlegadaReal = "---"
             Aeronave.totalPasajeros += avion.pasajeros
-            avion.infoDespegues(evento,estadoClima)
+            avion.infoDespegues(evento,estadoClima,mes)
     else:
         yield evento.timeout(0.1)
 
