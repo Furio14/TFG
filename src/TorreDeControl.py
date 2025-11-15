@@ -14,6 +14,7 @@ def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAt
             probAviones = random.expovariate(tasaHora[hora]) # 1/lambda
             yield evento.timeout(probAviones)
             avion = generador(evento) # se generan aviones
+            Aeronave.totalAeronaves += 1
             # Ciclo completo de cada avion
             evento.process(cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima))
 
