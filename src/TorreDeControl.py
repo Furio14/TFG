@@ -9,9 +9,10 @@ from Main import *
 from FactoresExternos import *
 
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
-def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes):
+def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos):
     while True:
             hora = horaActual(evento.now)
+            controlTurnos(hora,turnos)
             probAviones = random.expovariate(tasaHora[hora]) # 1/lambda
             operaciones = operacionesMes(mes)
             tasaLlegada = probAviones / operaciones
@@ -141,3 +142,13 @@ def horaActual(evento):
 def funcSplit(param):
     hora,min = map(int, param.split(':'))
     return hora,min
+
+def controlTurnos(hora,turnos):
+    if hora >=0 and hora <= 5:
+        turnos["Madrugada"] +=1
+    elif hora >= 6 and hora <= 11:
+        turnos["Mañana"] += 1
+    elif hora >= 12 and hora <= 17:
+        turnos["Tarde"] += 1
+    else:
+        turnos["Noche"] += 1
