@@ -44,9 +44,9 @@ def parametrosIniciales():
                 return
         return hora,mes,retraso
 
-def procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,retraso,turnos):
+def procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,retraso,turnos,aeronaves):
     yield evento.timeout(retraso)
-    evento.process(torreDeControl(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos))
+    evento.process(torreDeControl(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves))
     evento.process(logicaClima(evento,estadoClima,mes))
 
 def main():
@@ -65,6 +65,7 @@ def main():
     colaEstacionados = simpy.Store(evento)
     colaSalidas = simpy.Store(evento)
     colaDespegues = simpy.Store(evento,capacity = 10)
+    #DATOS EN
     estadoClima = {
     'clima':'Soleado',
     'retraso': 0.0
@@ -76,8 +77,13 @@ def main():
          "Noche" : 0,
          "dias" : 1
     }
+    aeronaves = {
+         "AeronavesEstacionados" : 0,
+         "AeronavesEnColaLlegada" : 0,
+         "AeronavesEnColaSalida" : 0
+    }
     hora,mes,retraso = parametrosIniciales()
-    evento.process(procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,retraso,turnos))
+    evento.process(procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,retraso,turnos,aeronaves))
     evento.run(until=hora)
     print("------Resultados Finales de la Simulación------")
     print("Total Aeronaves Simuladas: ",Aeronave.totalAeronaves)

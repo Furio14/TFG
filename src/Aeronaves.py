@@ -24,7 +24,7 @@ class Aeronave:
         self.tiempoCicloAvion = tiempoCicloAvion
         self.contador = 0
 
-    def infoColaAterrizaje(self,evento,estadoClima,mes):
+    def infoColaAterrizaje(self,evento,estadoClima,mes,aeronaves):
         try:
             with open(logs,"r") as log:
                 existeEncabezado = True
@@ -33,42 +33,50 @@ class Aeronave:
         with open(logs,"a", newline="") as log:
             writer = csv.writer(log)
             if not existeEncabezado:
-                writer.writerow(["Reloj","ID","ID_Vuelo","Estado","Pasajeros","Origen","Destino","Hora_Salida_Origen","Hora_Programada_Llegada_Destino","Hora_Llegada_Destino","Hora_Estacionamiento","Hora_Programada_Salida","Hora_Despegue","Tiempo_Ciclo_Aeronave","Total_Pasajeros","Mes","Clima"])
+                writer.writerow(["Reloj","ID","ID_Vuelo","Estado","Pasajeros","Origen","Destino","Hora_Salida_Origen","Hora_Programada_Llegada_Destino","Hora_Llegada_Destino","Hora_Estacionamiento","Hora_Programada_Salida","Hora_Despegue","Tiempo_Ciclo_Aeronave","Mes","Clima","Aeronaves_En_Cola_Llegada","Aeronaves_En_Estacionamiento","Aeronaves_En_Cola_Salida"])
             reloj = Aeronave.infoReloj(evento.now)
             self.estado = "Llegando"
-            writer.writerow([reloj,self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.horaLlegadaReal,self.horaEstacionado,self.horaProgramadaSalida,self.horaDespegue,self.tiempoCicloAvion,mes,estadoClima['clima']])
+            writer.writerow([reloj,self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.horaLlegadaReal,self.horaEstacionado,self.horaProgramadaSalida,self.horaDespegue,self.tiempoCicloAvion,mes,estadoClima['clima'],aeronaves["AeronavesEnColaLlegada"],aeronaves["AeronavesEstacionados"],aeronaves["AeronavesEnColaSalida"]])
 
     # Te da la info de las aeronaves que ya han aterrizado
-    def infoAterrizaje(self,evento,estadoClima,mes):
+    def infoAterrizaje(self,evento,estadoClima,mes,aeronaves):
         reloj = Aeronave.infoReloj(evento.now)
         self.estado = "Aterrizaje"
         with open(logs,"a") as log:
             writer = csv.writer(log)
-            writer.writerow([reloj,self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.horaLlegadaReal,self.horaEstacionado,self.horaProgramadaSalida,self.horaDespegue,self.tiempoCicloAvion,mes,estadoClima['clima']])
+            writer.writerow([reloj,self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.horaLlegadaReal,self.horaEstacionado,self.horaProgramadaSalida,self.horaDespegue,self.tiempoCicloAvion,mes,estadoClima['clima'],aeronaves["AeronavesEnColaLlegada"],aeronaves["AeronavesEstacionados"],aeronaves["AeronavesEnColaSalida"]])
 
     # Te da la info de las aeronaves que ya estan estacionadas
-    def infoEstacionado(self,evento,estadoClima,mes):
+    def infoEstacionado(self,evento,estadoClima,mes,aeronaves):
         reloj = Aeronave.infoReloj(evento.now)
         self.estado = "Estacionado"
         with open(logs,"a") as log:
             writer = csv.writer(log)
-            writer.writerow([reloj,self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.horaLlegadaReal,self.horaEstacionado,self.horaProgramadaSalida,self.horaDespegue,self.tiempoCicloAvion,mes,estadoClima['clima']])
+            writer.writerow([reloj,self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.horaLlegadaReal,self.horaEstacionado,self.horaProgramadaSalida,self.horaDespegue,self.tiempoCicloAvion,mes,estadoClima['clima'],aeronaves["AeronavesEnColaLlegada"],aeronaves["AeronavesEstacionados"],aeronaves["AeronavesEnColaSalida"]])
     
     # Te da la info aproximada de cuando va a salir un vuelo
-    def infoSalidas(self,evento,estadoClima,mes):
+    def infoSalidas(self,evento,estadoClima,mes,aeronaves):
         reloj = Aeronave.infoReloj(evento.now)
         self.estado = "Programado"
         with open(logs,"a") as log:
             writer = csv.writer(log)
-            writer.writerow([reloj,self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.horaLlegadaReal,self.horaEstacionado,self.horaProgramadaSalida,self.horaDespegue,self.tiempoCicloAvion,mes,estadoClima['clima']])
+            writer.writerow([reloj,self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.horaLlegadaReal,self.horaEstacionado,self.horaProgramadaSalida,self.horaDespegue,self.tiempoCicloAvion,mes,estadoClima['clima'],aeronaves["AeronavesEnColaLlegada"],aeronaves["AeronavesEstacionados"],aeronaves["AeronavesEnColaSalida"]])
+
+    def infoColaDespegues(self,evento,estadoClima,mes,aeronaves):
+        reloj = Aeronave.infoReloj(evento.now)
+        self.estado = "ColaDespegues"
+        with open(logs,"a") as log:
+            writer = csv.writer(log)
+            writer.writerow([reloj,self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.horaLlegadaReal,self.horaEstacionado,self.horaProgramadaSalida,self.horaDespegue,self.tiempoCicloAvion,mes,estadoClima['clima'],aeronaves["AeronavesEnColaLlegada"],aeronaves["AeronavesEstacionados"],aeronaves["AeronavesEnColaSalida"]])
+
 
     # Te da la info de cuando ha despegado un avion, si han habido retrasos etc etc
-    def infoDespegues(self,evento,estadoClima,mes):
+    def infoDespegues(self,evento,estadoClima,mes,aeronaves):
         reloj = Aeronave.infoReloj(evento.now)
         self.estado = "Despegando"
         with open(logs,"a") as log:
             writer = csv.writer(log)
-            writer.writerow([reloj,self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.horaLlegadaReal,self.horaEstacionado,self.horaProgramadaSalida,self.horaDespegue,self.tiempoCicloAvion,mes,estadoClima['clima']])
+            writer.writerow([reloj,self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.horaLlegadaReal,self.horaEstacionado,self.horaProgramadaSalida,self.horaDespegue,self.tiempoCicloAvion,mes,estadoClima['clima'],aeronaves["AeronavesEnColaLlegada"],aeronaves["AeronavesEstacionados"],aeronaves["AeronavesEnColaSalida"]])
 
     def infoReloj(evento):
             minsActuales = int(evento)
