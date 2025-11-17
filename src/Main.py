@@ -86,8 +86,6 @@ def main():
     evento.process(procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,retraso,turnos,aeronaves))
     evento.run(until=hora)
     print("------Resultados Finales de la Simulación------")
-    print("Total Aeronaves Simuladas: ",Aeronave.totalAeronaves)
-    print("Total Pasajeros: ",Aeronave.totalPasajeros)
     print("Total Operaciones Aéreas Madrugada: ",turnos["Madrugada"])
     print("Media Operaciones Aéreas Madrugada: ",turnos["Madrugada"]/turnos["dias"])
     print("Total Operaciones Aéreas Mañana: ",turnos["Mañana"])
@@ -96,6 +94,10 @@ def main():
     print("Media Operaciones Aéreas Tarde: ",turnos["Tarde"]/turnos["dias"])
     print("Total Operaciones Aéreas Noche: ",turnos["Noche"])
     print("Media Operaciones Aéreas Noche: ",turnos["Noche"]/turnos["dias"])
+    print("Total Operaciones Aéreas: ",turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"] - 1)
+    print("Media Operaciones Aéreas: ",(turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"])/turnos["dias"])
+    print("Total Aeronaves Simuladas: ",Aeronave.totalAeronaves)
+    print("Total Pasajeros: ",Aeronave.totalPasajeros)
 
 
 if __name__ == "__main__":

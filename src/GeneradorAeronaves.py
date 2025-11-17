@@ -1,21 +1,29 @@
 import random
+import csv
 from Aeronaves import *
 from TorreDeControl import *
 
+def datosCSV(archivo):
+    vuelos = []
+    with open(archivo,mode = 'r', encoding='utf8') as a:
+        lector = csv.DictReader(a)
+        for fila in lector:
+            fila['Duracion_Vuelo'] = int(fila['Duracion_Vuelo'])
+            vuelos.append(fila)
+    return vuelos
 
-#Ciudades (Habria que ver algun dataset o crearlo con estos datos)
-ciudades = ["Nueva York", "Milan", "Tokyo", "Beijing", "Shanghai", "Londres"]
-vuelos = ["IB","BA","AA","V","AV","LX","DL"]
+listaVuelos = datosCSV("../Ciudades.csv")
 
 def generador(evento):
+    vueloRandom = random.choice(listaVuelos)
     letra = random.choice("ABCDEFGHIJLKMNOPQRSTUVWXYZ") # genera letra random
     id = f"{letra}{random.randint(0,999)}" # genera un id para un avion aleatorio
-    idVuelo = f"{random.choice(vuelos)}{random.randint(0,999)}" # genera un id para un avion aleatorio
+    idVuelo = vueloRandom["Vuelo_ID"] # genera un id para un avion aleatorio
     estado = "Llegando" # estado de la aeronave
     pasajeros = random.randint(150,300) # genera un numero random de pasajeros
-    origen = random.choice(ciudades) # genera 2 ciudades random
+    origen = vueloRandom["Ciudades"] # genera ciudades 
     destino = "Madrid"
-    duracion = random.randint(1,5) * 60
+    duracion = vueloRandom["Duracion_Vuelo"]
     horasAeronave = int(evento.now) # Con el tiempo del reloj de simulacion calculamos los demas tiempos
     horasHastaSalida = ((horasAeronave - duracion)//60)%24
     minsHastaSalida = (horasAeronave - duracion) % 60

@@ -114,14 +114,15 @@ def controlDespegues(evento,pista,colaDespegues,estadoClima,mes,aeronaves):
 
 # Una vez una aeronave aterriza (mirar flujo de pasajeros para ver si hay retraso), se le asigna otro destino con diferente id de vuelo y destino
 def aeronaveSalida(evento,avion):
+    vueloRandom = random.choice(listaVuelos)
     avion.origen = avion.destino
-    avion.destino = random.choice(ciudades) # El origen no puede ser también el destino
+    avion.destino = vueloRandom["Ciudades"] # El origen no puede ser también el destino
     vuelo = ''.join(filter(str.isalpha,avion.vueloId))
     numeroVuelo = int(''.join(filter(str.isdigit,avion.vueloId)))
     avion.vueloId = f"{vuelo}{numeroVuelo + random.randint(1,5)}"
     tiempoActual =int(evento.now) 
     horaSalida = tiempoActual + int(random.triangular(100,200,140)) # asignamos tiempo random de salida
-    horaLlegada = horaSalida + random.randint(120,300)
+    horaLlegada = horaSalida + vueloRandom["Duracion_Vuelo"]
     horaSalida,minSalida = funcMin(horaSalida)
     horaLlegada,minLlegada = funcMin(horaLlegada)
     avion.horaSalida = f"{horaSalida:02d}:{minSalida:02d}" # hora de salida respecto a la llegada
