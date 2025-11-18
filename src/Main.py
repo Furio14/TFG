@@ -9,22 +9,30 @@ from FactoresExternos import *
 
 def parametrosIniciales():
         try:
-            #DATOS DE LOS PARAMETROS
             #HORAS
             horas = input("Cuantas horas quieres simular? : ")
-            if int(horas) <= 0:
-                raise ValueError("El numero de horas tiene que ser mayor que 0")
+            if horas == "":
+                 horas = 24
+            else:
+                if int(horas) <= 0:
+                    raise ValueError("El numero de horas tiene que ser mayor que 0")
+                
             
             #MES
             mes = input("En que mes quieres que empiece la simulacion? : ").upper()
             meses = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE"
                     ,"OCTUBRE","NOVIEMBRE","DICIEMBRE"]
             
-            if mes not in meses:
-                raise ValueError("Introdzca un mes valido")
+            if mes == "":
+                 mes = "ENERO"
+            else:
+                if mes not in meses:
+                    raise ValueError("Introdzca un mes valido")
             
             #TURNOS
             turnos = input("En que turno quieres comenzar la simulacion? [Madrugada,Mañana,Tarde,Noche] : ")
+            if turnos == "":
+                 turnos = "madrugada"
             turnosPosibles = turnos.lower()
             if turnosPosibles == "madrugada":
                 retraso = 0
@@ -49,14 +57,39 @@ def procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizaje
     evento.process(torreDeControl(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves))
     evento.process(logicaClima(evento,estadoClima,mes))
 
+def resultados(turnos,aeronaves):
+     with open("../resultados.txt","w",encoding="utf8") as f:
+        f.write("------Resultados Finales de la Simulación------" + "\n")
+        f.write("\n" + "*****MADRUGADA*****" + "\n")
+        f.write("Total Operaciones Aéreas Madrugada: " + str(turnos["Madrugada"]) + "\n")
+        f.write("Media Operaciones Aéreas Madrugada: " + str(turnos["Madrugada"]/turnos["dias"]) + "\n")
+        f.write("Tasa de Operaciones Llegada λ_h Madrugada: " + str(round((turnos["Madrugada"]/6),2)) + "\n")
+        f.write("\n" + "*****MAÑANA*****" + "\n")
+        f.write("Total Operaciones Aéreas Mañana: " + str(turnos["Mañana"]) + "\n")
+        f.write("Media Operaciones Aéreas Mañana: " + str(turnos["Mañana"]/turnos["dias"]) + "\n")
+        f.write("Tasa de Operaciones Llegada λ_h Mañana: " + str(round((turnos["Mañana"]/6),2)) + "\n")
+        f.write("\n" + "*****TARDE*****" + "\n")
+        f.write("Total Operaciones Aéreas Tarde: " + str(turnos["Tarde"]) + "\n")
+        f.write("Media Operaciones Aéreas Tarde: " + str(turnos["Tarde"]/turnos["dias"]) + "\n")
+        f.write("Tasa de Operaciones Llegada λ_h Tarde: " + str(round((turnos["Tarde"]/6),2)) + "\n")
+        f.write("\n" + "*****NOCHE*****" + "\n")
+        f.write("Total Operaciones Aéreas Noche: " + str(turnos["Noche"]) + "\n")
+        f.write("Media Operaciones Aéreas Noche: " + str(turnos["Noche"]/turnos["dias"]) + "\n")
+        f.write("Tasa de Operaciones Llegada λ_h Noche: " + str(round((turnos["Noche"]/6),2)) + "\n")
+        f.write("\n" + "*****DATOS GLOBALES*****" + "\n")
+        f.write("Total Operaciones Aéreas: " + str(turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"] - 1) + "\n")
+        f.write("Media Operaciones Aéreas: " + str((turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"])/turnos["dias"]) + "\n")
+        f.write("Total Aeronaves Simuladas: " + str(Aeronave.totalAeronaves) + "\n")
+        f.write("Total Pasajeros: " + str(Aeronave.totalPasajeros) + "\n")
+        f.write("Media Tiempo Ciclo Completo Aeronaves: " + str(int(aeronaves["AeronavesCicloCompletoContadorTiempo"]/aeronaves["AeronavesCicloCompletoContador"])) + " minutos \n")
+
 def main():
     log = "../log.csv"
     #si log.txt tiene algo de información, cuando lo ejecutas se reinicia la info
     if os.path.exists(log):
         os.remove(log)
-
+    #random.seed(2)
     evento = simpy.Environment()
-    
     pistaAterrizaje = simpy.Resource(evento,capacity=1)
     pistaDespegue = simpy.Resource(evento,capacity=1)
     anuncio = simpy.Resource(evento,capacity=1)
@@ -65,7 +98,7 @@ def main():
     colaEstacionados = simpy.Store(evento)
     colaSalidas = simpy.Store(evento)
     colaDespegues = simpy.Store(evento,capacity = 10)
-    #DATOS EN
+    #DATOS EN LISTAS
     estadoClima = {
     'clima':'Soleado',
     'retraso': 0.0
@@ -80,24 +113,15 @@ def main():
     aeronaves = {
          "AeronavesEstacionados" : 0,
          "AeronavesEnColaLlegada" : 0,
-         "AeronavesEnColaSalida" : 0
+         "AeronavesEnColaSalida" : 0,
+         "AeronavesCicloCompletoContador": 0,
+         "AeronavesCicloCompletoContadorTiempo": 0
     }
     hora,mes,retraso = parametrosIniciales()
     evento.process(procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,retraso,turnos,aeronaves))
     evento.run(until=hora)
-    print("------Resultados Finales de la Simulación------")
-    print("Total Operaciones Aéreas Madrugada: ",turnos["Madrugada"])
-    print("Media Operaciones Aéreas Madrugada: ",turnos["Madrugada"]/turnos["dias"])
-    print("Total Operaciones Aéreas Mañana: ",turnos["Mañana"])
-    print("Media Operaciones Aéreas Mañana: ",turnos["Mañana"]/turnos["dias"])
-    print("Total Operaciones Aéreas Tarde: ",turnos["Tarde"])
-    print("Media Operaciones Aéreas Tarde: ",turnos["Tarde"]/turnos["dias"])
-    print("Total Operaciones Aéreas Noche: ",turnos["Noche"])
-    print("Media Operaciones Aéreas Noche: ",turnos["Noche"]/turnos["dias"])
-    print("Total Operaciones Aéreas: ",turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"] - 1)
-    print("Media Operaciones Aéreas: ",(turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"])/turnos["dias"])
-    print("Total Aeronaves Simuladas: ",Aeronave.totalAeronaves)
-    print("Total Pasajeros: ",Aeronave.totalPasajeros)
+    resultados(turnos,aeronaves)
+    
 
 
 if __name__ == "__main__":

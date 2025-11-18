@@ -108,6 +108,8 @@ def controlDespegues(evento,pista,colaDespegues,estadoClima,mes,aeronaves):
             Aeronave.totalPasajeros += avion.pasajeros
             aeronaves["AeronavesEstacionados"] -= 1
             aeronaves["AeronavesEnColaSalida"] -= 1
+            aeronaves["AeronavesCicloCompletoContadorTiempo"] += int(tiempoCiclo)
+            aeronaves["AeronavesCicloCompletoContador"] += 1
             avion.infoDespegues(evento,estadoClima,mes,aeronaves)
     else:
         yield evento.timeout(0.1)
