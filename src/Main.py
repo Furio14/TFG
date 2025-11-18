@@ -2,86 +2,10 @@ import os
 import time
 import random
 import simpy
-from TorreDeControl import *
 from GeneradorAeronaves import *
 from Aeronaves import * 
 from FactoresExternos import *
-
-def parametrosIniciales():
-        try:
-            #HORAS
-            horas = input("Cuantas horas quieres simular? : ")
-            if horas == "":
-                 horas = 24
-            else:
-                if int(horas) <= 0:
-                    raise ValueError("El numero de horas tiene que ser mayor que 0")
-                
-            
-            #MES
-            mes = input("En que mes quieres que empiece la simulacion? : ").upper()
-            meses = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE"
-                    ,"OCTUBRE","NOVIEMBRE","DICIEMBRE"]
-            
-            if mes == "":
-                 mes = "ENERO"
-            else:
-                if mes not in meses:
-                    raise ValueError("Introdzca un mes valido")
-            
-            #TURNOS
-            turnos = input("En que turno quieres comenzar la simulacion? [Madrugada,Mañana,Tarde,Noche] : ")
-            if turnos == "":
-                 turnos = "madrugada"
-            turnosPosibles = turnos.lower()
-            if turnosPosibles == "madrugada":
-                retraso = 0
-            elif turnosPosibles == "mañana":
-                retraso = 360
-            elif turnosPosibles == "tarde":
-                retraso = 720
-            elif turnosPosibles == "noche":
-                retraso = 1080
-            else: 
-                raise ValueError("Pon un turno correcto")
-
-            #HORAS
-            hora = int(horas) * 60 + retraso
-        except ValueError as e:
-                print("Error",e)
-                return
-        return hora,mes,retraso
-
-def procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,retraso,turnos,aeronaves):
-    yield evento.timeout(retraso)
-    evento.process(torreDeControl(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves))
-    evento.process(logicaClima(evento,estadoClima,mes))
-
-def resultados(turnos,aeronaves):
-     with open("../resultados.txt","w",encoding="utf8") as f:
-        f.write("------Resultados Finales de la Simulación------" + "\n")
-        f.write("\n" + "*****MADRUGADA*****" + "\n")
-        f.write("Total Operaciones Aéreas Madrugada: " + str(turnos["Madrugada"]) + "\n")
-        f.write("Media Operaciones Aéreas Madrugada: " + str(turnos["Madrugada"]/turnos["dias"]) + "\n")
-        f.write("Tasa de Operaciones Llegada λ_h Madrugada: " + str(round((turnos["Madrugada"]/6),2)) + "\n")
-        f.write("\n" + "*****MAÑANA*****" + "\n")
-        f.write("Total Operaciones Aéreas Mañana: " + str(turnos["Mañana"]) + "\n")
-        f.write("Media Operaciones Aéreas Mañana: " + str(turnos["Mañana"]/turnos["dias"]) + "\n")
-        f.write("Tasa de Operaciones Llegada λ_h Mañana: " + str(round((turnos["Mañana"]/6),2)) + "\n")
-        f.write("\n" + "*****TARDE*****" + "\n")
-        f.write("Total Operaciones Aéreas Tarde: " + str(turnos["Tarde"]) + "\n")
-        f.write("Media Operaciones Aéreas Tarde: " + str(turnos["Tarde"]/turnos["dias"]) + "\n")
-        f.write("Tasa de Operaciones Llegada λ_h Tarde: " + str(round((turnos["Tarde"]/6),2)) + "\n")
-        f.write("\n" + "*****NOCHE*****" + "\n")
-        f.write("Total Operaciones Aéreas Noche: " + str(turnos["Noche"]) + "\n")
-        f.write("Media Operaciones Aéreas Noche: " + str(turnos["Noche"]/turnos["dias"]) + "\n")
-        f.write("Tasa de Operaciones Llegada λ_h Noche: " + str(round((turnos["Noche"]/6),2)) + "\n")
-        f.write("\n" + "*****DATOS GLOBALES*****" + "\n")
-        f.write("Total Operaciones Aéreas: " + str(turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"] - 1) + "\n")
-        f.write("Media Operaciones Aéreas: " + str((turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"])/turnos["dias"]) + "\n")
-        f.write("Total Aeronaves Simuladas: " + str(Aeronave.totalAeronaves) + "\n")
-        f.write("Total Pasajeros: " + str(Aeronave.totalPasajeros) + "\n")
-        f.write("Media Tiempo Ciclo Completo Aeronaves: " + str(int(aeronaves["AeronavesCicloCompletoContadorTiempo"]/aeronaves["AeronavesCicloCompletoContador"])) + " minutos \n")
+from Input import *
 
 def main():
     log = "../log.csv"
@@ -95,19 +19,23 @@ def main():
     anuncio = simpy.Resource(evento,capacity=1)
     parking = simpy.Resource(evento,capacity=2)
     colaAterrizajes = simpy.Store(evento,capacity = 10)
-    colaEstacionados = simpy.Store(evento)
+    colaEstacionados = simpy.Store(evento,capacity = 50)
     colaSalidas = simpy.Store(evento)
     colaDespegues = simpy.Store(evento,capacity = 10)
     #DATOS EN LISTAS
     estadoClima = {
-    'clima':'Soleado',
-    'retraso': 0.0
+        'clima':'Soleado',
+        'retraso': 0.0
     }
     turnos = {
          "Madrugada": 0,
          "Mañana" : 0,
          "Tarde" : 0,
          "Noche" : 0,
+         "SalidaMadrugada": 0,
+         "SalidaMañana" : 0,
+         "SalidaTarde" : 0,
+         "SalidaNoche" : 0,
          "dias" : 1
     }
     aeronaves = {

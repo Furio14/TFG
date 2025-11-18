@@ -5,14 +5,13 @@ import random
 from collections import deque
 from GeneradorAeronaves import *
 from Aeronaves import *
-from Main import *
 from FactoresExternos import *
 
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
-def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves):
+def controlAereo(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves):
     while True:
             hora = horaActual(evento.now)
-            controlTurnos(hora,turnos)
+            controlTurnosLlegadas(hora,turnos)
             controlHorario(evento,turnos)
             probAviones = random.expovariate(tasaHora[hora]) # 1/lambda
             operaciones = operacionesMes(mes)
@@ -20,11 +19,12 @@ def torreDeControl(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAt
             yield evento.timeout(tasaLlegada)
             avion = generador(evento) # se generan aviones
             Aeronave.totalAeronaves += 1
+            Aeronave.totalPasajeros += avion.pasajeros
             # Ciclo completo de cada avion
-            evento.process(cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,aeronaves))
+            evento.process(cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves))
 
 # Nos indica el ciclo completo de cada avion
-def cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,aeronaves):
+def cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves):
     # Nos indica primero si esta llegando el avion
     yield evento.process(controlLlegadas(evento,avion,colaAterrizajes,estadoClima,mes,aeronaves))
     # Despues de seguido indica si efectivamente ha aterrizado el avion
@@ -34,7 +34,7 @@ def cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,cola
     # Después de estacionar nos dice a que hora está programado el vuelo
     yield evento.process(controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima,mes,aeronaves))
     # Nos indica si el avion esta despegando
-    yield evento.process(controlDespegues(evento,pistaDespegues,colaDespegues,estadoClima,mes,aeronaves))
+    yield evento.process(controlDespegues(evento,pistaDespegues,colaDespegues,estadoClima,mes,turnos,aeronaves))
     
 # Una vez solicitan aterrizar los aviones se les añade a la cola de llegadas
 def controlLlegadas(evento,avion,colaAterrizajes,estadoClima,mes,aeronaves):
@@ -51,7 +51,6 @@ def controlAterrizajes(evento,pista,colaAterrizajes,colaEstacionados,estadoClima
             tiempoHastaAterrizar = estadoClima['retraso']
             yield evento.timeout(tiempoHastaAterrizar)
             aterriza.horaLlegadaReal = tiempoEvento(evento.now)
-            Aeronave.totalPasajeros += aterriza.pasajeros
             aeronaves["AeronavesEnColaLlegada"] -= 1
             aterriza.infoAterrizaje(evento,estadoClima,mes,aeronaves)
             yield colaEstacionados.put(aterriza)   
@@ -90,7 +89,7 @@ def controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima,mes,aero
         yield evento.timeout(0.1)
 
 # Una vez estan estacionadas las aeronaves se les asigna una tarea de salir a pista (no esta implementado el control de flujo de pasajeros)
-def controlDespegues(evento,pista,colaDespegues,estadoClima,mes,aeronaves):
+def controlDespegues(evento,pista,colaDespegues,estadoClima,mes,turnos,aeronaves):
     if colaDespegues:
         salida = yield colaDespegues.get()
         avion = salida
@@ -102,18 +101,22 @@ def controlDespegues(evento,pista,colaDespegues,estadoClima,mes,aeronaves):
             yield evento.timeout(tiempoDespegando + estadoClima['retraso'])
             avion.horaDespegue = tiempoEvento(evento.now)
             hora,min = funcSplit(avion.horaLlegadaReal)
-            tiempoCiclo = abs(hora*60+min - int(evento.now))
+            tiempoCiclo = abs(hora*60+min - int(evento.now)) #-1440*(turnos["dias"]-1)
             avion.tiempoCicloAvion = tiempoEvento(tiempoCiclo)
             avion.horaLlegadaReal = "---"
-            Aeronave.totalPasajeros += avion.pasajeros
             aeronaves["AeronavesEstacionados"] -= 1
             aeronaves["AeronavesEnColaSalida"] -= 1
             aeronaves["AeronavesCicloCompletoContadorTiempo"] += int(tiempoCiclo)
             aeronaves["AeronavesCicloCompletoContador"] += 1
+            #print(str(aeronaves["AeronavesCicloCompletoContadorTiempo"]) + " "+ str(aeronaves["AeronavesCicloCompletoContador"]))
+            horaDespegue = horaActual(evento.now)
+            controlTurnosSalidas(horaDespegue,turnos)
             avion.infoDespegues(evento,estadoClima,mes,aeronaves)
     else:
         yield evento.timeout(0.1)
 
+
+#################################################FUNCIONES AUXILIARES#################################################
 # Una vez una aeronave aterriza (mirar flujo de pasajeros para ver si hay retraso), se le asigna otro destino con diferente id de vuelo y destino
 def aeronaveSalida(evento,avion):
     vueloRandom = random.choice(listaVuelos)
@@ -132,28 +135,32 @@ def aeronaveSalida(evento,avion):
     avion.horaProgramadaSalida = avion.horaSalida # lahora programa es igual que la d salida nueva
     return avion
 
-#################################################FUNCIONES AUXILIARES#################################################
+# El tiempo actual del evento en formato horas (xx:xx)
 def tiempoEvento(evento):
     hora,min = funcMin(int(evento))
     horaFunc = f"{hora%24:02d}:{min%60:02d}"
     return horaFunc
 
+# Te devuelve el tiempo (130) en horas y minutos 
 def funcMin(tiempo):
     hora = (tiempo // 60) % 24
     min = tiempo % 60
     return hora,min
 
+# Te devuelve la hora actual del evento
 def horaActual(evento):
     minTotal = int(evento)
     mins = minTotal%1440
     horaActual = mins // 60
     return horaActual
 
+# Separa las horas (xx:xx) en horas y minutos
 def funcSplit(param):
     hora,min = map(int, param.split(':'))
     return hora,min
 
-def controlTurnos(hora,turnos):
+# Cada vez que llega un avion en su turno horario queda registrado
+def controlTurnosLlegadas(hora,turnos):
     if hora >=0 and hora <= 5:
         turnos["Madrugada"] +=1
     elif hora >= 6 and hora <= 11:
@@ -163,6 +170,18 @@ def controlTurnos(hora,turnos):
     else:
         turnos["Noche"] += 1
 
+# Cada vez que sale un avion en su turno horario queda registrado
+def controlTurnosSalidas(hora,turnos):
+    if hora >=0 and hora <= 5:
+        turnos["SalidaMadrugada"] +=1
+    elif hora >= 6 and hora <= 11:
+        turnos["SalidaMañana"] += 1
+    elif hora >= 12 and hora <= 17:
+        turnos["SalidaTarde"] += 1
+    else:
+        turnos["SalidaNoche"] += 1
+
+# Si la simulacion dura +24 horas se calculan los dias de la simulacion
 def controlHorario(evento,turnos):
     if evento.now > 1440 * turnos["dias"]:
         turnos["dias"] += 1

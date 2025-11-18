@@ -3,7 +3,7 @@ from Aeronaves import Aeronave
 
 #############################################Factor Horario/Meteorologico#############################################
 
-tasaHora = {0:0.05,1:0.04,2:0.03,3:0.03,4:0.02,5:0.03,
+tasaHora = {0:0.1,1:0.1,2:0.08,3:0.07,4:0.07,5:0.08,
             6:0.1,7:0.2,8:0.3,9:0.3,10:0.4,11:0.4,
             12:0.4,13:0.45,14:0.4,15:0.5,16:0.45,17:0.4,
             18:0.35,19:0.3,20:0.25,21:0.2,22:0.15,23:0.1}
@@ -31,11 +31,11 @@ def logicaClima(evento,estado,mes):
             if clima == 'Nublado':
                 estado['retraso'] = 1.5
             elif clima == 'Lluvioso':
-                estado['retraso'] = 3
+                estado['retraso'] = 2
             elif clima == 'Niebla':
-                estado['retraso'] = 4
+                estado['retraso'] = 2.5
             elif clima == 'Tormenta':
-                estado['retraso'] = 5
+                estado['retraso'] = 3.5
             else: estado['retraso'] = 0
 
         yield evento.timeout(60) 

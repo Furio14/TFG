@@ -1,7 +1,6 @@
 import random
 import csv
 from Aeronaves import *
-from TorreDeControl import *
 
 def datosCSV(archivo):
     vuelos = []
