@@ -7,7 +7,6 @@ logs = "../log.csv"
 class Aeronave:
     totalPasajeros = 0
     totalAeronaves = 0
-    comienzo = False
     def __init__(self,id,vueloId,estado,pasajeros,origen,destino,horaSalida,horaLlegada,horaLlegadaReal,horaEstacionado,horaProgramadaSalida,horaDespegue,tiempoCicloAvion):
         self.id = id
         self.vueloId = vueloId
@@ -22,7 +21,8 @@ class Aeronave:
         self.horaProgramadaSalida = horaProgramadaSalida
         self.horaDespegue = horaDespegue
         self.tiempoCicloAvion = tiempoCicloAvion
-        self.contador = 0
+        self.tiempoLlegadaMinutos = 0
+        self.ticketParking = ""
 
     def infoColaAterrizaje(self,evento,estadoClima,mes,aeronaves):
         try:

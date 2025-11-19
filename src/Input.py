@@ -30,7 +30,7 @@ def parametrosIniciales():
                     raise ValueError("Introdzca un mes valido")
             
             #TURNOS
-            turnos = input("En que turno quieres comenzar la simulacion? [Madrugada,Mañana,Tarde,Noche] : ")
+            turnos = input("En que turno quieres comenzar la simulacion? [MADRUGADA,Mañana,Tarde,Noche] : ")
             if turnos == "":
                  turnos = "madrugada"
             turnosPosibles = turnos.lower()
@@ -85,4 +85,5 @@ def resultados(turnos,aeronaves):
         f.write("Media Operaciones Aéreas: " + str((turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"])/turnos["dias"]) + "\n")
         f.write("Total Aeronaves Simuladas: " + str(Aeronave.totalAeronaves) + "\n")
         f.write("Total Pasajeros: " + str(Aeronave.totalPasajeros) + "\n")
+        f.write("Media de Pasajeros por Aeronave: " + str(round((Aeronave.totalPasajeros/Aeronave.totalAeronaves),2)) + "\n")
         f.write("Media Tiempo Ciclo Completo Aeronaves: " + str(int(aeronaves["AeronavesCicloCompletoContadorTiempo"]/aeronaves["AeronavesCicloCompletoContador"])) + " minutos \n")

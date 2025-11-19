@@ -17,10 +17,10 @@ def main():
     pistaAterrizaje = simpy.Resource(evento,capacity=1)
     pistaDespegue = simpy.Resource(evento,capacity=1)
     anuncio = simpy.Resource(evento,capacity=1)
-    parking = simpy.Resource(evento,capacity=2)
+    parking = simpy.Resource(evento,capacity=50)
     colaAterrizajes = simpy.Store(evento,capacity = 10)
     colaEstacionados = simpy.Store(evento,capacity = 50)
-    colaSalidas = simpy.Store(evento)
+    colaSalidas = simpy.Store(evento,capacity = 1)
     colaDespegues = simpy.Store(evento,capacity = 10)
     #DATOS EN LISTAS
     estadoClima = {
