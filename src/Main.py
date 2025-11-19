@@ -43,9 +43,11 @@ def main():
          "AeronavesEnColaLlegada" : 0,
          "AeronavesEnColaSalida" : 0,
          "AeronavesCicloCompletoContador": 0,
-         "AeronavesCicloCompletoContadorTiempo": 0
+         "AeronavesCicloCompletoContadorTiempo": 0,
+         "AeronavesDiarias" : 0
     }
-    hora,mes,retraso = parametrosIniciales()
+    hora,mes,retraso,vuelos = parametrosIniciales()
+    aeronaves["AeronavesDiarias"] = vuelos
     evento.process(procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,
                             colaDespegues,estadoClima,mes,retraso,turnos,aeronaves))
     evento.run(until=hora)

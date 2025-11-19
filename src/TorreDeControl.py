@@ -10,7 +10,7 @@ from FactoresExternos import *
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
 def controlAereo(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves,retraso):
     while True:
-            vuelosMedia = 200 #media de vuelos cada dia
+            vuelosMedia = aeronaves["AeronavesDiarias"] #media de vuelos cada dia
             hora = horaActual(evento.now)
             controlHorario(evento,turnos,retraso)
             operaciones = operacionesMes(mes)
