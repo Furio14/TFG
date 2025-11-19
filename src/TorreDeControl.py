@@ -10,7 +10,7 @@ from FactoresExternos import *
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
 def controlAereo(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves):
     while True:
-            vuelosMedia = 200  #media de vueklos cada dia segun el aeropuerto adolfo suarez madrid barajas 2024
+            vuelosMedia = 200 #media de vuelos cada dia
             hora = horaActual(evento.now)
             controlTurnosLlegadas(hora,turnos)
             controlHorario(evento,turnos)
@@ -88,7 +88,12 @@ def controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima,mes,aero
             avion.infoSalidas(evento,estadoClima,mes,aeronaves)
             horaProgramada,minProgramado = funcSplit(avion.horaProgramadaSalida)
             tiempoProgramado = horaProgramada*60 + minProgramado
-            tiempoEspera = max(0,tiempoProgramado - int(evento.now)) 
+            tiempoActual = int(evento.now) % 1440
+            tiempo = tiempoProgramado - tiempoActual
+            print(str(tiempo) +" " +  avion.id + " " + avion.estado)
+            if tiempo < -720:
+                tiempo += 1440
+            tiempoEspera = max(0,tiempo) 
             yield evento.timeout(tiempoEspera)
             yield colaDespegues.put(salida)
     else:
@@ -133,7 +138,7 @@ def aeronaveSalida(evento,avion):
     numeroVuelo = int(''.join(filter(str.isdigit,avion.vueloId)))
     avion.vueloId = f"{vuelo}{numeroVuelo + random.randint(1,5)}"
     tiempoActual =int(evento.now) 
-    horaSalida = tiempoActual + int(random.triangular(100,200,140)) # asignamos tiempo random de salida
+    horaSalida = tiempoActual + int(random.triangular(40,70,55)) # asignamos tiempo random de salida
     horaLlegada = horaSalida + vueloRandom["Duracion_Vuelo"]
     horaSalida,minSalida = funcMin(horaSalida)
     horaLlegada,minLlegada = funcMin(horaLlegada)
