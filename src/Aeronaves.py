@@ -62,6 +62,7 @@ class Aeronave:
             writer = csv.writer(log)
             writer.writerow([reloj,self.id,self.vueloId,self.estado,self.pasajeros,self.origen,self.destino,self.horaSalida,self.horaLlegada,self.horaLlegadaReal,self.horaEstacionado,self.horaProgramadaSalida,self.horaDespegue,self.tiempoCicloAvion,mes,estadoClima['clima'],aeronaves["AeronavesEnColaLlegada"],aeronaves["AeronavesEstacionados"],aeronaves["AeronavesEnColaSalida"]])
 
+    # Te da la info de cuando un avion se mete en la cola de despegues
     def infoColaDespegues(self,evento,estadoClima,mes,aeronaves):
         reloj = Aeronave.infoReloj(evento.now)
         self.estado = "ColaDespegues"

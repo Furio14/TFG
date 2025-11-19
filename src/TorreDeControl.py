@@ -8,12 +8,11 @@ from Aeronaves import *
 from FactoresExternos import *
 
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
-def controlAereo(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves):
+def controlAereo(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves,retraso):
     while True:
             vuelosMedia = 200 #media de vuelos cada dia
             hora = horaActual(evento.now)
-            controlTurnosLlegadas(hora,turnos)
-            controlHorario(evento,turnos)
+            controlHorario(evento,turnos,retraso)
             operaciones = operacionesMes(mes)
             vuelosDiarios = vuelosMedia * operaciones
             vuelosHora = vuelosDiarios * tasaHora[hora]
@@ -21,6 +20,7 @@ def controlAereo(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAter
             tiempoGeneracion = random.expovariate(lambdaVuelos)
             yield evento.timeout(tiempoGeneracion)
             avion = generador(evento) # se generan aviones
+            controlTurnosLlegadas(hora,turnos)
             Aeronave.totalAeronaves += 1
             Aeronave.totalPasajeros += avion.pasajeros
             # Ciclo completo de cada avion
@@ -90,7 +90,6 @@ def controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima,mes,aero
             tiempoProgramado = horaProgramada*60 + minProgramado
             tiempoActual = int(evento.now) % 1440
             tiempo = tiempoProgramado - tiempoActual
-            print(str(tiempo) +" " +  avion.id + " " + avion.estado)
             if tiempo < -720:
                 tiempo += 1440
             tiempoEspera = max(0,tiempo) 
@@ -194,8 +193,9 @@ def controlTurnosSalidas(hora,turnos):
         turnos["SalidaNoche"] += 1
 
 # Si la simulacion dura +24 horas se calculan los dias de la simulacion
-def controlHorario(evento,turnos):
-    if evento.now > 1440 * turnos["dias"]:
+def controlHorario(evento,turnos,retraso):
+    if evento.now - retraso > 1440 * turnos["dias"]:
+        print(evento.now)
         turnos["dias"] += 1
             
         

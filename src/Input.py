@@ -54,7 +54,9 @@ def parametrosIniciales():
 
 def procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,retraso,turnos,aeronaves):
     yield evento.timeout(retraso)
-    evento.process(controlAereo(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves))
+    evento.process(controlAereo(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,
+                                colaDespegues,estadoClima,mes,turnos,aeronaves,retraso))
+    
     evento.process(logicaClima(evento,estadoClima,mes))
 
 def resultados(turnos,aeronaves):
@@ -81,7 +83,7 @@ def resultados(turnos,aeronaves):
         f.write("Tasa de Operaciones Llegada λ_h Noche: " + str(round((turnos["Noche"]/6),2)) + "\n")
         f.write("Tasa de Operaciones Salida λ_h Noche: " + str(round((turnos["SalidaNoche"]/6),2)) + "\n")
         f.write("\n" + "*****DATOS GLOBALES*****" + "\n")
-        f.write("Total Operaciones Aéreas: " + str(turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"] - 1) + "\n")
+        f.write("Total Operaciones Aéreas: " + str(turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"]) + "\n")
         f.write("Media Operaciones Aéreas: " + str((turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"])/turnos["dias"]) + "\n")
         f.write("Total Aeronaves Simuladas: " + str(Aeronave.totalAeronaves) + "\n")
         f.write("Total Pasajeros: " + str(Aeronave.totalPasajeros) + "\n")

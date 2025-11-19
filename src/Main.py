@@ -46,7 +46,8 @@ def main():
          "AeronavesCicloCompletoContadorTiempo": 0
     }
     hora,mes,retraso = parametrosIniciales()
-    evento.process(procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,retraso,turnos,aeronaves))
+    evento.process(procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,
+                            colaDespegues,estadoClima,mes,retraso,turnos,aeronaves))
     evento.run(until=hora)
     resultados(turnos,aeronaves)
     
