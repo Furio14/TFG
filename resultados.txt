@@ -1,33 +1,33 @@
 ------Resultados Finales de la Simulación------
 
 *****MADRUGADA*****
-Total Operaciones Aéreas Madrugada: 19
-Media Operaciones Aéreas Madrugada: 19.0
-Tasa de Operaciones Llegada λ_h Madrugada: 3.17
-Tasa de Operaciones Salida λ_h Madrugada: 2.33
+Total Operaciones Aéreas Madrugada: 16
+Media Operaciones Aéreas Madrugada: 16.0
+Tasa de Operaciones Llegada λ_h Madrugada: 2.67
+Tasa de Operaciones Salida λ_h Madrugada: 2.5
 
 *****MAÑANA*****
-Total Operaciones Aéreas Mañana: 76
-Media Operaciones Aéreas Mañana: 76.0
-Tasa de Operaciones Llegada λ_h Mañana: 12.67
-Tasa de Operaciones Salida λ_h Mañana: 9.67
+Total Operaciones Aéreas Mañana: 74
+Media Operaciones Aéreas Mañana: 74.0
+Tasa de Operaciones Llegada λ_h Mañana: 12.33
+Tasa de Operaciones Salida λ_h Mañana: 7.33
 
 *****TARDE*****
-Total Operaciones Aéreas Tarde: 111
-Media Operaciones Aéreas Tarde: 111.0
-Tasa de Operaciones Llegada λ_h Tarde: 18.5
-Tasa de Operaciones Salida λ_h Tarde: 18.33
+Total Operaciones Aéreas Tarde: 133
+Media Operaciones Aéreas Tarde: 133.0
+Tasa de Operaciones Llegada λ_h Tarde: 22.17
+Tasa de Operaciones Salida λ_h Tarde: 18.0
 
 *****NOCHE*****
-Total Operaciones Aéreas Noche: 59
-Media Operaciones Aéreas Noche: 59.0
-Tasa de Operaciones Llegada λ_h Noche: 9.83
-Tasa de Operaciones Salida λ_h Noche: 12.5
+Total Operaciones Aéreas Noche: 49
+Media Operaciones Aéreas Noche: 49.0
+Tasa de Operaciones Llegada λ_h Noche: 8.17
+Tasa de Operaciones Salida λ_h Noche: 16.67
 
 *****DATOS GLOBALES*****
-Total Operaciones Aéreas: 265
-Media Operaciones Aéreas: 265.0
-Total Aeronaves Simuladas: 265
-Total Pasajeros: 59928
-Media de Pasajeros por Aeronave: 226.14
-Media Tiempo Ciclo Completo Aeronaves: 76 minutos 
+Total Operaciones Aéreas: 272
+Media Operaciones Aéreas: 272.0
+Total Aeronaves Simuladas: 272
+Total Pasajeros: 61027
+Media de Pasajeros por Aeronave: 224.36
+Media Tiempo Ciclo Completo Aeronaves: 104 minutos 

@@ -11,7 +11,7 @@ def datosCSV(archivo):
             vuelos.append(fila)
     return vuelos
 
-listaVuelos = datosCSV("../Ciudades.csv")
+listaVuelos = datosCSV("../ciudades.csv")
 
 def generador(evento):
     vueloRandom = random.choice(listaVuelos)

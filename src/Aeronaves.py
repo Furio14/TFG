@@ -22,7 +22,7 @@ class Aeronave:
         self.horaDespegue = horaDespegue
         self.tiempoCicloAvion = tiempoCicloAvion
         self.tiempoLlegadaMinutos = 0
-        self.ticketParking = ""
+        self.ticket = ""
 
     def infoColaAterrizaje(self,evento,estadoClima,mes,aeronaves):
         try:

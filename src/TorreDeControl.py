@@ -48,11 +48,11 @@ def controlLlegadas(evento,avion,colaAterrizajes,estadoClima,mes,aeronaves):
 # Una vez llegan las aeronaves las retira de la otra cola y las añade a la de aterrizados
 def controlAterrizajes(evento,pista,colaAterrizajes,colaEstacionados,estadoClima,mes,aeronaves):
     if colaAterrizajes:
-        aterriza = yield colaAterrizajes.get()
         with pista.request( ) as request: # si hay request de aterrizar en pista
             yield request
             tiempoHastaAterrizar = estadoClima['retraso']
             yield evento.timeout(tiempoHastaAterrizar)
+            aterriza = yield colaAterrizajes.get()
             aterriza.horaLlegadaReal = tiempoEvento(evento.now)
             aterriza.tiempoLlegadaMinutos = int(evento.now)
             aeronaves["AeronavesEnColaLlegada"] -= 1
