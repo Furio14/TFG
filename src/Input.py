@@ -29,6 +29,7 @@ def parametrosIniciales():
                 return
         return hora,mes,retraso,vuelos
 
+# Funcion que se encarga de que empieze el proceso a cierta hora
 def procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,retraso,turnos,aeronaves):
     yield evento.timeout(retraso)
     evento.process(controlAereo(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,

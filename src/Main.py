@@ -14,10 +14,10 @@ def main():
         os.remove(log)
     #random.seed(2)
     evento = simpy.Environment()
-    pistaAterrizaje = simpy.Resource(evento,capacity=1)
-    pistaDespegue = simpy.Resource(evento,capacity=1)
-    anuncio = simpy.Resource(evento,capacity=1)
-    parking = simpy.Resource(evento,capacity=50)
+    pistaAterrizaje = simpy.Resource(evento,capacity=1) #servidor para la pista de aterrizaje
+    pistaDespegue = simpy.Resource(evento,capacity=1) #servidor para la pista de despegue
+    anuncio = simpy.Resource(evento,capacity=1) #servidor para la los anuncios de viajes de despegue
+    parking = simpy.Resource(evento,capacity=50) #servidor para el estacionamiento
     colaAterrizajes = simpy.Store(evento,capacity = 10)
     colaEstacionados = simpy.Store(evento,capacity = 50)
     colaSalidas = simpy.Store(evento,capacity = 1)
@@ -46,12 +46,12 @@ def main():
          "AeronavesCicloCompletoContadorTiempo": 0,
          "AeronavesDiarias" : 0
     }
-    hora,mes,retraso,vuelos = parametrosIniciales()
+    hora,mes,retraso,vuelos = parametrosIniciales() #se sacan los parametros iniciales que elige el user
     aeronaves["AeronavesDiarias"] = vuelos
     evento.process(procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,
                             colaDespegues,estadoClima,mes,retraso,turnos,aeronaves))
-    evento.run(until=hora)
-    resultados(turnos,aeronaves)
+    evento.run(until=hora) #tiempo que dura la simulacion
+    resultados(turnos,aeronaves) #te guarda los resultados generales en un txt
     
 
 

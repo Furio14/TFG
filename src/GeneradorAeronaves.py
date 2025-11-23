@@ -2,6 +2,7 @@ import random
 import csv
 from Aeronaves import *
 
+# Revisa todo el dataset y te da los datos por filas
 def datosCSV(archivo):
     vuelos = []
     with open(archivo,mode = 'r', encoding='utf8') as a:
@@ -13,6 +14,7 @@ def datosCSV(archivo):
 
 listaVuelos = datosCSV("../ciudades.csv")
 
+#Genera aeronaves
 def generador(evento):
     vueloRandom = random.choice(listaVuelos)
     letra = random.choice("ABCDEFGHIJLKMNOPQRSTUVWXYZ") # genera letra random
