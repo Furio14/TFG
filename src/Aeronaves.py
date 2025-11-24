@@ -3,7 +3,7 @@ import csv
 import random
 import time
 
-logs = "../log.csv"
+logs = "../csv/log.csv"
 class Aeronave:
     totalPasajeros = 0
     totalAeronaves = 0

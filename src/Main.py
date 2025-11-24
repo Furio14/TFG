@@ -6,54 +6,64 @@ from GeneradorAeronaves import *
 from Aeronaves import * 
 from FactoresExternos import *
 from Input import *
+import Graficas
 
 def main():
-    log = "../log.csv"
-    #si log.txt tiene algo de información, cuando lo ejecutas se reinicia la info
-    if os.path.exists(log):
-        os.remove(log)
-    #random.seed(2)
-    evento = simpy.Environment()
-    pistaAterrizaje = simpy.Resource(evento,capacity=1) #servidor para la pista de aterrizaje
-    pistaDespegue = simpy.Resource(evento,capacity=1) #servidor para la pista de despegue
-    anuncio = simpy.Resource(evento,capacity=1) #servidor para la los anuncios de viajes de despegue
-    parking = simpy.Resource(evento,capacity=50) #servidor para el estacionamiento
-    colaAterrizajes = simpy.Store(evento,capacity = 10)
-    colaEstacionados = simpy.Store(evento,capacity = 50)
-    colaSalidas = simpy.Store(evento,capacity = 1)
-    colaDespegues = simpy.Store(evento,capacity = 10)
-    #DATOS EN LISTAS
-    estadoClima = {
-        'clima':'Soleado',
-        'retraso': 0.0
-    }
-    turnos = {
-         "Madrugada": 0,
-         "Mañana" : 0,
-         "Tarde" : 0,
-         "Noche" : 0,
-         "SalidaMadrugada": 0,
-         "SalidaMañana" : 0,
-         "SalidaTarde" : 0,
-         "SalidaNoche" : 0,
-         "dias" : 1
-    }
-    aeronaves = {
-         "AeronavesEstacionados" : 0,
-         "AeronavesEnColaLlegada" : 0,
-         "AeronavesEnColaSalida" : 0,
-         "AeronavesCicloCompletoContador": 0,
-         "AeronavesCicloCompletoContadorTiempo": 0,
-         "AeronavesDiarias" : 0
-    }
-    hora,mes,retraso,vuelos = parametrosIniciales() #se sacan los parametros iniciales que elige el user
-    aeronaves["AeronavesDiarias"] = vuelos
-    evento.process(procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,
-                            colaDespegues,estadoClima,mes,retraso,turnos,aeronaves))
-    evento.run(until=hora) #tiempo que dura la simulacion
-    resultados(turnos,aeronaves) #te guarda los resultados generales en un txt
-    
+    log = "../csv/log.csv"
+    semilla = 1000
+    hora,mes,retraso,vuelos,iteraciones = parametrosIniciales() #se sacan los parametros iniciales que elige el user
+    listaResultados = []
+    for i in range(int(iteraciones)):
+        #si log.txt tiene algo de información, cuando lo ejecutas se reinicia la info
+        if os.path.exists(log):
+            os.remove(log)
+        semillaActual = semilla + i
+        print(f"Iteracion: {i}")
+        random.seed(semillaActual)
+        evento = simpy.Environment()
+        pistaAterrizaje = simpy.Resource(evento,capacity=1) #servidor para la pista de aterrizaje
+        pistaDespegue = simpy.Resource(evento,capacity=1) #servidor para la pista de despegue
+        anuncio = simpy.Resource(evento,capacity=1) #servidor para la los anuncios de viajes de despegue
+        parking = simpy.Resource(evento,capacity=50) #servidor para el estacionamiento
+        colaAterrizajes = simpy.Store(evento,capacity = 10)
+        colaEstacionados = simpy.Store(evento,capacity = 50)
+        colaSalidas = simpy.Store(evento,capacity = 1)
+        colaDespegues = simpy.Store(evento,capacity = 10)
+        #DATOS EN LISTAS
+        estadoClima = {
+            'clima':'Soleado',
+            'retraso': 0.0
+        }
+        turnos = {
+            "Madrugada": 0,
+            "Mañana" : 0,
+            "Tarde" : 0,
+            "Noche" : 0,
+            "SalidaMadrugada": 0,
+            "SalidaMañana" : 0,
+            "SalidaTarde" : 0,
+            "SalidaNoche" : 0,
+            "dias" : 1
+        }
+        aeronaves = {
+            "AeronavesEstacionados" : 0,
+            "AeronavesEnColaLlegada" : 0,
+            "AeronavesEnColaSalida" : 0,
+            "AeronavesCicloCompletoContador": 0,
+            "AeronavesCicloCompletoContadorTiempo": 0,
+            "AeronavesDiarias" : 0
+        }
+        Aeronave.totalAeronaves = 0
+        Aeronave.totalPasajeros = 0
+        aeronaves["AeronavesDiarias"] = vuelos
+        evento.process(procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,
+                                colaDespegues,estadoClima,mes,retraso,turnos,aeronaves))
+        evento.run(until=hora) #tiempo que dura la simulacion
+        resultados(turnos,aeronaves,listaResultados,semillaActual,i) #te guarda los resultados generales en un txt
+    resDataset(listaResultados)
+
 
 
 if __name__ == "__main__":
     main()
+    Graficas.generadorGraficas()

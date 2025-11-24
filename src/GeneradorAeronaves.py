@@ -12,7 +12,7 @@ def datosCSV(archivo):
             vuelos.append(fila)
     return vuelos
 
-listaVuelos = datosCSV("../ciudades.csv")
+listaVuelos = datosCSV("../csv/ciudades.csv")
 
 #Genera aeronaves
 def generador(evento):

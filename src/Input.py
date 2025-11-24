@@ -2,6 +2,7 @@ import os
 import time
 import random
 import simpy
+import pandas as pd
 from TorreDeControl import *
 from GeneradorAeronaves import *
 from Aeronaves import * 
@@ -24,10 +25,12 @@ def parametrosIniciales():
             #HORAS
             hora = int(horas) * 60 + retraso
 
+            iteraciones = inputDatos("Cuantas iteraciones quieres realizar con estos params?",25,5,33)
+
         except ValueError as e:
                 print("Error",e)
                 return
-        return hora,mes,retraso,vuelos
+        return hora,mes,retraso,vuelos,iteraciones
 
 # Funcion que se encarga de que empieze el proceso a cierta hora
 def procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,retraso,turnos,aeronaves):
@@ -37,36 +40,40 @@ def procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizaje
     
     evento.process(logicaClima(evento,estadoClima,mes))
 
-def resultados(turnos,aeronaves):
-     with open("../resultados.txt","w",encoding="utf8") as f:
-        f.write("------Resultados Finales de la Simulación------" + "\n")
-        f.write("\n" + "*****MADRUGADA*****" + "\n")
-        f.write("Total Operaciones Aéreas Madrugada: " + str(turnos["Madrugada"]) + "\n")
-        f.write("Media Operaciones Aéreas Madrugada: " + str(round((turnos["Madrugada"]/turnos["dias"]),2)) + "\n")
-        f.write("Tasa de Operaciones Llegada λ_h Madrugada: " + str(round((turnos["Madrugada"]/6),2)) + "\n")
-        f.write("Tasa de Operaciones Salida λ_h Madrugada: " + str(round((turnos["SalidaMadrugada"]/6),2)) + "\n")
-        f.write("\n" + "*****MAÑANA*****" + "\n")
-        f.write("Total Operaciones Aéreas Mañana: " + str(turnos["Mañana"]) + "\n")
-        f.write("Media Operaciones Aéreas Mañana: " + str(round((turnos["Mañana"]/turnos["dias"]),2)) + "\n")
-        f.write("Tasa de Operaciones Llegada λ_h Mañana: " + str(round((turnos["Mañana"]/6),2)) + "\n")
-        f.write("Tasa de Operaciones Salida λ_h Mañana: " + str(round((turnos["SalidaMañana"]/6),2)) + "\n")
-        f.write("\n" + "*****TARDE*****" + "\n")
-        f.write("Total Operaciones Aéreas Tarde: " + str(turnos["Tarde"]) + "\n")
-        f.write("Media Operaciones Aéreas Tarde: " + str(round((turnos["Tarde"]/turnos["dias"]),2)) + "\n")
-        f.write("Tasa de Operaciones Llegada λ_h Tarde: " + str(round((turnos["Tarde"]/6),2)) + "\n")
-        f.write("Tasa de Operaciones Salida λ_h Tarde: " + str(round((turnos["SalidaTarde"]/6),2)) + "\n")
-        f.write("\n" + "*****NOCHE*****" + "\n")
-        f.write("Total Operaciones Aéreas Noche: " + str(turnos["Noche"]) + "\n")
-        f.write("Media Operaciones Aéreas Noche: " + str(round((turnos["Noche"]/turnos["dias"]),2)) + "\n")
-        f.write("Tasa de Operaciones Llegada λ_h Noche: " + str(round((turnos["Noche"]/6),2)) + "\n")
-        f.write("Tasa de Operaciones Salida λ_h Noche: " + str(round((turnos["SalidaNoche"]/6),2)) + "\n")
-        f.write("\n" + "*****DATOS GLOBALES*****" + "\n")
-        f.write("Total Operaciones Aéreas: " + str(turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"]) + "\n")
-        f.write("Media Operaciones Aéreas: " + str(round(((turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"])/turnos["dias"]),2)) + "\n")
-        f.write("Total Aeronaves Simuladas: " + str(Aeronave.totalAeronaves) + "\n")
-        f.write("Total Pasajeros: " + str(Aeronave.totalPasajeros) + "\n")
-        f.write("Media de Pasajeros por Aeronave: " + str(round((Aeronave.totalPasajeros/Aeronave.totalAeronaves),2)) + "\n")
-        f.write("Media Tiempo Ciclo Completo Aeronaves: " + str(int(aeronaves["AeronavesCicloCompletoContadorTiempo"]/aeronaves["AeronavesCicloCompletoContador"])) + " minutos \n")
+def resultados(turnos,aeronaves,resultados,semilla,i):
+     resultados.append({
+          "Prueba": i + 1,
+          "Semilla": semilla,
+          "TotalOperacionesAereas": turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"],
+          "MediaOperacionesAereas": round(((turnos["Madrugada"] + turnos["Mañana"] + turnos["Tarde"] + turnos["Noche"])/turnos["dias"]),2),
+          "AeronavesTotales": Aeronave.totalAeronaves,
+          "PasajerosTotales": Aeronave.totalPasajeros,
+          "MediaPasajerosAeronave": round((Aeronave.totalPasajeros/Aeronave.totalAeronaves),2),
+          "MediaTiempoCicloAeronaves": int(aeronaves["AeronavesCicloCompletoContadorTiempo"]/aeronaves["AeronavesCicloCompletoContador"]),
+          "TotalMadrugada": turnos["Madrugada"],
+          "MediaMadrugada":round((turnos["Madrugada"]/turnos["dias"]),2),
+          "TasaLlegadaMadrugadaλ_h": round((turnos["Madrugada"]/6),2),
+          "TasaSalidaMadrugadaλ_h": round((turnos["SalidaMadrugada"]/6),2),
+          "TotalMañana": turnos["Mañana"],
+          "MediaMañana":round((turnos["Mañana"]/turnos["dias"]),2),
+          "TasaLlegadaMañanaλ_h": round((turnos["Mañana"]/6),2),
+          "TasaSalidaMañanaλ_h": round((turnos["SalidaMañana"]/6),2),
+          "TotalTarde": turnos["Tarde"],
+          "MediaTarde":round((turnos["Tarde"]/turnos["dias"]),2),
+          "TasaLlegadaTardeλ_h": round((turnos["Tarde"]/6),2),
+          "TasaSalidaTardeλ_h": round((turnos["SalidaTarde"]/6),2),
+          "TotalNoche": turnos["Noche"],
+          "MediaNoche":round((turnos["Noche"]/turnos["dias"]),2),
+          "TasaLlegadaNocheλ_h": round((turnos["Noche"]/6),2),
+          "TasaSalidaNocheλ_h": round((turnos["SalidaNoche"]/6),2),
+
+     })
+
+def resDataset(listaResultados):
+     dataset = pd.DataFrame(listaResultados)
+     dataset.to_csv("../csv/resultados.csv",index=False,sep=',',decimal=',')
+     print("FIN EXPERIMENTO")
+
 
 ##########################################Funciones Auxiliares##########################################
 
@@ -81,7 +88,7 @@ def inputDatos(pregunta,default,min,max):
                if min <= res <= max:
                     return res
                else:
-                    print("El numero no esta entre {min} - {max}")
+                    print(f"El numero no esta entre {min} - {max}")
 
 def inputTurnos(pregunta,default):
     turnos = f"{pregunta} [MADRUGADA|Mañana|Tarde|Noche] : "
