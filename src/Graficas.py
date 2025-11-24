@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import matplotlib.dates as mdates
+import numpy as ran
 
 def generadorGraficas():
     EJEX   = "Reloj"
@@ -56,3 +57,21 @@ def generadorGraficas():
     sns.stripplot(data=dataBoxPlot,x="Turno",y="Operaciones Aereas",color="black",size=2,alpha=0.3)
     plt.title("Operaciones Totales por Turno")
     plt.savefig("../graficosfinales/OperacionesTotalesTurno",dpi = 300)
+
+    listaTiempo = []
+    tiempoCiclo = datasetRes["MediaTiempoCicloAeronaves"]
+    for _ in range(1000):
+        muestra = ran.random.choice(tiempoCiclo.values,size = len(tiempoCiclo),replace = True)
+        listaTiempo.append(ran.mean(muestra))
+    icMin = ran.percentile(listaTiempo,2.5)
+    icMax = ran.percentile(listaTiempo,97.5)
+    media = ran.mean(tiempoCiclo)
+    plt.figure(figsize=(10,6))
+    sns.histplot(listaTiempo,kde=True,color="skyblue",bins=30,edgecolor = "white")
+    plt.axvline(icMin,color="black",linestyle= '--',label = "IC 2.5%")
+    plt.axvline(icMax,color="black",linestyle= '--',label = "IC 97.5%")
+    plt.axvline(media,color="red",linewidth = 2,label = "Media")
+    plt.title("Estimacion Bootstrap")
+    plt.xlabel("Tiempo Medio (Minutos)")
+    plt.ylabel("Frecuencia")
+    plt.savefig("../graficosfinales/MediaBootstrap.png",dpi=300)
