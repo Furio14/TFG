@@ -48,15 +48,9 @@ def generadorGraficas():
     #plt.show()
 
     #########################################Graficas Resultados#########################################
-    plt.figure(figsize=(10,6))
-    cols = ["TotalMadrugada","TotalMañana","TotalTarde","TotalNoche"]
-    dataBoxPlot = datasetRes.melt(value_vars=cols,var_name="Turno",value_name="Operaciones Aereas")
-    dataBoxPlot["Turno"] = dataBoxPlot["Turno"].str.replace("Total","")
-
-    sns.boxplot(data=dataBoxPlot,x="Turno",y="Operaciones Aereas",hue="Turno",legend=False,palette="Set2")
-    sns.stripplot(data=dataBoxPlot,x="Turno",y="Operaciones Aereas",color="black",size=2,alpha=0.3)
-    plt.title("Operaciones Totales por Turno")
-    plt.savefig("../graficosfinales/OperacionesTotalesTurno",dpi = 300)
+    graficasBoxPlot(["TotalMadrugada","TotalMañana","TotalTarde","TotalNoche"],datasetRes,"Total","Operaiones Aereas")
+    graficasBoxPlot(["TasaLlegadaMadrugada","TasaLlegadaMañana","TasaLlegadaTarde","TasaLlegadaNoche"],datasetRes,"TasaLlegada","Tasa Llegadas")
+    graficasBoxPlot(["TasaSalidaMadrugada","TasaSalidaMañana","TasaSalidaTarde","TasaSalidaNoche"],datasetRes,"TasaSalida","Tasa Salidas")
 
     listaTiempo = []
     tiempoCiclo = datasetRes["MediaTiempoCicloAeronaves"]
@@ -75,3 +69,13 @@ def generadorGraficas():
     plt.xlabel("Tiempo Medio (Minutos)")
     plt.ylabel("Frecuencia")
     plt.savefig("../graficosfinales/MediaBootstrap.png",dpi=300)
+
+def graficasBoxPlot(cols,dataset,mode,name):
+    plt.figure(figsize=(10,6))
+    dataBoxPlot = dataset.melt(value_vars=cols,var_name="Turno",value_name=name)
+    dataBoxPlot["Turno"] = dataBoxPlot["Turno"].str.replace(mode,"")
+
+    sns.boxplot(data=dataBoxPlot,x="Turno",y=name,hue="Turno",legend=False,palette="Set2")
+    sns.stripplot(data=dataBoxPlot,x="Turno",y=name,color="black",size=2,alpha=0.3)
+    plt.title(f"{name} por Turno")
+    plt.savefig(f"../graficosfinales/{mode}PorTurno",dpi = 300)
