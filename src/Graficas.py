@@ -13,7 +13,7 @@ def generadorGraficas():
 
     datasetLog = pd.read_csv("../csv/log.csv")
     datasetLog["Reloj_dt"] = pd.to_datetime(datasetLog[EJEX], format='%H:%M')
-    datasetRes = pd.read_csv("../csv/resultados.csv")
+    datasetRes = pd.read_csv("../csv/resultados.csv",sep = ',',decimal = ',',thousands = '.')
 
     #########################################Graficas Log#########################################
     plt.figure(figsize=(12,6))
@@ -48,7 +48,7 @@ def generadorGraficas():
     #plt.show()
 
     #########################################Graficas Resultados#########################################
-    graficasBoxPlot(["TotalMadrugada","TotalMañana","TotalTarde","TotalNoche"],datasetRes,"Total","Operaiones Aereas")
+    graficasBoxPlot(["TotalMadrugada","TotalMañana","TotalTarde","TotalNoche"],datasetRes,"Total","Operaciones Aereas")
     graficasBoxPlot(["TasaLlegadaMadrugada","TasaLlegadaMañana","TasaLlegadaTarde","TasaLlegadaNoche"],datasetRes,"TasaLlegada","Tasa Llegadas")
     graficasBoxPlot(["TasaSalidaMadrugada","TasaSalidaMañana","TasaSalidaTarde","TasaSalidaNoche"],datasetRes,"TasaSalida","Tasa Salidas")
 

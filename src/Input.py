@@ -25,7 +25,7 @@ def parametrosIniciales():
             #HORAS
             hora = int(horas) * 60 + retraso
 
-            iteraciones = inputDatos("Cuantas iteraciones quieres realizar con estos params?",25,5,33)
+            iteraciones = inputDatos("Cuantas iteraciones quieres realizar con estos params?",50,50,70)
 
         except ValueError as e:
                 print("Error",e)
@@ -72,6 +72,19 @@ def resultados(turnos,aeronaves,resultados,semilla,i):
 def resDataset(listaResultados):
      dataset = pd.DataFrame(listaResultados)
      dataset.to_csv("../csv/resultados.csv",index=False,sep=',',decimal=',')
+     analisis = [
+        "TotalOperacionesAereas",
+        "MediaTiempoCicloAeronaves",
+        "TotalMadrugada",
+        "TotalMañana",
+        "TotalTarde",
+        "TotalNoche"
+     ]
+     datasetEstadisticas = dataset[analisis].agg(['mean','min','max','std','var'])
+     datasetEstadisticas.index = ["Media","Minimo","Maximo","DesviacionTipica","Varianza"]
+     datasetEstadisticas.index.name = "Metricas"
+     datasetEstadisticas = datasetEstadisticas.round(2)
+     datasetEstadisticas.to_csv("../csv/estadisticas.csv",sep=",",decimal=",")
      print("FIN EXPERIMENTO")
 
 
