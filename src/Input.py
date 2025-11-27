@@ -14,7 +14,7 @@ def parametrosIniciales():
             horas = inputDatos("Cuantas horas quieres simular?",24,0,420)
                 
             #VUELOS
-            vuelos = inputDatos("Introduce la media de vuelos diarios : ",200,100,500)
+            vuelos = inputDatos("Introduce la media de vuelos diarios ",200,100,500)
             
             #MES
             mes = inputMeses("En que mes quieres que empiece la simulacion?","ENERO")
@@ -25,7 +25,7 @@ def parametrosIniciales():
             #HORAS
             hora = int(horas) * 60 + retraso
 
-            iteraciones = inputDatos("Cuantas iteraciones quieres realizar con estos params?",50,50,70)
+            iteraciones = inputDatos("Cuantas iteraciones quieres realizar con estos params?",50,5,70)
 
         except ValueError as e:
                 print("Error",e)
@@ -74,6 +74,7 @@ def resDataset(listaResultados):
      dataset.to_csv("../csv/resultados.csv",index=False,sep=',',decimal=',')
      analisis = [
         "TotalOperacionesAereas",
+        "PasajerosTotales",
         "MediaTiempoCicloAeronaves",
         "TotalMadrugada",
         "TotalMañana",
@@ -82,6 +83,7 @@ def resDataset(listaResultados):
      ]
      datasetEstadisticas = dataset[analisis].agg(['mean','min','max','std','var'])
      datasetEstadisticas.index = ["Media","Minimo","Maximo","DesviacionTipica","Varianza"]
+     datasetEstadisticas.loc["Varianza","PasajerosTotales"] = None
      datasetEstadisticas.index.name = "Metricas"
      datasetEstadisticas = datasetEstadisticas.round(2)
      datasetEstadisticas.to_csv("../csv/estadisticas.csv",sep=",",decimal=",")

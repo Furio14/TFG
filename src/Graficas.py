@@ -14,19 +14,14 @@ def generadorGraficas():
     datasetLog = pd.read_csv("../csv/log.csv")
     datasetLog["Reloj_dt"] = pd.to_datetime(datasetLog[EJEX], format='%H:%M')
     datasetRes = pd.read_csv("../csv/resultados.csv",sep = ',',decimal = ',',thousands = '.')
-
     #########################################Graficas Log#########################################
     plt.figure(figsize=(12,6))
-
     sns.lineplot(data=datasetLog,x="Reloj_dt",y=EJEY,color="red", linewidth=1.5)
     sns.despine(offset=10, trim=False)
-
     plt.grid(axis='y', linestyle='--', alpha=0.6)
-
     plt.title("Evolución de la Cola de Aterrizaje", weight='bold', pad=20) 
     plt.xlabel("Hora del día", labelpad=10)
     plt.ylabel("Nº Aeronaves", labelpad=10)
-
 
     ax = plt.gca()
     base_date = datasetLog["Reloj_dt"].iloc[0].date()
@@ -52,23 +47,23 @@ def generadorGraficas():
     graficasBoxPlot(["TasaLlegadaMadrugada","TasaLlegadaMañana","TasaLlegadaTarde","TasaLlegadaNoche"],datasetRes,"TasaLlegada","Tasa Llegadas")
     graficasBoxPlot(["TasaSalidaMadrugada","TasaSalidaMañana","TasaSalidaTarde","TasaSalidaNoche"],datasetRes,"TasaSalida","Tasa Salidas")
 
-    listaTiempo = []
-    tiempoCiclo = datasetRes["MediaTiempoCicloAeronaves"]
-    for _ in range(1000):
-        muestra = ran.random.choice(tiempoCiclo.values,size = len(tiempoCiclo),replace = True)
-        listaTiempo.append(ran.mean(muestra))
-    icMin = ran.percentile(listaTiempo,2.5)
-    icMax = ran.percentile(listaTiempo,97.5)
-    media = ran.mean(tiempoCiclo)
-    plt.figure(figsize=(10,6))
-    sns.histplot(listaTiempo,kde=True,color="skyblue",bins=30,edgecolor = "white")
-    plt.axvline(icMin,color="black",linestyle= '--',label = "IC 2.5%")
-    plt.axvline(icMax,color="black",linestyle= '--',label = "IC 97.5%")
-    plt.axvline(media,color="red",linewidth = 2,label = "Media")
-    plt.title("Estimacion Bootstrap")
+    graficasBootstrap(datasetRes,"MediaTiempoCicloAeronaves")
+    plt.title("Estimacion Tiempo Media Aeronaves")
     plt.xlabel("Tiempo Medio (Minutos)")
     plt.ylabel("Frecuencia")
     plt.savefig("../graficosfinales/MediaBootstrap.png",dpi=300)
+    graficasBootstrap(datasetRes,"MediaPasajerosAeronave")
+    plt.title("Estimacion Media Pasajeros por Aeronave")
+    plt.xlabel("Numero Medio de Pasajeros")
+    plt.ylabel("Frecuencia")
+    plt.savefig("../graficosfinales/MediaPasajeros.png",dpi=300)
+
+    plt.figure(figsize=(10,6))
+    sns.regplot(data=datasetRes,x="TotalOperacionesAereas",y="MediaTiempoCicloAeronaves",scatter_kws={'alpha':0.5},line_kws={'color':'black'})
+    plt.title("Operaciones Aereas vs Eficiencia")
+    plt.xlabel("Número diario de Operaciones Aereas")
+    plt.ylabel("Tiempo Medio De Ciclo (Minutos)")
+    plt.savefig("../graficosfinales/Regresion.png")
 
 def graficasBoxPlot(cols,dataset,mode,name):
     plt.figure(figsize=(10,6))
@@ -79,3 +74,18 @@ def graficasBoxPlot(cols,dataset,mode,name):
     sns.stripplot(data=dataBoxPlot,x="Turno",y=name,color="black",size=2,alpha=0.3)
     plt.title(f"{name} por Turno")
     plt.savefig(f"../graficosfinales/{mode}PorTurno",dpi = 300)
+
+def graficasBootstrap(datasetRes,mode):
+    lista = []
+    parametro = datasetRes[mode]
+    for _ in range(1000): #bootstrap
+        muestra = ran.random.choice(parametro.values,size = len(parametro),replace = True)
+        lista.append(ran.mean(muestra))
+    icMin = ran.percentile(lista,2.5)
+    icMax = ran.percentile(lista,97.5)
+    media = ran.mean(parametro)
+    plt.figure(figsize=(10,6))
+    sns.histplot(lista,kde=True,color="skyblue",bins=30,edgecolor = "white")
+    plt.axvline(icMin,color="black",linestyle= '--',label = "IC 2.5%")
+    plt.axvline(icMax,color="black",linestyle= '--',label = "IC 97.5%")
+    plt.axvline(media,color="red",linewidth = 2,label = "Media")

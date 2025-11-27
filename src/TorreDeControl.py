@@ -146,6 +146,8 @@ def aeronaveSalida(evento,avion):
     avion.horaProgramadaSalida = avion.horaSalida # lahora programa es igual que la d salida nueva
     return avion
 
+###################################FUNCIONES AUXILIARES###################################
+
 # El tiempo actual del evento en formato horas (xx:xx)
 def tiempoEvento(evento):
     hora,min = funcMin(int(evento))
