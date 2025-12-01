@@ -11,7 +11,7 @@ from FactoresExternos import *
 def parametrosIniciales():
         try:
             #HORAS
-            horas = inputDatos("Cuantas horas quieres simular?",24,0,420)
+            horas = inputDatos("Cuantas horas quieres simular?",24,0,168)
                 
             #VUELOS
             vuelos = inputDatos("Introduce la media de vuelos diarios ",200,100,500)
@@ -25,7 +25,7 @@ def parametrosIniciales():
             #HORAS
             hora = int(horas) * 60 + retraso
 
-            iteraciones = inputDatos("Cuantas iteraciones quieres realizar con estos params?",50,5,70)
+            iteraciones = inputDatos("Cuantas iteraciones quieres realizar con estos params?",50,1,70)
 
         except ValueError as e:
                 print("Error",e)

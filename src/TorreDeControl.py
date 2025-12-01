@@ -65,15 +65,14 @@ def controlAterrizajes(evento,pista,colaAterrizajes,colaEstacionados,estadoClima
 def controlEstacionados(evento,parking,colaEstacionados,colaSalidas,estadoClima,mes,aeronaves):
     if colaEstacionados:
         estacionado = yield colaEstacionados.get()
-        req = parking.request()
-        # si hay request de estacionar
-        yield req
+        gates = yield parking.get()
         tiempoHastaEstacionamiento = int(random.triangular(5.0,15.0,mode=10.0))
         yield evento.timeout(tiempoHastaEstacionamiento)
+        estacionado.gate = gates
         estacionado.horaEstacionado = tiempoEvento(evento.now)
         aeronaves["AeronavesEstacionados"] += 1
         estacionado.infoEstacionado(evento,estadoClima,mes,aeronaves)
-        estacionado.ticketParking = req
+        estacionado.ticketParking = gates
         yield colaSalidas.put(estacionado)
     else:
         yield evento.timeout(0.1)
@@ -90,7 +89,7 @@ def controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima,mes,aero
             tiempoProgramado = horaProgramada*60 + minProgramado
             tiempoActual = int(evento.now) % 1440
             tiempo = tiempoProgramado - tiempoActual
-            if tiempo < -720:
+            if tiempo < -720: #en caso de que se resetee el día
                 tiempo += 1440
             tiempoEspera = max(0,tiempo) 
             yield evento.timeout(tiempoEspera)
@@ -106,7 +105,7 @@ def controlDespegues(evento,parking,pista,colaDespegues,estadoClima,mes,turnos,a
         with pista.request() as request: #hace request por si no hay ningún avión en la pista
             yield request
             if(hasattr(avion,'ticketParking')):
-                parking.release(avion.ticketParking)
+                yield parking.put(avion.gate)
                 del avion.ticketParking
             tiempoDespegando = random.uniform(1.0,3.0)
             aeronaves["AeronavesEstacionados"] -= 1
@@ -197,7 +196,6 @@ def controlTurnosSalidas(hora,turnos):
 # Si la simulacion dura +24 horas se calculan los dias de la simulacion
 def controlHorario(evento,turnos,retraso):
     if evento.now - retraso > 1440 * turnos["dias"]:
-        print(evento.now)
         turnos["dias"] += 1
             
         
