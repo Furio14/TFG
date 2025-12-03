@@ -1,0 +1,709 @@
+\chapter{Prototipo 1º}
+Este capítulo presenta el Prototipo 1, la primera implementación funcional del simulador de eventos basado en tiempos discretos. El objetivo de este prototipo es validar la arquitectura básica del código y la gestión de recursos usando Simpy.
+\\
+\\
+Como prototipo inicial, esta versión cuenta con una serie de simplificaciones.  El propósito de este apartado es realizar un análisis crítico de su estado actual, identificando el alcance y sus limitaciones.
+\section{Definición de los Límites del Prototipo}
+Tras establecer en el capítulo anterior el modelo empírico descriptivo que describe el funcionamiento real de las operaciones aeroportuarias, resulta necesario delimitar que elementos serán incluidos y cuáles quedarán fuera del prototipo de simulación.
+\\
+\\
+El objetivo de esta sección es acotar el alcance del modelo, indicando que procesos del sistema aeroportuario serán representados. Esta delimitación permite garantizar una coherencia con la realidad observada, evitando complejidades innecesarias y centrándose en los componentes críticos de la simulación.
+\subsection{Componentes Incluidos en el Prototipo}
+Para este prototipo inicial, se han seleccionado los elementos más críticos del modelo empírico descriptivo. Estos componentes no representan al aeropuerto en su totalidad, más bien, representan sus características fundamentales para simular de forma realista los principales cuellos de botella del sistema.
+
+\textbf{Variables de Estado: } Se ha implementado el conjunto completo de las variables de estado mencionadas anteriormente en el modelo empírico descriptivo
+\\
+\\
+\textbf{Aeronaves: } Este prototipo se centra solo en aeronaves comerciales, ya que estas constituyen el 99.79\% de las operaciones aéreas del aeropuerto
+\\
+\\
+\textbf{Pistas: } Se ha modelado un sistema de pistas, compuesto por una pista dedicada al aterrizaje y otra al despegue. Ambos son recursos únicos con capacidad unitaria, ya que solo se puede realizar una operación en dicha pista a la vez. Ambas pistas tienen una cola finita para poder aterrizar, con una capacidad máxima de  10 aviones por pista.
+\\
+\\
+\textbf{Parking: } Se ha implementado la zona de estacionamiento de aeronaves como un recurso central. Se modela como un almacén con capacidad máxima finita de 50 aeronaves.
+\\
+\\
+\textbf{Sistemas Auxiliares: } No se han implementado como procesos independientes. Sin embargo, su impacto en la simulación si se ha modelado. Este efecto se ha implementado en una variable que afecta el retraso estocástico que se añade al tiempo de estacionamiento de la aeronave.
+\subsection{Componentes Excluidos en el Prototipo}
+Para mantener el enfoque de este prototipo inicial,varios sistemas complejos del modelo empírico han sido excluidos.
+\\
+\\
+\textbf{Procesos de Terminal: } En línea con lo dicho anteriormente, todos los procesos internos de la terminal quedan fuera del alcance de este prototipo.
+\\
+\\
+\textbf{Gestión de instalaciones: } En este prototipo se han excluido ciertas funciones de la gestión de instalaciones, como la avería de las instalaciones, la limpieza y el transporte de equipaje.
+ 
+
+\section{Modelo Matemático}
+Para representar cuantitativamente las operaciones del aeropuerto y poder analizar su rendimiento, se ha desarrollado un modelo matemático basado en la \textbf{\textit{teoría de colas}} \cite{DES}. Este enfoque permite describir el flujo aeroportuario a través del sistema.
+
+\subsection{Modelado Temporal del Flujo de Llegada}
+Para ofrecer una visión más clara del modelo, en este apartado se presenta un diagrama que ilustra las variables y su interacción, mostrando de manera detallada cómo funciona la operación de aterrizaje dentro del modelo de simulación \cite{DiscreteSimulation}.
+\begin{itemize}
+    \item $l_i$ representa el momento exacto en el que la aeronave llega a la cola.
+    \item $r_i$ es el tiempo (retraso) que espera la aeronave en la cola antes de ser atendida.
+    \item $b_i$ es el momento en el que llega la aeronave, $b_i = l_i + r_i$.
+    \item $s_i$ es el tiempo que tarda el servicio, $s_i > 0$.
+    \item $e_i$ es el tiempo de espera total desde que la aeronave entra en la cola hasta que el avión aterriza, $e_i = r_i + s_i$.
+    \item $t_i$ es el tiempo exacto en el que la aeronave aterriza.
+\end{itemize}
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+        \coordinate (li) at (0,0);
+        \coordinate (bi) at (4,0);
+        \coordinate (ti) at (6,0);
+        \coordinate (fin) at (7.5,0);
+        \draw [-{Latex[length=3mm]}] (li) -- (fin) node[right] {tiempo};
+        \draw (li) -- +(0, 0.1);
+        \draw (bi) -- +(0, 0.1);
+        \draw (ti) -- +(0, 0.1);
+        \node [below=2pt] at (li) {$l_i$};
+        \node [below=2pt] at (bi) {$b_i$};
+        \node [below=2pt] at (ti) {$t_i$};
+        \draw [|-|] ($(li)+(0,0.5)$) -- ($(bi)+(0,0.5)$) node[midway, above] {$r_i$};
+        \draw [|-|] ($(bi)+(0,0.5)$) -- ($(ti)+(0,0.5)$) node[midway, above] {$s_i$};
+        \draw [|-|] ($(li)+(0,1)$) -- ($(ti)+(0,1)$) node[midway, above] {$e_i$};
+    \end{tikzpicture}
+    \caption{Diagrama del flujo de llegada}
+    \label{fig:placeholder}
+\end{figure}
+
+\subsection{Modelado del Proceso de Llegadas}
+En el primer subsistema, las llegadas de aeronaves siguen un proceso de Poisson:
+\\
+\[
+Pt(n) = \frac{(\lambda T)^n e^{-\lambda T}}{n!}
+\]
+\\
+donde $\lambda$ es la tasa de llegada, que representa la aleatoriedad del tráfico aéreo entrante. Los tiempos de servicio se modelan mediante una distribución exponencial, considerando la pista de aterrizaje como un único servidor.
+\\
+\\
+Una vez finalizado el aterrizaje, la aeronave pasa a una fase de estacionamiento, donde permanece un tiempo determinado (\textit{Testacionamiento}) antes de generar una nueva solicitud de despegue.
+
+\subsection{Modelado Temporal del Flujo de Salidas}
+El mismo modelo temporal descrito en la Figura 3.1 y las variables asociadas ($l_i,r_i,b_i,s_i,e_i,t_i$) se aplican análogamente al proceso de salida. En este caso $l_i$ representa el instante en que la aeronave entra en la cola de despegue, $r_i$ la espera en la cola, $s_i$ la duración del despegue de la aeronave, y $t_i$ el momento en el que la aeronave termina de despegar. 
+
+\subsection{Modelado del sistema de salidas}
+En el segundo subsistema, la pista de despegue actúa como servidor único en este proceso y se modela con tiempos de servicio exponenciales:
+\[
+Tdespegue = TfinDespegue-TinicioDespegue
+\]
+Este tiempo se modela mediante una distribución exponencial:
+\[
+Tdespegue \sim Exp(\mu d)
+\]
+Siendo $\mu$ la tasa de servicio de despegue.
+\subsection{Modelado de los Tiempos de Servicio}
+Los tiempos de servicio, tanto de aterrizaje como de despegue, se representarán mediante una distribución exponencial con parámetro \textit{$\mu$}, correspondiente a la tasa de servicio:
+\\
+\[
+Tservicio = ue^{-ut}, t\ge0
+\]
+\\
+Este enfoque permite representar la interdependencia de las llegadas y salidas. También nos ayuda a analizar el tiempo medio de espera, la utilización de pistas y el flujo del aeropuerto.
+\\
+\\
+El tiempo total de operación de una aeronave se obtiene como la suma de los tiempos aleatorios en cada fase:
+\\
+\[
+Ttotal = Tllegada + Tespera + Tservicio + Testacionamiento + Tdespegue
+\]
+
+Siendo el tiempo de espera:
+\[
+Tespera = T_{\text{inicio servicio}} - T_{\text{llegada sistema}}
+\]
+\\
+Y el tiempo de estacionamiento:
+\[
+Testacionamiento = T_{\text{inicio despegue}} - T_{\text{fin aterrizaje($t_i$)}}
+\]
+\\
+O también se puede entender el tiempo total de operación de una aeronave como:
+\[
+Ttotal = Hdespegue(minutos) - Hllegada(minutos)
+\]
+\\
+El tiempo total de ciclo de cada aeronave nos ayudará a identificar si han existido cuellos de botella, según el tiempo que tarden las aeronaves en completar el ciclo completo.
+\subsection{Grafo de Conexiones de Aeropuertos}
+La operatividad del aeropuerto simulado se modela mediante un grafo de conexiones $G(V,E)$, siendo $V$ los vértices que representan el conjunto de aeropuertos, compuesto por el nodo central y los nodos periféricos, y $E$ las aristas que representan las rutas aéreas directas a esos vértices.
+\\
+\\
+Como se observa en la Figura 4.2, el sistema sigue un modelo \textit{Hub And Spoke}, donde todas las operaciones de llegada y salida tienen como origen o destino el aeropuerto principal de la simulación.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.6]{portada/grafo.png}
+    \caption{Grafo Centralizado de Conexiones}
+\end{figure}
+
+\subsection{Influencia de Factores Externos}
+Hay que tener en cuenta los retrasos en las operaciones aeroportuarias, ya que el aterrizaje y el despegue están sujetos a la influencia de factores externos entre los que destacan:
+
+\begin{itemize}
+    \item \textbf{Meteorología:}
+    \\\\
+ El clima influye directamente en los tiempos de maniobra y flujo de las operaciones \cite{Meteorologia}. Este factor externo se modela no como un agente, sino como una variable de estado global que modifica los parámetros clave del modelo matemático.
+ \\
+ \\
+ Dado que las condiciones meteorológicas no son uniformes a lo largo del año, el modelo incorpora la estacionalidad como un factor determinante. Para representar esto, se han definido diferentes estados climáticos, cuya frecuencia varía según la estación del año.
+ \\
+ \\
+    \item \textbf{Flujo de pasajeros:}
+    \\\\
+    Influye la cantidad de pasajeros que hay en el aeropuerto, ya que puede provocar retrasos o no. Esta demanda no se considera un valor constante, sino que presenta una fuerte variabilidad temporal, como se puede observar en los datos empíricos de Aena \cite{Aena}. En la teoría de colas, esta variabilidad se describe como un \textit{Proceso de Poisson No Homogéneo}, donde la tasa media de llegadas $\lambda$ no es fija, sino que varía en función del tiempo $\lambda(t)$.
+    \item \textbf{Servicios auxiliares:}
+    \\\\
+    Influye el manejo de las operaciones de apoyo, como puede ser el desembarque de pasajeros o la preparación de aeronaves para próximos vuelos.  A diferencia de los tiempos de servicio en pista, los servicios auxiliares no pueden modelarse con una distribución Exponencial, ya que esta distribución asume que el tiempo de servicio más probable es cero.
+    \\
+    \\
+    Por este motivo, los tiempos de los servicios auxiliares se modelan siguiendo una distribución Normal, ya que a diferencia de otras fórmulas, la Normal es apropiada porque su probabilidad de generar tiempos cercanos a cero es prácticamente nula. Este modelo también refleja adecuadamente que la mayoría de las operaciones tardarán un tiempo similar, agrupándose en torno a una media y a una variabilidad controlada simulando así de forma realista las desviaciones:
+    \[
+    f(t) = \frac{1}{\sigma \sqrt{2\pi}}e^{\frac{-1}{2}(\frac{t-\mu}{\sigma})^2}
+    \]
+    Donde $t$ representa el tiempo de servicio, es decir, la duración aleatoria que se está calculando en el modelo. El parámetro $\mu$ corresponde a la media de distribución y refleja el tiempo medio esperado que duran los servicios auxiliares. Por su parte, $\sigma$ representa la desviación estándar, que mide la variabilidad de los tiempos de servicio respecto a la media.
+    
+\end{itemize}
+\section{Modelo Computacional}
+Para trasladar el modelo matemático y empírico a una simulación, se ha desarrollado un modelo computacional que define las entidades, parámetros y procesos necesarios para reproducir el funcionamiento del aeropuerto. Este modelo establece como avanzan los eventos en el tiempo y como interactúan los distintos elementos de la simulación.
+
+\subsection{Diseño del Simulador}
+En esta sección se describe con detalle el diseño del simulador desarrollado para el prototipo, incluyendo la estructura general del sistema y los principales elementos que lo componen. 
+\subsubsection{Entidades}
+El sistema está constituido por un conjunto de entidades que representan los componentes esenciales de las operaciones aeroportuarias.
+\\
+\\
+En primer lugar, el aeropuerto actúa como entidad principal y engloba al resto. Todo lo que ocurre en la simulación sucede dentro de este entorno, por lo que constituye la estructura central del sistema.
+\\
+\\
+La entidad aeronave es fundamental, ya que son las que dan sentido a la operación del aeropuerto. Cada aeronave contiene una serie de parámetros y estados, los cuales se detallan posteriormente en el apartado dedicado a las estructuras de datos.
+\\
+\\
+También se incluyen las pistas, un componente esencial para el flujo de operaciones. En este prototipo se trabaja con dos, una destinada a los aterrizajes y otra a los despegues. En función de la media de aviones introducida en el sistema, estas pistas pueden congestionarse o funcionar con normalidad. Este comportamiento permite analizar el rendimiento del aeropuerto en situaciones de alta o baja demanda.
+\\
+\\
+Asimismo, el simulador incluye la zona de estacionamiento, que conecta las operaciones de llegada con las de salida. Su capacidad es limitada y, en escenarios de alta ocupación, puede saturarse, lo que genera retrasos significativos. Además, en esta zona se llevan a cabo los servicios auxiliares mientras la aeronave permanece en tierra y se prepara su salida programada.
+\\
+\\
+Por último, el sistema incorpora un reloj de simulación que controla el avance del tiempo discreto en los eventos y determina el orden cronológico de todas las operaciones. Es importante destacar que el reloj es esencial para el seguimiento temporal y la ejecución correcta de cada evento.
+\subsubsection{Eventos}
+Además del diseño estructural del simulador, es esencial describir también el comportamiento del sistema.
+\\
+\\
+A continuación, se presenta un diagrama visual que representa el flujo general de eventos en el aeropuerto y cómo las aeronaves transitan entre los distintos estados operativos:
+\\
+\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{portada/CicloAeronaves.png}
+    \caption{Diagrama Ciclo de las Aeronaves}
+\end{figure}
+
+Como se puede apreciar en el diagrama, el sistema se articula a través de un total de cinco eventos principales que determinan el comportamiento del simulador.
+\\
+\\
+En el primer evento, las aeronaves solicitan su entrada en la cola de llegadas con el fin de obtener permiso para aterrizar. Cuando se concede dicho permiso, se inicia el segundo evento, en el cual la aeronave realiza el aterrizaje y avanza hacia el tercer estado, el estacionamiento.
+\\
+\\
+Una vez en la zona de estacionamiento, la aeronave permanece allí durante el tiempo que necesite o que el sistema le permita, pudiendo producirse cuellos de botella asociados a la disponibilidad de plazas o al flujo de operaciones. Cuando la aeronave ha finalizado sus tareas en tierra y está lista para partir, se activa el cuarto evento, en el que se solicita autorización para iniciar la secuencia de salida.
+\\
+\\
+Finalmente, cuando la pista de despegue se encuentra disponible y se le concede el permiso correspondiente, se ejecuta el quinto evento, el despegue. En este evento, la aeronave abandona el aeropuerto y concluye su tiempo de ciclo.
+
+\subsubsection{Conexiones Aeroportuarias}
+
+Para modelar las conexiones entre distintos aeropuertos, se ha construido un dataset que incluye ciudades de diferentes continentes, así como varias ciudades dentro de España.
+
+\subsection{Estructura de Datos}
+Para la gestión eficiente del sistema durante la simulación, se han definido estructuras de datos que permiten el seguimiento de cada operación mientras transcurre la simulación.
+
+Este modelo de datos se articula en torno a las entidades activas (aeronaves) y los recursos compartidos:
+\subsubsection{Aeronaves}
+Las entidades modeladas como objetos que guardan información importante mientras se mueven por el sistema están compuestas por:
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|r|c|l|}
+        \hline
+        Atributo & Tipo & Ejemplo\\
+        \hline
+        ID & String & "L372"\\
+        IDVuelo & String & "IB936"\\
+        Estado & String & "Despegando"\\
+        Pasajeros & int & 197\\
+        Origen & String & "Beijing"\\
+        Destino & String & "Madrid"\\
+        HoraSalidaOrigen & String & "07:05"\\
+        HoraProgrLlegadaDestino & String & "15:10"\\
+        HoraLlegadaDestino & String & "15:20"\\
+        HoraEstacionamiento & String & "15:27"\\
+        HoraProgramadaSalida & String & "17:45"\\
+        HoraDespegue & String & "17:58"\\
+        TiempoCicloAeronave & String & "03:38"\\
+        Mes & String & "FEBRERO"\\
+        Clima & String & "Soleado"\\
+        \hline
+    \end{tabular}
+    \caption{Estructura de datos de las aeronaves}
+    \label{tab:EDA}
+\end{table}
+\subsubsection{Recursos del Aeropuerto}
+Las estructuras de datos proporcionadas por la librería simpy para gestionar la concurrencia y las colas:
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        Atributo & Tipo & Capacidad \\
+        \hline
+        PistaAterrizaje & simpy.Resource & 1\\
+        PistaDespegue & simpy.Resource & 1\\
+        Parking & simpy.Resource & 50\\
+        ColaAterrizajes & simpy.Store & 10\\
+        ColaDespegues & simpy.Store & 10\\
+        ColaEstacionados & simpy.Store & 50\\
+        ColaSalidas & simpy.Store & 1\\
+        \hline
+    \end{tabular}
+    \caption{Estructura de datos de los recursos}
+    \label{tab:EDR}
+\end{table}
+Los recursos creados con simpy.Resource funcionan como servidores que regulan el paso de las aeronaves por cada estado del proceso, cada una con una capacidad limitada. Por otro lado, los elementos definidos con simpy.Store actúan como colas FIFO donde se almcenan las aeronaves junto con sus atributos, garantizando así, que se atiendan en orden. Estas colas también cuentan con un límite de capacidad para evitar la formación de cuellos de botella.
+
+\subsection{Funciones Principales de la Simulación}
+En este apartado se describe la logica del programa y las funciones principales que lo componen, es decir, aquellas que son clave para entender el funcionamiento del simulador [\ref{anexo:codigoFuente}].
+\\
+\\
+\textbf{generador(evento):} Esta función selecciona un vuelo aleatorio del dataset \textit{ciudades.csv}. A partir de esos datos genera un \textit{"ID"} e \textit{"IDVuelo"} aleatorios, obteniéndose así todos los parámetros necesarios de la aeronave. Se invoca siempre al inicio del bucle principal, siendo fundamental, ya que es la función encargada de crear las aeronaves.
+\\
+\\
+\textbf{controlAereo(params):}Esta función contiene el bucle principal de la simulación. En ella se calcula la tasa de llegadas según los parámetros introducidos por el usuario, se generan aviones mediante la función \textit{generador(evento)}  y se invoca el proceso \textit{cicloAvion(params)}, que gestiona el ciclo completo de eventos que debe  realizar cada aeronave.
+\\
+\\
+\textbf{cicloAvion(params):} Esta función gestiona la secuencia completa de eventos por los que pasa una aeronave. Los eventos se ejecutan de manera ordenada, un avión no puede avanzar al siguiente evento si no ha completado el anterior. No obstante, varias aeronaves pueden estar realizando su ciclo de manera simultánea, aportando concurrencia y aumentando el realismo de la simulación.
+\\
+\\
+Dentro de este ciclo se encuentran cinco funciones fundamentales que aseguran el correcto desarrollo de la simulación:
+\\
+\\
+\textbf{ControlLlegadas(params):} Gestiona la llegada de una aeronave a la cola de aterrizaje. Si la cola está vacía, la aeronave continúa al siguiente evento. Si esta llena, espera hasta que haya disponibilidad.
+\\
+\\
+\textbf{ControlAterrizajes(params):} Permite a la aeronave aterrizar cuando la pista está libre. En esta función se calcula el tiempo de aterrizaje y, dependiendo de las condiciones climáticas, pueden producirse retrasos. Una vez que aterriza la aeronave, se dirige al estacionamiento.
+\\
+\\
+\textbf{ControlEstacionados(params):} Gestiona el estacionamiento de las aeronaves. Si hay espacio disponible, la aeronave se estaciona y permanece allí mientras se realizan las operaciones en tierra. Al llegar la hora de salida, se solicita incorporarse a la cola de despegue.
+\\
+\\
+\textbf{ControlSalidas(params):} Maneja la espera en la cola de despegue. Si la cola está completa, la aeronave permanece en su lugar, lo que puede generar cuellos de botella. Si no está completa, espera hasta que haya disponibilidad en la pista para despegar.
+\\
+\\
+\textbf{ControlDespegues(params):} Gestiona el despegue de la aeronave. Una vez que la pista de despegue está libre, el avión despega, completando así su ciclo en el aeropuerto.
+\subsection{Párametros del Modelo}
+El comportamiento del sistema está regido por una serie de \textit{inputs} . El simulador, así, permite configurar distintos escenarios mediante la modificación de estos parámetros
+\subsubsection{Parámetros de Entrada}
+El usuario puede definir diferentes parámetros de entrada, los cuales determinan el comportamiento del simulador y afectan en su desarrollo:
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabular}{|l|c|p{7.5cm}|}
+        \hline
+        Parámetro & Valor & Descripción \\
+        \hline
+        Horas de Simulación & 0-420 (horas) & Las horas que se quieren simular\\
+        Tasa Media Vuelos & 100-500 & La tasa de vuelos que se quiere realizar\\
+        Mes & Enero-Diciembre & Mes en el que se realiza la simulación\\
+        Turno & Madrugada-Noche & Turno en el que comienza la simulación\\
+        \hline
+    \end{tabular}
+    \caption{Parámetros de Entrada}
+    \label{tab:PE}
+\end{table}
+\subsubsection{Coeficientes de Estacionalidad}
+La tasa de llegadas de la aeronave \textit{$\lambda$} no es constante, sino que varía en función de  los coeficientes de estacionalidad correspondientes a cada mes. Estos coeficientes permiten ajustar la tasa de llegadas según los cambios estacionales y son:
+\begin{table}[h!]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+    \centering
+    {\small
+    \begin{tabular}{|c|c|}
+        \hline
+        Mes & Coeficiente\\
+        \hline
+        Enero & 0.9\\
+        Febrero & 0.88\\
+        Marzo & 0.98\\
+        Abril & 0.99\\
+        Mayo & 1.04\\
+        Junio & 1.04\\
+        \hline
+    \end{tabular}
+    }
+    \label{tab:Coeficientes Mensuales Enero-Junio}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+    \centering
+    {\small
+    \begin{tabular}{|c|c|}
+        \hline
+        Mes & Coeficiente\\
+        \hline
+        Julio & 1.08\\
+        Agosto & 1.05\\
+        Septiembre & 1.04\\
+        Octubre & 1.01\\
+        Noviembre & 0.98\\
+        Diciembre & 1.02\\
+        \hline
+    \end{tabular}
+    }
+    \label{tab:Coeficientes Mensuales Julio-Diciembre}
+    \end{minipage}
+    \caption{Coeficientes Enero-Diciembre}
+\end{table}
+
+\subsubsection{Perfil Horario de Operaciones}
+El horario operativo se divide en cuatro turnos: madrugada, mañana, tarde y noche. Cada uno de ellos presenta distintos niveles de demanda tanto de aeronaves como de pasajeros, lo que permite identificar así determinadas horas pico. Para ello, con el objetivo de reproducir este comportamiento de manera realista, se ha modelado un sistema que refleja estas variaciones horarias:
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        Turno & Horario & \% del Tráfico Aéreo Diario \\
+        \hline
+        Madrugada & 00:00-06:00 & 8.13\%\\
+        Mañana & 06:00-12:00 & 27.64\%\\
+        Tarde & 12:00-18:00 & 42.28\%\\
+        Noche & 18:00-24:00 & 21.95\%\\
+        \hline
+    \end{tabular}
+    \caption{Perfil Horario de Operaciones}
+    \label{tab:PE}
+\end{table}
+
+\subsubsection{Parámetros ambientales}
+Las condiciones meteorológicas afectan a los tiempos de servicio. La probabilidad de cada estado climático depende de la estación asociada al mes seleccionado:
+\begin{table}[h!]
+    \centering
+    {\small
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        Estación & Soleado & Nublado & Lluvioso & Niebla & Tormenta\\
+        \hline
+        Invierno & 0.3 & 0.4 & 0.2 & 0.05 & 0.05\\
+        Primavera & 0.6 & 0.25 & 0.1 & 0.02& 0.05\\
+        Verano & 0.8 & 0.15 & 0.03 & 0.01 & 0.03\\
+        Otoño & 0.5 & 0.3 & 0.15 & 0.02 & 0.05\\
+        \hline
+    \end{tabular}
+    }
+    \caption{Tabla de la meteorología por estación}
+    \label{tab:Meteorología}
+\end{table}
+
+\subsection{Datos de la Simulación}
+Para realizar el análisis estadístico posterior, se implementa un sistema de trazabilidad que registra cada evento en tiempo discreto en un archivo CSV (\textit{log.csv}). A diferencia de las variables de estado teóricas descritas en el Modelo Empírico, este conjunto de datos representa la instancia física de la ejecución.
+\\
+\\
+El registro se organiza de tal forma que cada fila representa un cambio de estado en una entidad del sistema. El registro de salida incluye las siguientes variables de estado. Hay tres categorías de datos:
+\begin{itemize}
+    \item \textbf{Datos del Vuelo:} Datos que contienen la información que identifica a la aeronave y sus condiciones externas.
+    \item \textbf{Datos de tiempo:} Datos que registran el momento exacto en el que ocurre cada evento y cuanto tarda el proceso en total.
+    \item \textbf{Datos del Aeropuerto:} Datos que muestran la situación operativa en cada evento
+\end{itemize}
+
+A continuación se muestra una tabla con cada una de ellas:
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{2}
+    \begin{tabular}{|l|p{9cm}|} 
+        \hline
+        Categoría & Columnas del CSV\\
+        \hline
+        Datos del Vuelo & ID, IDVuelo, Pasajeros, Origen, Destino, Mes, Clima \\
+        Datos de Tiempo & Reloj, HoraSalidaOrigen, HoraProgramadaLlegadaDestino, HoraLlegadaDestino, HoraEstacionamiento, HoraProgramadaSalida, HoraDespegue, TiempoCicloAeronave \\
+        Datos del Aeropuerto & Estado, AeronavesEnColaLlegada, AeronavesEnEstacionamiento, AeronavesEnColaSalida \\
+        \hline
+    \end{tabular}
+    \caption{Clasificación de Datos de la Simulación}
+    \label{tab:estructura_csv_completa}
+\end{table}
+
+
+\subsection{Evolución del Código}
+El código fuente ha atravesado un proceso de evolución técnica. Se comenzo con una estructura básica y, posteriormente, se integraron reglas complejas.
+\subsubsection{Versión inicial del código}
+Para comenzar, antes de aplicar cualquier modelo matemático, se desarrolló un modelo base con el objetivo de establecer la estructura fundamental de la simulación. En este modelo, los aviones se generan de forma aleatoria mediante un generador que asigna a cada aeronave un número de identificación, un identificador de vuelo, un número aleatorio de pasajeros, el origen y destino de la aeronave, el estado de la aeronave y las horas de salida y llegada correspondientes [Listing \ref{listing:A1}].
+\\
+\\
+Los aviones ingresan progresivamente al sistema y, durante la fase de simulación, su estado se actualiza dinámicamente. La aleatoriedad del proceso se logró mediante el uso de la función \textit{random.random()} de Python \cite{random}. Además, se implementaron colas FIFO para las operaciones de aterrizaje, estacionamiento y despegue, garantizando un flujo ordenado en cada etapa.
+\\
+\\
+También se incorporó un sistema de horarios, de modo que la simulación inicia a una hora determinada y progresa temporalmente desde ese punto. Todos los aviones comienzan su ciclo en la fase de aterrizaje, es decir, no existen aeronaves estacionadas al inicio, sino que estas van ingresando gradualmente al aeropuerto.
+\\
+\\
+Las primeras clases desarrolladas fueron \textit{TorreDeControl.py}, \textit{GeneradorAeronaves.py} y \textit{Aeronaves.py} [Se encuentra en \ref{anexo:ficheros del programa}]. Esta última se encarga de imprimir la información en un archivo CSV , donde se registra la actividad de todos los vuelos simulados. Los datos generados se almacenan en un archivo log.csv, el cual puede visualizarse posteriormente en formato de tabla para su análisis.
+\begin{table}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{\small
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        ID & IDVuelo & Estado & Pasajeros & Origen & Destino & HoraSalida & HoraLlegada\\
+        \hline
+        P437 & DL761 & Llegando & 187 & Nueva York & Madrid & 00:00 & 02:39\\
+        P437 & DL761 & Aterrizaje & 187 & Nueva York & Madrid & 00:00 & 02:39\\
+        P437 &  DL761 & Estacionado & 187 & Nueva York & Madrid & 00:00 & 02:39\\
+        P437 &  DL761 & Estacionado & 187 & Nueva York & Madrid & 00:00 & 02:39\\
+        E762 &  BA715 & Llegando & 270 & Shanghai & Madrid & 22:57 & 02:45\\ 
+        E762 & BA715 & Aterrizaje & 270 & Shanghai & Madrid & 22:57 & 02:45\\
+        P437 & DL763 & Programado & 187 & Madrid & Londres & 22:02 & 03:12\\
+        E762 & BA715 & Estacionado & 270 & Shanghai & Madrid & 22:57 & 02:45\\
+        F964 & IB3 & Llegando & 286 & Nueva York & Madrid & 22:44 & 02:49\\
+        F964 & IB3 & Aterrizaje & 286 & Nueva York & Madrid & 22:44 & 02:49\\
+        P437 & DL768 & Programado & 187 & Londres & Londres & 15:00 & 16:11\\
+        F964 & IB3 & Estacionado & 286 & Nueva York & Madrid & 22:44 & 02:49\\
+        W652 & AV389 & Llegando & 258 & Shanghai & Madrid & 22:19 & 02:53\\
+        W652 & AV389 & Aterrizaje & 258 & Shanghai & Madrid & 22:19 & 02:53\\
+        E762 & BA718 & Programado & 270 & Madrid & Londres & 08:01 & 13:10\\
+        \hline
+    \end{tabular}
+    }
+    \caption{Muestra de los eventos registrados en el log}
+    \label{tab:log}
+\end{table}
+
+En esta fase, la generación de horas programadas introduce inconsistencias, ya que estos tiempos no están vinculados al reloj de la simulación \textit{evento.now}. Asimismo, faltaba implementar los tiempos de servicio aleatorios para simular realísticamente la ocupación de la pista.
+\\
+\\
+Aún así, los datos permiten visualizar claramente el comportamiento del sistema. Además, refleja la posibilidad de incorporar un dataset con información real de vuelos y horarios, de modo que los datos generados no sean aleatorios ni carezcan de sentido operativo. Para ello, se había previsto la introducción de nuevos campos para proporcionar más información, como la hora de estacionamiento, la hora programada de salida, la hora de despegue y el tiempo de ciclo de cada aeronave, lo que permitirá una simulación más coherente.
+\subsubsection{Desarrollo del prototipo funcional}
+A diferencia del código inicial, esta fase del modelo computacional implementa la lógica central de la simulación. Se introduce la gestión temporal basada en el reloj por eventos de Simpy \textit{evento.now}, asegurando que cada evento ocurra en un orden estrictamente cronológico. Para darle más realismo al modelo, se han integrado las fórmulas matemáticas discutidas previamente, como la distribución exponencial para las llegadas y la distribución normal para los servicios auxiliares. Además, se han añadido nuevas columnas de parámetros al \textit{log.csv}, como el reloj o el clima, para garantizar que todos los datos registrados sigan un orden cronológico y una lógica coherente.
+\\
+\\
+La implementación computacional se basa, en parte, en el \textit{ciclo completo del avión}, este proceso trata sobre el ciclo de vida completo de una aeronave en el aeropuerto.Se lanza una instancia de este proceso por cada avión en la función controlAéreo [Listing \ref{listing:A2}].
+\\
+\\
+El proceso \textit{cicloAvion} gestiona el ciclo de vida completo de la aeronave, el cual se compone de cinco fases lógicas: la gestión de la cola de llegada, la operación de aterrizaje, el estacionamiento, la programación de salida y el despegue [Listings \ref{listing:A3}-\ref{listing:A7}].
+\\
+\\
+Estas fases se ejecutan en un orden secuencial estricto, garantizado por el uso de \textit{yield evento.process()} para cada etapa. Está técnica de encadenamiento es fundamental, ya que asegura que cada proceso vaya en orden.
+\\
+\\
+Al mismo tiempo, esta estructura permite que el proceso \textit{cicloAvion} completo se ejecute de forma concurrente con los ciclos de las otras aeronaves. De este modo, la simulación puede gestionar múltiples aeronaves en diferentes fases sin que sus flujos lógicos interfieran entre sí.
+\\
+\\
+Además, se incluyen factores que afectan cómo se llevan a cabo de los eventos y sus resultados. Como se mencionó antes, se consideran elementos externos (\ref{listing:A8}) y horarios (\ref{listing:A9}), de manera que, según distintas circunstancias, puedan ocurrir diferentes situaciones. Esto ayuda a crear varios escenarios y a hacer la simulación mucho más completa.
+
+\section{Experimentación del Prototipo}
+El objetivo de esta sección es definir los escenarios bajo los cuales se evaluará el rendimiento del aeropuerto. Además, se define la metodología estadística necesaria para garantizar la validez de los resultados.
+\subsection{Diseño de Escenarios}
+Se han propuesto tres escenarios distintos, cada uno diseñado con parámetros específicos que permiten simular situaciones realistas y destacar los cuellos de botella de manera diferenciada.
+
+\begin{itemize}
+    \item \textbf{Escenario Base:} Representa el funcionamiento habitual del aeropuerto, con tráfico y condiciones meteorológicas normales y variables.
+    \item \textbf{Escenario de Estrés:} Simula situaciones críticas en las que el aeropuerto recibe un alto volumen de aeronaves(más de 350). Dependiendo del mes y de las condiciones meteorológicas, la situación puede calmarse o agravarse, generando retrasos durante toda la simulación.
+    \item \textbf{Escenario Adverso:} Corresponde a períodos con condiciones meteorológicas desfavorables, como los meses de invierno, que tienden a generar cuellos de botella y afectar a la operación normal del aeropuerto.
+\end{itemize}
+
+Para garantizar la validez estadística de la comparación entre escenarios y dado que el modelo incluye variables estocásticas, una única ejecución no proporciona resultados concluyentes. Por ello, para obtener una muestra representativa, se ejecuta cada escenario N veces, donde N varía entre 50 y 75 iteraciones según el input del usuario, y cada iteracion utiliza una semilla distinta, asegurando así datos más representativos y confiables.
+\subsection{Parámetros de las Simulaciones}
+En este apartado se presentarán los parametros utilizados en cada uno de los escenarios, con el fin de analizar posteriormente las diferencias entre ellos.
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|c|c|c|} 
+        \hline
+        Parámetros & Escenario Base & Escenario de Estrés & Escenario Adverso\\
+        \hline
+        Mes &  Julio & Julio & Enero\\
+        Clima & Soleado & Soleado & Nublado/Lluvioso\\
+        Tasa Tráfico & 200 operaciones & 400 operaciones & 300 operaciones\\
+        Horas Simuladas & 24h & 24h & 24h\\
+        Turno Comienzo & Madrugada & Madrugada & Madrugada\\
+        \hline
+    \end{tabular}
+    \caption{Parámetros de cada escenario}
+    \label{tab:Parámetros de los escenarios}
+\end{table}
+
+\section{Análisis de los Datos de la Simulación}
+Tras la ejecución de la fase experimental definida en la sección anterior, se ha obtenido un conjunto de datos que registra el comportamiento del sistema bajo distintas condiciones operativas. El objetivo de esta sección es realizar el análisis estadístico de dicha información para evaluar el rendimiento del simulador.
+\subsection{Análisis Descriptivo}
+La simulación de 50 iteraciones por escenario ha generado un registro de datos almacenado en \textit{estadisticas.csv}, que revela diferencias significativas en el comportamiento del sistema de los distintos escenarios.
+\\
+\\
+En cada simulación se han utilizado un conjunto idéntico de semillas. Concretamente, se ha empleado el rango de semillas secuenciales [1000,1049]:
+
+\subsubsection{Escenario Base}
+Al contar con condiciones favorables y un número normal de operaciones, la tabla permite comprobar la estabilidad operativa:
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \resizebox{1.05\textwidth}{!}{
+        \begin{tabular}{|l|c|c|c|c|c|} 
+            \hline
+            Métricas & Media & Mínimo & Máximo & Desviación Típica & Varianza\\
+            \hline
+            Ops. Totales &  328,9 & 299,0 & 369,0 & 18,42 & 339,23\\
+            Pasajeros Totales & 73.968,8 & 67.456,0 & 83.568,0 & 4.073,01 & -- \\
+            Tiempo Ciclo (min) & 81,02 & 73,0 & 122,0 & 9,80 & 96,10 \\
+            Ops. Madrugada & 27,44 & 18,0 & 39,0 & 5,11 & 26,13 \\
+            Ops. Mañana & 88,68 & 62,0 & 116,0 & 11,50 & 132,26 \\
+            Ops.Tarde & 139,22 & 112,0 & 168,0 & 12,65 & 159,97 \\
+            Ops. Noche & 73,56 & 56,0 & 94,0 & 7,75 & 60,05 \\
+            \hline
+        \end{tabular}
+    }
+    \caption{Estadísticas Escenario Base}
+    \label{tab:Escenario Base Estadísticas}
+\end{table}
+\\
+En condiciones normales, el sistema muestra un comportamiento estable. La media de operaciones se ajusta a lo programado y el tiempo de ciclo de cada aeronave es óptimo. Se observan fluctuaciones en la cantidad de operaciones totales, tal como reflejan los valores máximos y mínimos registrados. Estas variaciones están condicionadas por la influencia de los sistemas auxiliares y de los cambios meteorológicos, a pesar de partir de un escenario base con meteorología favorable.
+\subsubsection{Escenario de Estrés}
+Al aumentar la carga de trabajo hasta 400 operaciones, el sistema aeroportuario comienza a operar cerca de sus límites físicos:
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \resizebox{1.05\textwidth}{!}{
+        \begin{tabular}{|l|c|c|c|c|c|} 
+            \hline
+            Métricas & Media & Mínimo & Máximo & Desviación Típica & Varianza\\
+            \hline
+            Ops. Totales & 663,32 & 602,0 & 728,0 & 27,63 & 763,28 \\
+            Pasajeros Totales & 149.251,42 & 134.745,0 & 163.400,0 & 6.312,16 & -- \\
+            Tiempo Ciclo (min) & 200,02 & 175,0 & 245,0 & 16,71 & 279,33 \\
+            Ops. Madrugada & 55,56 & 41,0 & 78,0 & 7,93 & 62,86 \\
+            Ops. Mañana & 179,7 & 147,0 & 206,0 & 14,43 & 208,34 \\
+            Ops. Tarde & 278,7 & 232,0 & 324,0 & 18,14 & 329,19 \\
+            Ops. Noche & 149,36 & 127,0 & 183,0 & 11,69 & 136,72 \\
+            \hline
+        \end{tabular}
+    }
+    \caption{Estadísticas Escenario de Estrés}
+    \label{tab:Escenario de Estrés Estadísticas}
+\end{table}
+\\
+Bajo condiciones de estrés, el sistema muestra un comportamiento inestable caracterizado principalmente por un incremento significativo en la carga de trabajo. El tiempo medio de ciclo de cada aeronave sufre una dura degradación, pasando de los 82 minutos en un escenario favorable a 200 minutos. Este aumento se atribuye principalmente a la saturación de la capacidad de estacionamiento y al elevado flujo de llegadas. No obstante, a pesar de la congestión, el modelo mantiene la coherencia esperada de un escenario de alta intensidad.
+
+\subsubsection{Escenario de Atasco}
+En este escenario, el sistema opera bajo una carga de trabajo moderadamente superior a la media y una meteorología menos favorable. Los resultados obtenidos muestran la respuesta del sistema durante dichas condiciones:
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \resizebox{1.05\textwidth}{!}{
+        \begin{tabular}{|l|c|c|c|c|c|} 
+            \hline
+            Métricas & Media & Mínimo & Máximo & Desviación Típica & Varianza\\
+            \hline
+            Ops. Totales & 417,26 & 374,0 & 460,0 & 17,92 & 321,14 \\
+            Pasajeros Totales & 93.712,28 & 84.231,0 & 103.873,0 & 4.241,35 & -- \\
+            Tiempo Ciclo (min) & 171,04 & 114,0 & 225,0 & 25,52 & 651,43 \\
+            Ops. Madrugada & 34,42 & 23,0 & 51,0 & 5,36 & 28,78 \\
+            Ops. Mañana & 114,64 & 91,0 & 134,0 & 11,38 & 129,42 \\
+            Ops. Tarde & 176,82 & 150,0 & 209,0 & 12,11 & 146,72 \\
+            Ops. Noche & 91,38 & 74,0 & 119,0 & 8,33 & 69,42 \\
+            \hline
+        \end{tabular}
+    }
+    \caption{Estadísticas Escenario de Atasco}
+    \label{tab:Escenario de Atasco Estadísticas}
+\end{table}
+En condiciones meteorológicas desfavorables, se observa un comportamiento más estable que en el caso de estrés, pero hay una diferencia clara, la desviación en los tiempos de ciclo. Esto es consecuencia de la aleatoriedad del clima, que altera la duración de cada operación individualmente. 
+
+\subsubsection{Análisis comparativo}
+Para facilitar la interpretación de los resultados, se realizará una comparación de gráficas. Este enfoque permite contrastar directamente el comportamiento de los turnos entre los distintos escenarios simulados.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/TotalPorTurnoJulio.png}
+    \caption{Ops. Aereas por Turno Escenario Base}
+    \label{fig:Ops. Aereas por Turno Escenario Base}
+\end{figure}
+\\
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/TotalPorTurnoAtasco.png}
+    \caption{Ops. Aereas por Turno Escenario de Estrés}
+    \label{fig:Ops. Aereas por Turno Escenario de Estrés}
+\end{figure}
+\\
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/TotalPorTurnoEnero.png}
+    \caption{Ops. Aereas por Turno Escenario Adverso}
+    \label{fig:Ops. Aereas por Turno Escenario Adverso}
+\end{figure}
+\\
+Al analizar los tres gráficos, se puede observar que todos mantienen el mismo patrón estructural: la madrugada tiene el menor número de operaciones, seguida por la noche y la mañana, mientras que la tarde alcanza el pico más alto. Esto confirma que la lógica de distribución horaria del simulador es consistente, sin importar la cantidad de datos.
+\\
+\\
+Sin embargo, existen diferencias notables en la cantidad de operaciones por escenario. El escenario de estrés (\ref{fig:Ops. Aereas por Turno Escenario de Estrés}) es, sin ninguna duda, el que mayor actividad presenta. En este gráfico, la mediana supera las 280 operaciones, llegando a máximos por encima de 300. Por el contrario, la brecha entre el escenario base (\ref{fig:Ops. Aereas por Turno Escenario Base}) y el adverso (\ref{fig:Ops. Aereas por Turno Escenario Adverso}) es mucho menor. El escenario base muestra una mediana cercana a 140 operaciones, mientras que el escenario adverso se sitúa en torno a 175.
+\\
+\\
+Además, la presencia de los outliers también aporta información clave. En el escenario de atasco, estos valores de la tarde ponen de manifiesto la inestabilidad del sistema.En el escenario adverso, los outliers se concentran en la madrugada y la noche, probablemente ligados a la variación meteorológica. Por el contrario, el escenario de enero destaca por ser mucho más compacto y predecible, sin presentar estas irregularidades.
+\\
+\\
+Una vez identificado que el turno de tarde es el punto crítico, es interesante ver como reacciona el sistema ante la presión. Para ello, los siguientes gráficos combinan el número de operaciones aéreas con el tiempo que tardan en completar el ciclo, permitiéndonos observar la resistencia del sistema aeroportuario en cada escenario.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/Regresion.png}
+    \caption{Regresión Escenario Base}
+    \label{fig:Regresion Escenario Base}
+\end{figure}
+\\
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/RegresionEstres.png}
+    \caption{Regresión Escenario de Estrés}
+    \label{fig:Regresion Escenario de Estrés}
+\end{figure}
+\\
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/RegresionAdverso.png}
+    \caption{Regresión Escenario Adverso}
+    \label{fig:Regresion Escenario Adverso}
+\end{figure}
+\\
+\\
+\\
+En el Escenario Base (\ref{fig:Regresion Escenario Base}), el sistema demuestra un comportamiento elástico y robusto. La nube de puntos alrededor de la línea de tendencia es compacta, lo que indica que es predecible. El sistema es capaz de de absorber incrementos en la carga de operaciones sin que la penalización de tiempo afecte al flujo aeroportuario.
+\\
+Por su parte, el Escenario de Estrés (\ref{fig:Regresion Escenario de Estrés}) muestra como el sistema opera en su región de saturación. Al aumentar la demanda, la pendiente de la recta se agudiza, por culpa de esto, añadir un solo vuelo adicional se vuelve altísimo en términos de demanda de espera.
+\\
+Por otro lado, el Escenario Adverso (\ref{fig:Regresion Escenario Adverso}) revela una degradación estructural del servicio que no depende de la cantidad de trafico aéreo, sino del entorno. Lo más notorio en este caso es la gran dispersión de residuos, que pone en evidencia cómo la meteorlogía introduce un factor de impredictibilidad.
+
+\subsection{Inferencia Estadística}
+El análisis descriptivo de la sección anterior proporciona una caracterización detallada del sistema. Sin embargo, no vale solo quedarse con datos puntuales, ya que, si volviéramos a repetir el experimento, ese número podría cambiar, y necesitamos saber cuanto.
+\\
+\\
+Por ello, en este apartado, aplicamos técnicas de Bootstrapping. El objetivo es construir un intervalo de confianza, ya que se quiere saber, con un 95\% de certeza, dentro de que límites se moverá realmente el aeropuerto cuando las condiciones cambien.
+\\
+\\
+Para comenzar, se calculará el intervalo de confianza del tiempo de ciclo de las aeronaves con el fin de establecer cuál es el tiempo resultante en cada escenario.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/MediaBootstrapJulio.png}
+    \caption{Regresión Escenario Base}
+    \label{fig:Intervalo Escenario Base}
+\end{figure}
+\\
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/MediaBootstrapEstres.png}
+    \caption{Regresión Escenario de Estrés}
+    \label{fig:Intervalo Escenario de Estrés}
+\end{figure}
+\\
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/MediaBootstrapAdverso.png}
+    \caption{Regresión Escenario Adverso}
+    \label{fig:Intervalo Escenario Adverso}
+\end{figure}
+\\
+Al comparar las gráficas, se puede obserar como se dispara el tiempo medio. Mientras que en el Escenario Base (\ref{fig:Intervalo Escenario Base}) los aviones entran y salen en un tiempo muy eficiente de entre 78 y 84 minutos, en cuanto las condiciones se complican, el servicio se deteriora de manera drástica. En los escenario de estrés (\ref{fig:Intervalo Escenario de Estrés}) y meteorología adversos (\ref{fig:Intervalo Escenario Adverso}), los tiempos medios se duplican con creces, saltando hasta los 171 y 200 minutos.
+\\
+\\
+Además, el problema no es que el proceso sea más lento, sino que también es mucho más inseguro. En el Escenario Adverso, si nos fijamos en el ancho del intervalo, se puede observar que con el mal tiempo la horquilla de incertidumbre es de 14 minutos, más del doble que un día normal. No solo eso, sino que la horquilla de incertidumbre del Escenario de Estrés es de 10 minutos. Esto nos confirma que tanto el mal tiempo como la gran carga de trabajo aumentan la dificultad de predecir cuándo completará el ciclo una aeronave.

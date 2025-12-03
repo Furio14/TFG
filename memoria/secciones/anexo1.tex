@@ -1,0 +1,182 @@
+\chapter{Primer anexo}
+\section{Módulos del programa}
+\label{anexo:ficheros del programa}
+\href{https://github.com/Furio14/TFG/blob/main/src/TorreDeControl.py}{TorreDeControl.py}
+\\
+\href{https://github.com/Furio14/TFG/blob/main/src/GeneradorAeronaves.py}{GeneradorAeronaves.py}
+\\
+\href{https://github.com/Furio14/TFG/blob/main/src/Aeronaves.py}{Aeronaves.py}
+\\
+\href{https://github.com/Furio14/TFG/blob/main/src/FactoresExternos.py}{FactoresExternos.py}
+\\
+\href{https://github.com/Furio14/TFG/blob/main/src/Graficas.py}{Graficas.py}
+\\
+\href{https://github.com/Furio14/TFG/blob/main/src/Input.py}{Input.py}
+\\
+\href{https://github.com/Furio14/TFG/blob/main/src/Main.py}{Main.py}
+
+\section{Código fuente de la simulación}
+\label{anexo:codigoFuente}
+\begin{lstlisting}[language = Python,frame = single,caption = {Generador de aeronaves},label=listing:A1,captionpos=b,breaklines=true,breakatwhitespace=false]
+    def generador(evento):
+        vueloRandom = random.choice(listaVuelos)
+        letra = random.choice("ABCDEFGHIJLKMNOPQRSTUVWXYZ")
+        id = f"{letra}{random.randint(0,999)}" # genera un id
+        idVuelo = vueloRandom["Vuelo_ID"] 
+        estado = "Llegando" # estado de la aeronave
+        pasajeros = random.randint(150,300) 
+        origen = vueloRandom["Ciudades"] # genera ciudades 
+        destino = "Madrid"
+        duracion = vueloRandom["Duracion_Vuelo"]
+        horasAeronave = int(evento.now)
+        horasHastaSalida = ((horasAeronave - duracion)//60)%24
+        minsHastaSalida = (horasAeronave - duracion) % 60
+        horasHastaLlegada = (horasAeronave // 60) % 24
+        minsHastaLl = horasAeronave % 60
+        horaSalida = f"{horasHastaSalida:02d}:{minsHastaSalida:02d}"
+        horaLl = f"{(horasHastaLlegada)%24:02d}:{minsHastaLl:02d}"
+\end{lstlisting}
+\begin{lstlisting}[language = Python,frame = single,caption = {Ciclo completo aeronaves},label=listing:A2,captionpos=b,breaklines=true,breakatwhitespace=false]
+    # Nos indica primero si esta llegando el avion
+    yield evento.process(controlLlegadas(evento,avion,colaAterrizajes,estadoClima,mes,aeronaves))
+    # Despues de seguido indica si efectivamente ha aterrizado el avion
+    yield evento.process(controlAterrizajes(evento,pistaAterrizajes,colaAterrizajes,colaEstacionados,estadoClima,mes,aeronaves))
+    # Después nos indica cuando ha estacionado la aeronave
+    yield evento.process(controlEstacionados(evento,parking,colaEstacionados,colaSalidas,estadoClima,mes,aeronaves))
+    # Después de estacionar nos dice a que hora está programado el vuelo
+    yield evento.process(controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima,mes,aeronaves))
+    # Nos indica si el avion esta despegando
+    yield evento.process(controlDespegues(evento,parking,pistaDespegues,colaDespegues,estadoClima,mes,turnos,aeronaves))
+\end{lstlisting}
+\begin{lstlisting}[language = Python,frame = single,caption = {Gestión de la Cola de Llegada},label=listing:A3,captionpos=b,breaklines=true,breakatwhitespace=false]
+    # Una vez solicitan aterrizar los aviones se les añade a la cola de llegadas
+    def controlLlegadas(evento,avion,colaAterrizajes,estadoClima,mes,aeronaves):
+        yield colaAterrizajes.put(avion)
+        aeronaves["AeronavesEnColaLlegada"] += 1
+        avion.infoColaAterrizaje(evento,estadoClima,mes,aeronaves)
+\end{lstlisting}
+\begin{lstlisting}[language = Python,frame = single,caption = {Operación de Aterrizaje},label=listing:A4,captionpos=b,breaklines=true,breakatwhitespace=false]
+    # Una vez llegan las aeronaves las retira de la otra cola y las añade a la de aterrizados
+    def controlAterrizajes(evento,pista,colaAterrizajes,colaEstacionados,estadoClima,mes,aeronaves):
+        if colaAterrizajes:
+            with pista.request( ) as request: # si hay request de aterrizar en pista
+                yield request
+                tiempoHastaAterrizar = estadoClima['retraso']
+                yield evento.timeout(tiempoHastaAterrizar)
+                aterriza = yield colaAterrizajes.get()
+                aterriza.horaLlegadaReal = tiempoEvento(evento.now)
+                aterriza.tiempoLlegadaMinutos = int(evento.now)
+                aeronaves["AeronavesEnColaLlegada"] -= 1
+                aterriza.infoAterrizaje(evento,estadoClima,mes,aeronaves)
+                yield colaEstacionados.put(aterriza)   
+    else:
+        yield evento.timeout(0.1)
+\end{lstlisting}
+\begin{lstlisting}[language = Python,frame = single,caption = {Operación de Estacionamiento},label=listing:A5,captionpos=b,breaklines=true,breakatwhitespace=false]
+    # Una vez aterrizan las aeronaves te informa de si esta estacionado
+    def controlEstacionados(evento,parking,colaEstacionados,colaSalidas,estadoClima,mes,aeronaves):
+        if colaEstacionados:
+            estacionado = yield colaEstacionados.get()
+            req = parking.request()
+            # si hay request de estacionar
+            yield req
+            tiempoHastaEstacionamiento = int(random.triangular(5.0,15.0,mode=10.0))
+            yield evento.timeout(tiempoHastaEstacionamiento)
+            estacionado.horaEstacionado = tiempoEvento(evento.now)
+            aeronaves["AeronavesEstacionados"] += 1
+            estacionado.infoEstacionado(evento,estadoClima,mes,aeronaves)
+            estacionado.ticketParking = req
+            yield colaSalidas.put(estacionado)
+        else:
+            yield evento.timeout(0.1)
+\end{lstlisting}
+\begin{lstlisting}[language = Python,frame = single,caption = {Programación de Salida},label=listing:A6,captionpos=b,breaklines=true,breakatwhitespace=false]
+    # Una vez estan estacionadas las aeronaves se les asigna una hora de salida para ser anunciado
+    def controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima,mes,aeronaves):
+        if colaSalidas:
+            salida = yield colaSalidas.get()
+            avion = aeronaveSalida(evento,salida)
+            with anuncio.request() as request:
+                yield request
+                avion.infoSalidas(evento,estadoClima,mes,aeronaves)
+                horaProgramada,minProgramado = funcSplit(avion.horaProgramadaSalida)
+                tiempoProgramado = horaProgramada*60 + minProgramado
+                tiempoActual = int(evento.now) % 1440
+                tiempo = tiempoProgramado - tiempoActual
+                if tiempo < -720: #en caso de que se resetee el día
+                    tiempo += 1440
+                tiempoEspera = max(0,tiempo) 
+                yield evento.timeout(tiempoEspera)
+                yield colaDespegues.put(salida)
+        else:
+            yield evento.timeout(0.1)
+\end{lstlisting}
+\begin{lstlisting}[language = Python,frame = single,caption = {Operación de Despegue},label=listing:A7,captionpos=b,breaklines=true,breakatwhitespace=false]
+    # Una vez estan estacionadas las aeronaves se les asigna una tarea de salir a pista
+    def controlDespegues(evento,parking,pista,colaDespegues,estadoClima,mes,turnos,aeronaves):
+        if colaDespegues:
+            salida = yield colaDespegues.get()
+            avion = salida
+            with pista.request() as request: #hace request por si no hay ningún avión en la pista
+                yield request
+                if(hasattr(avion,'ticketParking')):
+                    parking.release(avion.ticketParking)
+                    del avion.ticketParking
+                tiempoDespegando = random.uniform(1.0,3.0)
+                aeronaves["AeronavesEstacionados"] -= 1
+                aeronaves["AeronavesEnColaSalida"] += 1
+                avion.infoColaDespegues(evento,estadoClima,mes,aeronaves)
+                yield evento.timeout(tiempoDespegando + estadoClima['retraso'])
+                avion.horaDespegue = tiempoEvento(evento.now)
+                tiempoCiclo = int(evento.now) - avion.tiempoLlegadaMinutos
+                avion.tiempoCicloAvion = tiempoEvento(tiempoCiclo)
+                avion.horaLlegadaReal = "---"
+                aeronaves["AeronavesEnColaSalida"] -= 1
+                aeronaves["AeronavesCicloCompletoContadorTiempo"] += int(tiempoCiclo)
+                aeronaves["AeronavesCicloCompletoContador"] += 1
+                horaDespegue = horaActual(evento.now)
+                controlTurnosSalidas(horaDespegue,turnos)
+                avion.infoDespegues(evento,estadoClima,mes,aeronaves)
+        else:
+            yield evento.timeout(0.1)
+\end{lstlisting}
+\begin{lstlisting}[language = Python,frame = single,caption = {Tasa Horarios},label=listing:A8,captionpos=b,breaklines=true,breakatwhitespace=false]
+    tasaHora = {0:0.1,1:0.1,2:0.08,3:0.07,4:0.07,5:0.08,
+            6:0.1,7:0.2,8:0.3,9:0.3,10:0.4,11:0.4,
+            12:0.4,13:0.45,14:0.4,15:0.5,16:0.45,17:0.4,
+            18:0.35,19:0.3,20:0.25,21:0.2,22:0.15,23:0.1}
+\end{lstlisting}
+\begin{lstlisting}[language = Python,frame = single,caption = {Factores Externos},label=listing:A9,captionpos=b,breaklines=true,breakatwhitespace=false]
+    Invierno = {"Soleado":0.3,"Nublado":0.4,"Lluvioso":0.2,"Niebla":0.05,"Tormenta":0.05}
+    Primavera = {"Soleado":0.6,"Nublado":0.25,"Lluvioso":0.1,"Niebla":0.02,"Tormenta":0.05}
+    Verano = {"Soleado":0.8,"Nublado":0.15,"Lluvioso":0.03,"Niebla":0.01,"Tormenta":0.03}
+    Otonio = {"Soleado":0.5,"Nublado":0.3,"Lluvioso":0.15,"Niebla":0.02,"Tormenta":0.05}
+
+
+    def climaRandom(estados):
+        estado = list(estados.keys())
+        prob = list(estados.values())
+        return random.choices(estado,prob,k=1)[0]
+
+    def logicaClima(evento,estado,mes):
+        while True:
+            if mes in ["DICIEMBRE","ENERO","FEBRERO"]: estacionActual = Invierno
+            elif mes in ["MARZO","ABRIL","MAYO"]: estacionActual = Primavera
+            elif mes in ["JUNIO","JULIO","AGOSTO"]: estacionActual = Verano
+            else: estacionActual = Otonio
+            clima = climaRandom(estacionActual)
+            if clima != estado['clima']:
+                estado['clima'] = clima
+                if clima == 'Nublado':
+                    estado['retraso'] = 1.5
+                elif clima == 'Lluvioso':
+                    estado['retraso'] = 2
+                elif clima == 'Niebla':
+                    estado['retraso'] = 2.5
+                elif clima == 'Tormenta':
+                    estado['retraso'] = 3.5
+                else: estado['retraso'] = 0
+
+            yield evento.timeout(60)
+\end{lstlisting}
+

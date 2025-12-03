@@ -1,0 +1,83 @@
+\chapter{Estado del arte y Trabajo Previo}
+Este capítulo presenta una revisión del Estado del Arte y los trabajos previos relevantes para la simulación de operaciones aeroportuarias. El objetivo es establecer el contexto teórico y tecnológico en el que se enmarca este proyecto, analizando los fundamentos de las metodologías claves empleadas en el sector.
+\section{Estado del arte}
+El objetivo de este apartado es revisar las tecnologías, metodologías y herramientas utilizadas en la simulación de operaciones aeroportuarias. Se analizan tanto los fundamentos prácticos como teóricos que sustentan el desarrollo del modelo, así como las soluciones existentes en el ámbito académico.
+%Actualmente, la simulación de eventos discretos se emplea ampliamente en la gestión de operaciones aeroportuarias para modelar y analizar el flujo de aeronaves, desde el aterrizaje hasta el despegue. Este tipo de simulación permite representar con alta precisión un sistema complejo, como es el caso de un aeropuerto, y además permite optimizar los tiempos de espera.
+
+\subsection{Métodos de simulación}
+Actualmente, existen diversos métodos de simulación que permiten modelar y analizar de manera precisa las operaciones  \cite{TiposSimulacion}:
+\begin{itemize}
+    \item \textbf{Simulación discreta (DES):} se centra en la representación de eventos que ocurren en momentos específicos, como las llegadas y despegue de aeronaves y el flujo de pasajeros.
+    \item \textbf{Simulación basada en agentes (ABS):} Modela el comportamiento individual de cada componente del sistema a través de reglas definidas que determinan sus acciones y decisiones.
+    \item \textbf{Simulación continua:} Representa los flujos de manera ininterrumpida, siendo especialmente útil para analizar el flujo de pasajeros y densidad de aeronaves. Permite simular simultáneamente los eventos puntuales de los vuelos.
+    \item \textbf{Simulación estocástica:} Se centra en incorporar aleatoriedad o incertidumbre en los modelos, los valores de entrada pueden variar según las distribuciones de probabilidad. Esto hace que se produzca una incertidumbre en los tiempos y flujos, evaluando así el rendimiento del sistema.
+\end{itemize}
+
+\subsection{Herramientas de simulación}
+Existen varias herramientas que permiten modelar y analizar el flujo de aeronaves, como puede ser Arena \cite{Arena}, GPSS \cite{GPSS} o Simpy \cite{simpy}. Estas facilitan la evaluación de tiempos de espera y la optimización de recursos.
+\\
+\\
+Varias de estas herramientas ofrecen interfaces visuales intuitivas, mientras que otras destacan por la flexibilidad y personalización mediante código. Por lo general, estas plataformas nos permiten identificar cuellos de botella, como la saturación de la pista de aterrizaje, el retraso en el embarque de pasajeros o la gestión ineficiente de los recursos como vehículos de servicio y puertas de embarque, y evaluar diferentes escenarios operativos en aeropuertos, proporcionando información útil que ayuda en la toma de decisiones y en la planificación de mejoras operativas.
+\\
+\\
+Además de identificar cuellos de botella, las herramientas de simulación permiten evaluar diferentes escenarios operativos, lo que ayuda a los gestores aeroportuarios a tomar decisiones informadas sobre la mejora de procesos.
+\\
+\\
+Una de las principales ventajas de las herramientas de simulación es su capacidad para optimizar los procesos operativos de un aeropuerto. Utilizando estas simulaciones, es posible modelar y probar diferentes estrategias de asignación de recursos, como la asignación de puertas de embarque o la gestión del flujo de pasajeros.
+\\
+\\
+Teniendo esto en cuenta, simulando diferentes niveles de capacidad o ajustes en los tiempos de servicio, es posible encontrar la combinación óptima que mejore la utilización de los recursos disponibles. Esto no solo mejora la experiencia de los usuarios, sino que también aumenta la capacidad de manejo del aeropuerto.
+\subsection{Escenarios críticos}
+Además de la optimización de procesos, estas herramientas permiten la evaluación de escenarios críticos que podrían afectar la eficiencia de las operaciones aeroportuarias.
+\\
+\\
+Estos escenarios críticos pueden incluir:
+\begin{itemize}
+    \item \textbf{Condiciones meteorlógicas adversas:} Pueden reducir la capacidad de aproximación y despegue, afectan tanto a las aeronaves como al flujo de pasajeros.
+    \item \textbf{Alta demanda de pasajeros:} El incremento en el flujo de pasajeros provoca colas más largas y puede generar retrasos en los vuelos debido a la acumulación de pasajeros en áreas operativas.
+    \item \textbf{Retrasos de vuelos:} Estos retrasos no solo afectan a la puntualidad de vuelos individuales, sino que pueden generar un efecto dominó sobre otras operaciones.
+\end{itemize}
+\subsection{Limitaciones}
+Dicho esto, estas herramientas tienen sus limitaciones que pueden dificultar su uso o restringir los resultados que se pueden obtener de la simulación:
+
+\begin{itemize}
+    \item \textbf{Complejidad}:
+    Muchas de estas plataformas requieren de conocimientos avanzados de programación o modelado.
+    \item \textbf{Limitaciones de interfaz}:
+    Plataformas basadas en código (SimPy \cite{simpy}) no tienen interfaz visual, lo que puede dificultar la interpretación del modelo.
+    \item \textbf{Especialización}: GPSS \cite{GPSS} es muy específica para los tipos de simulación militar e industrial, por lo que puede no ser ideal para simulaciones completas de operaciones aeroportuarias.
+    \item \textbf{Escalabilidad}: Algunas de estas plataformas tienen limitaciones para adaptar el modelo a escenarios cambiantes o específicos.
+    
+\end{itemize}
+
+\section{Fundamentos teóricos}
+El modelo propuesto se basa en una simulación de eventos discretos, dinámicos y estocásticos. Dicho sistema avanza cada vez que ocurren eventos relevantes, como puede ser la llegada o el aterrizaje de una aeronave.
+\\
+\\
+En este modelo, en la simulación de eventos discretos se describe el estado del sistema con conjuntos de variables de estado. Estas variables son condiciones que pueden ir cambiando con el transcurso del tiempo. Por ejemplo, que la pista de despegue esté libre u ocupada, es decir, si una aeronave quiere despegar pero hay tres aeronaves por delante esperando. Se trata de un modelo dinámico, ya que el sistema va evolucionando cada vez que transcurre el tiempo, y estocástico, ya que presenta comportamientos aleatorios debido a diferentes factores, como la cantidad de demanda, el tráfico de aeronaves o la meteorología.
+\\
+\\
+El modelo aeroportuario será un modelo de cola FIFO. Este tipo de modelo de cola (First in, First out) funciona de tal manera que la entidad que llegue antes al servicio es atendida antes que las que lleguen después. En este caso, los aviones actúan como entidades que ingresan al sistema para recibir un servicio, en este caso, el aterrizaje o despegue, y permanecen en la cola hasta que el servicio se libere. Por ejemplo, cuando ya no haya aviones en la pista. 
+\\
+\\
+Además, no permite operaciones simultáneas; por tanto, serán secuenciales. Por lo tanto, habrá una pista con la capacidad de despegue y aterrizaje.
+\\
+\\
+Este enfoque permite que el flujo de las operaciones sea ordenado y que se puedan analizar indicadores como el tiempo promedio de espera de cada avión que está en la cola, el tamaño de dicha cola, el nivel de utilización de dicha pista, etc.
+
+\section{Trabajos Previos}
+En los últimos años, ha habido varios estudios sobre la simulación de operaciones aeroportuarias, enfocándose en la logística de pasajeros, la gestión de los servicios aeroportuarios y la optimización del flujo de operaciones. Entre estos estudios, quiero destacar el trabajo realizado en el Aeropuerto Internacional de la Ciudad de México \cite{AeropuertoDeMexico}.
+\\
+\\
+Este trabajo desarrolló dos modelos de simulación que coordinaban las llegadas y salidas de las aeronaves, así como sus movimientos. Este estudio permitió identificar patrones de congestión y propuso muchas mejoras en las asignaciones de aeronaves en pista. Usaron modelos de simulación discreta, donde se representan actividades que ocurren en momentos específicos, como la llegada o el aterrizaje. Se basaron en datos reales del AICM, mostrando operaciones de vuelo, distancias, tiempo, etc.
+Determinaron que el AICM tenía operaciones cercanas a su máxima capacidad y propusieron ajustes operativos para mejorar la eficiencia. Usaron un simulador más antiguo, técnico y sencillo de codificar (SIMNET II).
+Su metodología hace que el desarrollo de modelos como el propuesto tenga una base sólida.
+\\
+\\
+Más allá de estudios de casos específicos, una de las principales organizaciones europeas es Eurocontrol \cite{Eurocontrol}, que actúa como el gestor de tráfico aéreo y establece el marco empírico, publicando datos sobre la capacidad de las pistas y los retrasos, proporcionando así información crucial para la optimización del espacio aéreo.
+\\
+\\
+Además, a nivel de investigación y desarrollo, se encuentra la iniciativa   SESAR\cite{SESAR}, que busca modernizar y armonizar la gestión del tráfico aéreo en toda Europa. Para ello, construyen modelos de simulación de eventos basados en tiempos discretos a gran escala.
+\\
+\\
+Finalmente, a nivel de implementación industrial, encontramos compañías tecnológicas líderes como Leonardo\cite{Leonardo}. Esta empresa es fundamental, ya que construye e implementa la tecnología que materializa los trabajos de investigación de SESAR y los requisitos de gestión de Eurocontrol. Su labor es crucial porque desarrollan los sistemas tangibles que operan en las torres de control y los centros de ruta en el mundo real.

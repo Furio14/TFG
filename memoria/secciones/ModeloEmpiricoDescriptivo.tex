@@ -1,0 +1,166 @@
+\chapter{Modelo Empírico Descriptivo}
+Para abordar el desarrollo del prototipo de este trabajo, se comenzará describiendo la modelización empírica, en la cual se analizan y definen los componentes del sistema aeroportuario y los factores externos que influyen en él. El resultado de este análisis es el modelo empírico descriptivo, el cual describe conceptualmente los elementos clave de la simulación.
+\\
+\\
+Además, se presentará la modelización matemática, que traduce estos componentes y flujos a los fundamentos de la \textit{Teoría de Colas}, justificando el uso de los sistemas utilizados.
+\\
+\\
+Finalmente, se detallará la modelización computacional, que implementa el modelo matemático en Simpy\cite{simpy}, explicando la lógica del código y la gestión de eventos.
+\section{Caracterización Estadística de las Operaciones Aéreas}
+El modelo empírico desarrollado para esta simulación reproduce de manera detallada las operaciones de aeronaves y el flujo de pasajeros dentro del aeropuerto. Se consideran las pistas de aterrizaje y despegue, áreas de estacionamiento y procesos asociados a cada vuelo.
+\\
+\\
+Para la construcción del modelo empírico se han usado datos reales proporcionados por AENA sobre el Aeropuerto de Madrid Barajas. Estos datos permiten caracterizar de manera precisa las operaciones aéreas.
+\\
+\\
+A partir de esta información se establecen las distribuciones empíricas, lo que permite replicar en la simulación la variabilidad observada en la operación real del aeropuerto.
+\\
+\\
+Revisando los datos estadísticos del año pasado \cite{Aena}, durante 2024, se registraron un total de 420,182 operaciones, con un promedio mensual de 35,017 operaciones y una desviación típica de 1,952 aprox (1,951.88).
+\\
+\\
+Durante el año 2024, el aeropuerto registró un total de 419,332 (99.79\%) operaciones comerciales y 850 de aviación general (0.21\%). Entre las operaciones comerciales, 131,095 (31.3\%) fueron nacionales y 288,237 (68.7\%) internacionales.
+\\
+\\
+Aunque los datos detallados por franja horaria no están disponibles públicamente, estos valores sirven como base para estimar la tasa media de llegadas y salidas, la cual se emplea en el modelo matemático.
+\\
+\\
+Sin embargo, es importante destacar que la cantidad de operaciones se adapta a la configuración específica simulada.
+
+\section{Variables de estado}
+Las variables de estado son fundamentales para analizar la eficiencia de las operaciones y la evolución del sistema bajo distintos escenarios. Se describen a continuación las variables principales empleadas durante la simulación, podemos distinguirlas en diferentes tipos:
+
+\begin{itemize}
+    \item \textbf{Variables de entidad:} identifican y caracterizan al agente principal (la aeronave) en su ciclo de vida (aterrizaje → despegue). Podemos encontrar atributos como:
+    \begin{itemize}
+        \item ID aeronave: Identificador único y permanente asignado a cada aeronave. Permite rastreare los diferentes vuelos que realiza y su cambio de datos operativos. Ejemplo: V921.
+        \item ID vuelo: Identificador del vuelo específico que realiza una aeronave en una ruta determinada. Este identificador cambia con cada nuevo trayectoo. Ejemplo: IB334.
+        \item Número de pasajeros: Número total de pasajeros transportados por vuelo.
+        \item Origen: Ciudad desde el cual despega la aeronave.
+        \item Destino: Ciudad al cual llega la aeronave.
+        \item Hora de Salida del Origen: Hora real en la que la aeronave despega del aeropuerto de origen.
+        \item Hora Programada de Llegada al destino: Hora estimada de llegada según la programación del vuelo.
+        \item Hora real de Llegada: Hora efectiva en la que la aeronave aterriza en el aeropuerto de destino.
+        \item Hora de Estacionamiento: Momento en el que la aeronave finaliza su rodaje y queda estacionada en el aeropuerto.
+        \item Hora Programada de Salida: Hora establecida en el itinerario para que la aeronave despegue del aeropuerto.
+        \item Hora de Despegue: Hora real en la que la aeronave despega, dando por finalizado su ciclo en el aeropuerto.
+        \item Tiempo de Ciclo de la aeronave: Duración total del tiempo que transcurre desde el aterrizaje de la aeronave hasta su siguiente despegue.
+    \end{itemize}
+    \item \textbf{Variables de recursos:} definen la capacidad y el estado de los servidores físicos que atienden a las aeronaves. En este caso, son: 
+    \begin{itemize}
+        \item Pista de Aterrizaje: Cada aeronave debe solicitar permiso para poder aterrizar. La pista cuenta con una capacidad máxima de 10 aeronaves en cola, lo que permite un flujo ordenado y seguro durante las operaciones de llegada.
+        \item Pista de Despegue: Cada aeronave debe solicitar autorización para utilizar pista. Esta también tiene una capacidad máxima de 10 aeronavess en cola, garantizando un control adecuado del tráfico aéreo y evitando congestiones en las salidas.
+        \item Parking: es el área donde las aeronaves permanecen estacionadas después de aterrizar. Actualmente, su capacidad es ilimitada, aunque se recomienda establecer un tope para optimizar el uso de espacio. 
+    \end{itemize}
+    \item \textbf{Variables de estado operacional:} se enfocan en la posición en el tiempo y en la lógica de la simulación. La variable principal, denominada \textbf{\textit{estado}} es actualizada por cada evento de la simulación, lo que permite trazar y garantizar la secuencia lógica y cronológica de las operaciones.
+    \
+\end{itemize}
+
+\section{Aeronaves}
+Distinguir los tipos de aeronaves que operan en el aeropuerto es crucial para la simulación. Esta clasificación permite identificar información esencial sobre cada vuelo. En el modelo de simulación se han clasificado dos categorías fundamentales:
+\begin{itemize}
+    \item \textbf{Aeronaves comerciales:} engloba todas las aeronaves que transportan pasajeros, independientemente de su tamaño.
+    \item \textbf{Aeronaves de carga:} aeronaves dedicadas exclusivamente al transporte de mercancías (suele ser la minoría). Su característica es que no llevan pasajeros y sus tiempos en tierra suelen ser diferentes.
+\end{itemize}
+
+\section{Pistas}
+Las pistas son elementos clave en la infraestructura aeroportuaria y actúan como los servidores principales dentro del modelo matemático de colas que representa el flujo de aeronaves. En esta simulación, se ha modelado el sistema con dos pistas independientes, cada una operando con un sistema de colas M/M/1:
+\begin{itemize}
+    \item \textbf{Pista de aterrizaje:} representa el punto de entrada al sistema aeroportuario para las aeronaves, su función es procesar las operaciones de aterrizaje.
+    \item \textbf{Pista de despegue:} este recurso actúa como punto de salida del sistema para las aeronaves que han completado sus operaciones en tierra, se utiliza exclusivamente para las maniobras de despegue.
+\end{itemize}
+Las pistas, por lo tanto, son componentes esenciales, ya que gobiernan directamente el rendimiento del sistema, la formación de colas y los tiempos de espera.
+
+\section{Procesos de Terminal}
+Los procesos de terminal engloban todas las etapas que un pasajero debe completar desde que entra al edificio terminal hasta que accede a la aeronave. 
+\\
+\\
+Incluyen la facturación y despacho de equipaje, también conocido como check-in, los controles de seguridad y el control de pasaportes en vuelos internacionales. Estos procesos son vitales, ya que la congestión en estos puntos retrasa el proceso de \textit{embarque} y, en consecuencia, impide que la aeronave pueda ser programada para su salida a tiempo.
+
+\section{Gestión de las instalaciones}
+La gestión se centra en la operatividad y mantenimiento de la infraestructura física del aeropuerto. Se trata de asegurarse de que todo lo que necesitan los pasajeros, la mercancía y las aeronaves este disponible y funcionado.
+\\
+\\
+Dentro de un aeropuerto hay varias infraestructuras clave que, si fallan, pueden afectar en gran medida al sistema aeroportuario.  Algunos ejemplos de estas infraestructuras son:
+\begin{itemize}
+    \item Pasarelas de Embarque: También conocidas como fingers, que conectan la aeronave con la terminal.
+    \item Sistemas de Transporte de Personas: Incluyen las escaleras mecánicas y pasillos rodantes.
+    \item Suministros: Se tienen en cuenta la limpieza y la electricidad.
+    \item Sistema de Equipajes: Son las cintas que llevan las maletas y las máquinas que las clasifican.
+\end{itemize}
+Para que todo esto funcione bien, se intenta que las cosas se averíen lo menos posible para no generar retrasos, y si pasa, que se arreglen lo más rápido posible. Por ello, hay dos tipos de mantenimientio a tomar en cuenta:
+\begin{itemize}
+    \item Preventivo: Son revisiones programadas para evitar averías importantes.
+    \item Correctivo: Reparación de algo que se ha averiado de forma inesperada.
+\end{itemize}
+\section{Servicios auxiliares}
+Los servicios auxiliares se refieren al conjunto de operaciones técnicas y logísticas que se realizan sobre la aeronave mientras se encuentra en la plataforma o puerta de embarque.
+\\
+\\
+Estas tareas se ejecutan de forma concurrente e incluyen:
+\begin{itemize}
+    \item Repostaje: Suministro de combustible mediante camiones cisterna.
+    \item Handling de Rampa: Carga y descarga de equipajes y mercancías.
+    \item Servicios de Cabina: Catering, limpieza interior, y gestión de residuos. 
+\end{itemize}
+La eficiciencia y coordinacion de estos servicios son cruciales, ya que determinan el tiempo total que la aeronave permanece inoperativa en el parking.  Cualquier retraso es cualqueira de estos procesos impacta directamente a la hora de salida., pudiendo generar retrasos que impacten a la hora de salida de otros vuelos.
+\section{Gestión de Contigencias y Factores Externos}
+La capacidad real de un aeropuerto casi nunca coincide con su capacidad teórica, esto se debe a que siempre hay factores externos que complican las operaciones aeroportuarias y obligan a recurrir a otros planes para mantener todo funcionando.
+
+\subsection{Meteorología}
+La Meteorología es el factor externo que más afecta posiblemente a la aviación. Cosas como la niebla o tormentas fuertes hacen que se reduzca la capacidad de operatividad de un aeropuerto.
+\\
+\\
+Esto obliga a aumentar la distancia entre aviones tanto en el aire como en tierra. El problema es que eso reduce el número de despegues y aterrizajes y como consecuencia, empiezan a formarse colas de espera y retrasos en tierra.
+\subsection{Retrasos en cadena}
+Un aeropuerto funciona como parte de una red global. Por ello, la puntualidad de un vuelo depende de varios factores, incluyendo lo que pase tanto en el aeropuerto de destino como el de origen.
+\\
+\\
+Si un avión llega tarde de su vuelo anterior, ya se empieza a desorganizar todo y provoca imprevistos que hacen que el aeropuerto tenga que reorganizar sus recursos sobre la marcha.
+\subsection{Fallos técnicos}
+Los aeropuertos suelen estar preparados para todo tipo de imprevistos. Aun así, hay veces que ocurren fallos imprevistos que provocan percances:
+\begin{itemize}
+    \item Bloqueos de pista: Si se detecta alguna incidencia menor o algún objeto en pista, hay que cerrar la pista para inspeccionarla.
+    \item Averías: Cuando una aeronave tiene una avería mientras está estacionado y no puede moverse.
+\end{itemize}
+\section{Diagrama de sistema físico}
+Este esquema sintetiza visualmente los componentes del modelo empírico descritos en las secciones anteriores. El diagrama ilustra el flujo principal de las aeronaves a través de los recursos clave y las colas asociadas, así como la influencia de los procesos de terminal, la gestión de las instalaciones y los servicios auxiliares.
+\begin{figure}[h!]
+    \centering
+    \tikzstyle{proceso} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=white!20]
+    \tikzstyle{cola} = [ellipse, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=white!20]
+    \tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=white!20]
+    \tikzstyle{factor} = [rectangle, minimum width=3.5cm, text width=4cm, text centered, draw=black, fill=white!30, dashed]
+    \tikzstyle{flujo_principal} = [draw, -{Latex[length=3mm]}, thick]
+    \tikzstyle{flujo_factor} = [draw, -{Latex[length=2mm]}, dashed, black]
+    \begin{tikzpicture}[node distance=0.55cm and 0.55cm]
+
+        \node (llegadas) [io] {Llegadas};
+        \node (colaAterrizajes) [cola, below=of llegadas] {Cola Aterrizajes};
+        \node (pistaAterrizaje) [proceso, below=of colaAterrizajes] {Pista Aterrizaje (Cola M/M/1)};
+        \node (parking) [proceso, below=of pistaAterrizaje] {Estacionamiento (M/M/c)};
+        \node (colaDespegue) [cola, below=of parking] {Cola Despegues};
+        \node (pistaDespegues) [proceso, below=of colaDespegue] {Pista Despegue (Cola M/M/1)};
+        \node (despegues) [io, below=of pistaDespegues] {Despegues};
+        \node (servicioAuxiliar) [factor, right=of colaDespegue, node distance=5.5cm,yshift=+1cm,xshift=0.6cm] {3.1.6 Servicios Auxiliares};
+        \node (procesosTerminal) [factor, right=of pistaAterrizaje, node distance=5.5cm,yshift=-1cm] {3.1.4 Procesos de Terminal};
+        \node (gestionInstalaciones) [factor, left=of parking, node distance=5.5cm,xshift=-1cm] {3.1.5 Gestión de Instalaciones};
+
+        \draw [flujo_principal] (llegadas) -- (colaAterrizajes);
+        \draw [flujo_principal] (colaAterrizajes) -- (pistaAterrizaje);
+        \draw [flujo_principal] (pistaAterrizaje) -- (parking);
+        \draw [flujo_principal] (parking) -- (colaDespegue);
+        \draw [flujo_principal] (colaDespegue) -- (pistaDespegues);
+        \draw [flujo_principal] (pistaDespegues) -- (despegues);
+
+        \draw [flujo_factor] (servicioAuxiliar) -- (parking);
+        \draw [flujo_factor] (procesosTerminal) -- (parking);
+        \draw [flujo_factor] (gestionInstalaciones) -- (pistaAterrizaje);
+        \draw [flujo_factor] (gestionInstalaciones) -- (pistaDespegues);
+        \draw [flujo_factor] (gestionInstalaciones) -- (parking);
+
+    \end{tikzpicture}
+    \caption{Diagrama del Sistema Físico}
+    \label{fig:sistemaFisico}
+\end{figure}
+

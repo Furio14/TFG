@@ -86,15 +86,15 @@ def controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima,mes,aero
         with anuncio.request() as request:
             yield request
             avion.infoSalidas(evento,estadoClima,mes,aeronaves)
-            horaProgramada,minProgramado = funcSplit(avion.horaProgramadaSalida)
-            tiempoProgramado = horaProgramada*60 + minProgramado
-            tiempoActual = int(evento.now) % 1440
-            tiempo = tiempoProgramado - tiempoActual
-            if tiempo < -720: #en caso de que se resetee el día
-                tiempo += 1440
-            tiempoEspera = max(0,tiempo) 
-            yield evento.timeout(tiempoEspera)
-            yield colaDespegues.put(salida)
+        horaProgramada,minProgramado = funcSplit(avion.horaProgramadaSalida)
+        tiempoProgramado = horaProgramada*60 + minProgramado
+        tiempoActual = int(evento.now) % 1440
+        tiempo = tiempoProgramado - tiempoActual
+        if tiempo < -720: #en caso de que se resetee el día
+            tiempo += 1440
+        tiempoEspera = max(0,tiempo) 
+        yield evento.timeout(tiempoEspera)
+        yield colaDespegues.put(salida)
     else:
         yield evento.timeout(0.1)
 
