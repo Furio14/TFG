@@ -14,7 +14,7 @@ def parametrosIniciales():
             horas = inputDatos("Cuantas horas quieres simular?",24,0,168)
                 
             #VUELOS
-            vuelos = inputDatos("Introduce la media de vuelos diarios ",200,100,500)
+            vuelos = inputDatos("Introduce la media de vuelos diarios ",200,100,400)
             
             #MES
             mes = inputMeses("En que mes quieres que empiece la simulacion?","ENERO")

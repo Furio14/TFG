@@ -23,8 +23,8 @@ def main():
         evento = simpy.Environment()
         pistaAterrizaje = simpy.Resource(evento,capacity=1) #servidor para la pista de aterrizaje
         pistaDespegue = simpy.Resource(evento,capacity=1) #servidor para la pista de despegue
-        anuncio = simpy.Resource(evento,capacity=1) #servidor para la los anuncios de viajes de despegue
-        parking = simpy.Store(evento,capacity=50) #servidor para el estacionamiento
+        anuncio = simpy.Resource(evento,capacity = 1) #servidor para la los anuncios de viajes de despegue
+        parking = simpy.Store(evento,capacity=100) #servidor para el estacionamiento
         colaAterrizajes = simpy.Store(evento,capacity = 10)
         colaEstacionados = simpy.Store(evento,capacity = 50)
         colaSalidas = simpy.Store(evento,capacity = 1)

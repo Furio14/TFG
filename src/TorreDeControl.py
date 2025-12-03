@@ -6,6 +6,7 @@ from collections import deque
 from GeneradorAeronaves import *
 from Aeronaves import *
 from FactoresExternos import *
+from ServiciosAuxiliares import *
 
 # Controla todo lo que tiene que ver con el aterrizaje despegue y estacionameinto de aeronaves
 def controlAereo(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves,retraso):
@@ -136,7 +137,13 @@ def aeronaveSalida(evento,avion):
     numeroVuelo = int(''.join(filter(str.isdigit,avion.vueloId)))
     avion.vueloId = f"{vuelo}{numeroVuelo + random.randint(1,5)}"
     tiempoActual =int(evento.now) 
-    horaSalida = tiempoActual + int(random.triangular(40,70,55)) # asignamos tiempo random de salida
+    limpieza = servicioLimpieza()
+    combustible = servicioCombustible()
+    catering = servicioCatering()
+    embarque = servicioEmbarque()
+    serviciosParalelo = max(limpieza,combustible,catering)
+    totalServicios = serviciosParalelo + embarque
+    horaSalida = tiempoActual + totalServicios # asignamos tiempo random de salida
     horaLlegada = horaSalida + vueloRandom["Duracion_Vuelo"]
     horaSalida,minSalida = funcMin(horaSalida)
     horaLlegada,minLlegada = funcMin(horaLlegada)

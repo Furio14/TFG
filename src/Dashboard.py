@@ -28,8 +28,8 @@ st.markdown("""
 if 'i' not in st.session_state:
     st.session_state.i = 0
 
-if 'jugando' not in st.session_state:
-    st.session_state.jugando = False
+if 'simulando' not in st.session_state:
+    st.session_state.simulando = False
 
 dataset = pd.read_csv("../csv/log.csv", sep=',', decimal=',')
 st.sidebar.title("Centro de Control")
@@ -38,13 +38,12 @@ modo = st.sidebar.radio(
     ["Automatico", "Vista Operativa", "Vista Tactica"],
     index=0
 )
-c1, c2, c3 = st.sidebar.columns(3)
-if c1.button("Play"):
-    st.session_state.jugando = True
-if c2.button("Pause"):
-    st.session_state.jugando = False
-if c3.button("Stop"):
-    st.session_state.jugando = False
+if st.sidebar.button("Empezar"):
+    st.session_state.simulando = True
+if st.sidebar.button("Pausar"):
+    st.session_state.simulando = False
+if st.sidebar.button("Parar"):
+    st.session_state.simulando = False
     st.session_state.i = 0
     st.rerun()
 
@@ -90,11 +89,11 @@ def render_operativa(fila,colas):
     mensaje3 = st.empty()
     
     if fila['Estado'] == "Aterrizaje":
-        st.session_state.val1 = f"Ultimo Aterrizaje registrado: Vuelo {fila['ID_Vuelo']} ({fila['Origen']} -> {fila['Destino']}) aterrizo"
+        st.session_state.val1 = f"Ultimo Aterrizaje registrado: Vuelo {fila['ID_Vuelo']} ({fila['Hora_Salida_Origen']}|{fila['Origen']} -> {fila['Hora_Llegada_Destino']}|{fila['Destino']}) aterrizo"
     if fila['Estado'] == "Estacionado":
-        st.session_state.val2 =f"Ultimo Estacionamiento registrado: Vuelo {fila['ID_Vuelo']} ({fila['Origen']} -> {fila['Destino']}) estaciono"
+        st.session_state.val2 =f"Ultimo Estacionamiento registrado: Vuelo {fila['ID_Vuelo']} ({fila['Hora_Salida_Origen']}|{fila['Origen']} -> {fila['Hora_Llegada_Destino']}|{fila['Destino']}) estaciono"
     if fila['Estado'] == "Despegando":
-        st.session_state.val3 =f"Ultimo Despegue registrado: Vuelo {fila['ID_Vuelo']} ({fila['Origen']} -> {fila['Destino']}) despego"
+        st.session_state.val3 =f"Ultimo Despegue registrado: Vuelo {fila['ID_Vuelo']} ({fila['Hora_Salida_Origen']}|{fila['Origen']} -> {fila['Hora_Llegada_Destino']}|{fila['Destino']}) despego"
     mensaje1.caption(st.session_state.val1)
     mensaje2.caption(st.session_state.val2)
     mensaje3.caption(st.session_state.val3)
@@ -136,14 +135,14 @@ def render_tactica(dataset_hist,fila):
         st.markdown(f"               ")
 
 def render_alerta(fila,colas):
-    motivo = "SATURACION DE PISTA" if colas['llegada'] > 8 else "PARKING COMPLETO"
+    motivo = "SATURACION DE PISTA" if colas['llegada'] > 7 else "PARKING COMPLETO"
     st.markdown(f"<div class='alerta'>ALERTA CRITICA: {motivo} ({fila['Reloj']})</div>", unsafe_allow_html=True)
     st.error(f"Llegadas: {colas['llegada']} | Parking: {colas['parking']}/50")
 
 
 if st.session_state.i >= len(dataset):
     st.session_state.i = len(dataset) - 1 
-    st.session_state.jugando = False 
+    st.session_state.simulando = False 
 
 idx = st.session_state.i
 fila = dataset.iloc[idx]
@@ -154,14 +153,12 @@ dataset_history = dataset.iloc[inicio_hist:idx+1]
 colas = {
     'llegada': int(fila['Aeronaves_En_Cola_Llegada']),
     'parking': int(fila['Aeronaves_En_Estacionamiento']),
-    'salida': int(fila['Aeronaves_En_Cola_Salida']),
-    'pasajeros': int(fila['Pasajeros']),
-    'clima': fila['Clima']
+    'salida': int(fila['Aeronaves_En_Cola_Salida'])
 }
 
 container = st.container()
 with container:
-    if colas['llegada'] > 8 or colas['parking'] >= 48:
+    if colas['llegada'] > 7 or colas['parking'] >= 45:
         render_alerta(fila,colas)
     
     elif modo == "Vista Operativa":
@@ -171,14 +168,12 @@ with container:
         render_tactica(dataset_history,fila)
     
     else:
-        if (idx // 20) % 2 == 0:
+        if (idx // 50) % 2 == 0:
             render_operativa(fila,colas)
-            st.caption("Mostrando Operativa")
         else:
             render_tactica(dataset_history,fila)
-            st.caption("Mostrando Analitica")
 
-if st.session_state.jugando:
+if st.session_state.simulando:
     time.sleep(velocidad)
     st.session_state.i += 1
     st.rerun() 
