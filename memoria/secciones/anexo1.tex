@@ -17,7 +17,7 @@
 
 \section{Código fuente de la simulación}
 \label{anexo:codigoFuente}
-\begin{lstlisting}[language = Python,frame = single,caption = {Generador de aeronaves},label=listing:A1,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Generador de aeronaves},label=listing:lst1,captionpos=b,breaklines=true,breakatwhitespace=false]
     def generador(evento):
         vueloRandom = random.choice(listaVuelos)
         letra = random.choice("ABCDEFGHIJLKMNOPQRSTUVWXYZ")
@@ -36,7 +36,7 @@
         horaSalida = f"{horasHastaSalida:02d}:{minsHastaSalida:02d}"
         horaLl = f"{(horasHastaLlegada)%24:02d}:{minsHastaLl:02d}"
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Ciclo completo aeronaves},label=listing:A2,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Ciclo completo aeronaves},label=listing:lst2,captionpos=b,breaklines=true,breakatwhitespace=false]
     # Nos indica primero si esta llegando el avion
     yield evento.process(controlLlegadas(evento,avion,colaAterrizajes,estadoClima,mes,aeronaves))
     # Despues de seguido indica si efectivamente ha aterrizado el avion
@@ -48,14 +48,14 @@
     # Nos indica si el avion esta despegando
     yield evento.process(controlDespegues(evento,parking,pistaDespegues,colaDespegues,estadoClima,mes,turnos,aeronaves))
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Gestión de la Cola de Llegada},label=listing:A3,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Gestión de la Cola de Llegada},label=listing:lst3,captionpos=b,breaklines=true,breakatwhitespace=false]
     # Una vez solicitan aterrizar los aviones se les añade a la cola de llegadas
     def controlLlegadas(evento,avion,colaAterrizajes,estadoClima,mes,aeronaves):
         yield colaAterrizajes.put(avion)
         aeronaves["AeronavesEnColaLlegada"] += 1
         avion.infoColaAterrizaje(evento,estadoClima,mes,aeronaves)
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Operación de Aterrizaje},label=listing:A4,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Operación de Aterrizaje},label=listing:lst4,captionpos=b,breaklines=true,breakatwhitespace=false]
     # Una vez llegan las aeronaves las retira de la otra cola y las añade a la de aterrizados
     def controlAterrizajes(evento,pista,colaAterrizajes,colaEstacionados,estadoClima,mes,aeronaves):
         if colaAterrizajes:
@@ -72,7 +72,7 @@
     else:
         yield evento.timeout(0.1)
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Operación de Estacionamiento},label=listing:A5,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Operación de Estacionamiento},label=listing:lst5,captionpos=b,breaklines=true,breakatwhitespace=false]
     # Una vez aterrizan las aeronaves te informa de si esta estacionado
     def controlEstacionados(evento,parking,colaEstacionados,colaSalidas,estadoClima,mes,aeronaves):
         if colaEstacionados:
@@ -90,7 +90,7 @@
         else:
             yield evento.timeout(0.1)
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Programación de Salida},label=listing:A6,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Programación de Salida},label=listing:lst6,captionpos=b,breaklines=true,breakatwhitespace=false]
     # Una vez estan estacionadas las aeronaves se les asigna una hora de salida para ser anunciado
     def controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima,mes,aeronaves):
         if colaSalidas:
@@ -111,7 +111,7 @@
         else:
             yield evento.timeout(0.1)
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Operación de Despegue},label=listing:A7,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Operación de Despegue},label=listing:lst7,captionpos=b,breaklines=true,breakatwhitespace=false]
     # Una vez estan estacionadas las aeronaves se les asigna una tarea de salir a pista
     def controlDespegues(evento,parking,pista,colaDespegues,estadoClima,mes,turnos,aeronaves):
         if colaDespegues:
@@ -140,13 +140,13 @@
         else:
             yield evento.timeout(0.1)
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Tasa Horarios},label=listing:A8,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Tasa Horarios},label=listing:lst8,captionpos=b,breaklines=true,breakatwhitespace=false]
     tasaHora = {0:0.1,1:0.1,2:0.08,3:0.07,4:0.07,5:0.08,
             6:0.1,7:0.2,8:0.3,9:0.3,10:0.4,11:0.4,
             12:0.4,13:0.45,14:0.4,15:0.5,16:0.45,17:0.4,
             18:0.35,19:0.3,20:0.25,21:0.2,22:0.15,23:0.1}
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Factores Externos},label=listing:A9,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Factores Externos},label=listing:lst9,captionpos=b,breaklines=true,breakatwhitespace=false]
     Invierno = {"Soleado":0.3,"Nublado":0.4,"Lluvioso":0.2,"Niebla":0.05,"Tormenta":0.05}
     Primavera = {"Soleado":0.6,"Nublado":0.25,"Lluvioso":0.1,"Niebla":0.02,"Tormenta":0.05}
     Verano = {"Soleado":0.8,"Nublado":0.15,"Lluvioso":0.03,"Niebla":0.01,"Tormenta":0.03}
@@ -178,5 +178,44 @@
                 else: estado['retraso'] = 0
 
             yield evento.timeout(60)
+\end{lstlisting}
+\begin{lstlisting}[language = Python,frame = single,caption = {Generador Aeronaves},label=listing:lst10,captionpos=b,breaklines=true,breakatwhitespace=false]
+    def generador(evento):
+    vueloRandom = random.choice(listaVuelos)
+    letra = random.choice("ABCDEFGHIJLKMNOPQRSTUVWXYZ") # genera letra random
+    id = f"{letra}{random.randint(0,999)}" # genera un id para un avion aleatorio
+    idVuelo = vueloRandom["Vuelo_ID"] # genera un id para un avion aleatorio
+    estado = "Llegando" # estado de la aeronave
+    pasajeros = random.randint(150,300) # genera un numero random de pasajeros
+    origen = vueloRandom["Ciudades"] # genera ciudades 
+    destino = "Madrid"
+    duracion = vueloRandom["Duracion_Vuelo"]
+    horasAeronave = int(evento.now) # Con el tiempo del reloj de simulacion calculamos los demas tiempos
+    horasHastaSalida = ((horasAeronave - duracion)//60)%24
+    minsHastaSalida = (horasAeronave - duracion) % 60
+    horasHastaLlegada = (horasAeronave // 60) % 24
+    minsHastaLlegada = horasAeronave % 60
+    horaSalida = f"{horasHastaSalida:02d}:{minsHastaSalida:02d}"
+    horaLlegada = f"{(horasHastaLlegada)%24:02d}:{minsHastaLlegada:02d}"            
+    return Aeronave(id,idVuelo,estado,pasajeros,origen,destino,horaSalida,horaLlegada,horaLlegadaReal="---",horaEstacionado="---",horaProgramadaSalida="---",horaDespegue="---",tiempoCicloAvion="---")
+\end{lstlisting}
+\begin{lstlisting}[language = Python,frame = single,caption = {Control Aéreo},label=listing:lst11,captionpos=b,breaklines=true,breakatwhitespace=false]
+    def controlAereo(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves,retraso):
+    while True:
+            vuelosMedia = aeronaves["AeronavesDiarias"] #media de vuelos cada dia
+            hora = horaActual(evento.now)
+            controlHorario(evento,turnos,retraso)
+            operaciones = operacionesMes(mes)
+            vuelosDiarios = vuelosMedia * operaciones
+            vuelosHora = vuelosDiarios * tasaHora[hora]
+            lambdaVuelos = (vuelosHora/60)/4 #el aeropueto madrid barajas usa 4 pistas como solol tenemos 1 dividimos todo entre 4
+            tiempoGeneracion = random.expovariate(lambdaVuelos)
+            yield evento.timeout(tiempoGeneracion)
+            avion = generador(evento) # se generan aviones
+            controlTurnosLlegadas(hora,turnos)
+            Aeronave.totalAeronaves += 1
+            Aeronave.totalPasajeros += avion.pasajeros
+            # Ciclo completo de cada avion
+            evento.process(cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves))
 \end{lstlisting}
 

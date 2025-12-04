@@ -270,34 +270,34 @@ Las estructuras de datos proporcionadas por la librería simpy para gestionar la
 Los recursos creados con simpy.Resource funcionan como servidores que regulan el paso de las aeronaves por cada estado del proceso, cada una con una capacidad limitada. Por otro lado, los elementos definidos con simpy.Store actúan como colas FIFO donde se almcenan las aeronaves junto con sus atributos, garantizando así, que se atiendan en orden. Estas colas también cuentan con un límite de capacidad para evitar la formación de cuellos de botella.
 
 \subsection{Funciones Principales de la Simulación}
-En este apartado se describe la logica del programa y las funciones principales que lo componen, es decir, aquellas que son clave para entender el funcionamiento del simulador [\ref{anexo:codigoFuente}].
+En este apartado se describe la logica del programa y las funciones principales que lo componen, es decir, aquellas que son clave para entender el funcionamiento del simulador.
 \\
 \\
-\textbf{generador(evento):} Esta función selecciona un vuelo aleatorio del dataset \textit{ciudades.csv}. A partir de esos datos genera un \textit{"ID"} e \textit{"IDVuelo"} aleatorios, obteniéndose así todos los parámetros necesarios de la aeronave. Se invoca siempre al inicio del bucle principal, siendo fundamental, ya que es la función encargada de crear las aeronaves.
+\textbf{generador(evento):} Esta función selecciona un vuelo aleatorio del dataset \textit{ciudades.csv}. A partir de esos datos genera un \textit{"ID"} e \textit{"IDVuelo"} aleatorios, obteniéndose así todos los parámetros necesarios de la aeronave. Se invoca siempre al inicio del bucle principal, siendo fundamental, ya que es la función encargada de crear las aeronaves (Ver código en \ref{listing:lst10}).
 \\
 \\
-\textbf{controlAereo(params):}Esta función contiene el bucle principal de la simulación. En ella se calcula la tasa de llegadas según los parámetros introducidos por el usuario, se generan aviones mediante la función \textit{generador(evento)}  y se invoca el proceso \textit{cicloAvion(params)}, que gestiona el ciclo completo de eventos que debe  realizar cada aeronave.
+\textbf{controlAereo(params):}Esta función contiene el bucle principal de la simulación. En ella se calcula la tasa de llegadas según los parámetros introducidos por el usuario, se generan aviones mediante la función \textit{generador(evento)}  y se invoca el proceso \textit{cicloAvion(params)}, que gestiona el ciclo completo de eventos que debe  realizar cada aeronave (Ver código en \ref{listing:lst11}).
 \\
 \\
-\textbf{cicloAvion(params):} Esta función gestiona la secuencia completa de eventos por los que pasa una aeronave. Los eventos se ejecutan de manera ordenada, un avión no puede avanzar al siguiente evento si no ha completado el anterior. No obstante, varias aeronaves pueden estar realizando su ciclo de manera simultánea, aportando concurrencia y aumentando el realismo de la simulación.
+\textbf{cicloAvion(params):} Esta función gestiona la secuencia completa de eventos por los que pasa una aeronave. Los eventos se ejecutan de manera ordenada, un avión no puede avanzar al siguiente evento si no ha completado el anterior. No obstante, varias aeronaves pueden estar realizando su ciclo de manera simultánea, aportando concurrencia y aumentando el realismo de la simulación (Ver código en \ref{listing:lst2}).
 \\
 \\
 Dentro de este ciclo se encuentran cinco funciones fundamentales que aseguran el correcto desarrollo de la simulación:
 \\
 \\
-\textbf{ControlLlegadas(params):} Gestiona la llegada de una aeronave a la cola de aterrizaje. Si la cola está vacía, la aeronave continúa al siguiente evento. Si esta llena, espera hasta que haya disponibilidad.
+\textbf{ControlLlegadas(params):} Gestiona la llegada de una aeronave a la cola de aterrizaje. Si la cola está vacía, la aeronave continúa al siguiente evento. Si esta llena, espera hasta que haya disponibilidad (Ver código en \ref{listing:lst3}).
 \\
 \\
-\textbf{ControlAterrizajes(params):} Permite a la aeronave aterrizar cuando la pista está libre. En esta función se calcula el tiempo de aterrizaje y, dependiendo de las condiciones climáticas, pueden producirse retrasos. Una vez que aterriza la aeronave, se dirige al estacionamiento.
+\textbf{ControlAterrizajes(params):} Permite a la aeronave aterrizar cuando la pista está libre. En esta función se calcula el tiempo de aterrizaje y, dependiendo de las condiciones climáticas, pueden producirse retrasos. Una vez que aterriza la aeronave, se dirige al estacionamiento (Ver código en \ref{listing:lst4}).
 \\
 \\
-\textbf{ControlEstacionados(params):} Gestiona el estacionamiento de las aeronaves. Si hay espacio disponible, la aeronave se estaciona y permanece allí mientras se realizan las operaciones en tierra. Al llegar la hora de salida, se solicita incorporarse a la cola de despegue.
+\textbf{ControlEstacionados(params):} Gestiona el estacionamiento de las aeronaves. Si hay espacio disponible, la aeronave se estaciona y permanece allí mientras se realizan las operaciones en tierra. Al llegar la hora de salida, se solicita incorporarse a la cola de despegue(Ver código en \ref{listing:lst5}).
 \\
 \\
-\textbf{ControlSalidas(params):} Maneja la espera en la cola de despegue. Si la cola está completa, la aeronave permanece en su lugar, lo que puede generar cuellos de botella. Si no está completa, espera hasta que haya disponibilidad en la pista para despegar.
+\textbf{ControlSalidas(params):} Maneja la espera en la cola de despegue. Si la cola está completa, la aeronave permanece en su lugar, lo que puede generar cuellos de botella. Si no está completa, espera hasta que haya disponibilidad en la pista para despegar (Ver código en \ref{listing:lst6}).
 \\
 \\
-\textbf{ControlDespegues(params):} Gestiona el despegue de la aeronave. Una vez que la pista de despegue está libre, el avión despega, completando así su ciclo en el aeropuerto.
+\textbf{ControlDespegues(params):} Gestiona el despegue de la aeronave. Una vez que la pista de despegue está libre, el avión despega, completando así su ciclo en el aeropuerto (Ver código en \ref{listing:lst7}).
 \subsection{Párametros del Modelo}
 El comportamiento del sistema está regido por una serie de \textit{inputs} . El simulador, así, permite configurar distintos escenarios mediante la modificación de estos parámetros
 \subsubsection{Parámetros de Entrada}
@@ -482,10 +482,10 @@ Aún así, los datos permiten visualizar claramente el comportamiento del sistem
 A diferencia del código inicial, esta fase del modelo computacional implementa la lógica central de la simulación. Se introduce la gestión temporal basada en el reloj por eventos de Simpy \textit{evento.now}, asegurando que cada evento ocurra en un orden estrictamente cronológico. Para darle más realismo al modelo, se han integrado las fórmulas matemáticas discutidas previamente, como la distribución exponencial para las llegadas y la distribución normal para los servicios auxiliares. Además, se han añadido nuevas columnas de parámetros al \textit{log.csv}, como el reloj o el clima, para garantizar que todos los datos registrados sigan un orden cronológico y una lógica coherente.
 \\
 \\
-La implementación computacional se basa, en parte, en el \textit{ciclo completo del avión}, este proceso trata sobre el ciclo de vida completo de una aeronave en el aeropuerto.Se lanza una instancia de este proceso por cada avión en la función controlAéreo [Listing \ref{listing:A2}].
+La implementación computacional se basa, en parte, en el \textit{ciclo completo del avión}, este proceso trata sobre el ciclo de vida completo de una aeronave en el aeropuerto.Se lanza una instancia de este proceso por cada avión en la función controlAéreo [Listing \ref{listing:lst2}].
 \\
 \\
-El proceso \textit{cicloAvion} gestiona el ciclo de vida completo de la aeronave, el cual se compone de cinco fases lógicas: la gestión de la cola de llegada, la operación de aterrizaje, el estacionamiento, la programación de salida y el despegue [Listings \ref{listing:A3}-\ref{listing:A7}].
+El proceso \textit{cicloAvion} gestiona el ciclo de vida completo de la aeronave, el cual se compone de cinco fases lógicas: la gestión de la cola de llegada, la operación de aterrizaje, el estacionamiento, la programación de salida y el despegue [Listings \ref{listing:lst3}-\ref{listing:lst7}].
 \\
 \\
 Estas fases se ejecutan en un orden secuencial estricto, garantizado por el uso de \textit{yield evento.process()} para cada etapa. Está técnica de encadenamiento es fundamental, ya que asegura que cada proceso vaya en orden.
@@ -494,8 +494,7 @@ Estas fases se ejecutan en un orden secuencial estricto, garantizado por el uso 
 Al mismo tiempo, esta estructura permite que el proceso \textit{cicloAvion} completo se ejecute de forma concurrente con los ciclos de las otras aeronaves. De este modo, la simulación puede gestionar múltiples aeronaves en diferentes fases sin que sus flujos lógicos interfieran entre sí.
 \\
 \\
-Además, se incluyen factores que afectan cómo se llevan a cabo de los eventos y sus resultados. Como se mencionó antes, se consideran elementos externos (\ref{listing:A8}) y horarios (\ref{listing:A9}), de manera que, según distintas circunstancias, puedan ocurrir diferentes situaciones. Esto ayuda a crear varios escenarios y a hacer la simulación mucho más completa.
-
+Además, se incluyen factores que afectan cómo se llevan a cabo de los eventos y sus resultados. Como se mencionó antes, se consideran elementos externos (\ref{listing:lst8}) y horarios (\ref{listing:lst9}), de manera que, según distintas circunstancias, puedan ocurrir diferentes situaciones. Esto ayuda a crear varios escenarios y a hacer la simulación mucho más completa.
 \section{Experimentación del Prototipo}
 El objetivo de esta sección es definir los escenarios bajo los cuales se evaluará el rendimiento del aeropuerto. Además, se define la metodología estadística necesaria para garantizar la validez de los resultados.
 \subsection{Diseño de Escenarios}
@@ -522,6 +521,7 @@ En este apartado se presentarán los parametros utilizados en cada uno de los es
         Tasa Tráfico & 200 operaciones & 400 operaciones & 300 operaciones\\
         Horas Simuladas & 24h & 24h & 24h\\
         Turno Comienzo & Madrugada & Madrugada & Madrugada\\
+        Iteraciones & 50 & 50 & 50\\
         \hline
     \end{tabular}
     \caption{Parámetros de cada escenario}

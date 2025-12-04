@@ -1,3 +1,27 @@
 \chapter{Prototipo 2º}
+En este segundo prototipo se han incoporado cambios breves pero realistas que aportan un mayor nivel de autenticidad a la simulación. Además, se ha desarrollado un Dashboard que permite visualizar de forma clara el registro completo de eventos, funcionando como un panel de control similar al de una torre de control.
 
 \section{Dashboard y Agentes en Tiempo de Simulación}
+Se ha diseñado un dashboard simple, pero lleno de información valiosa que permite ver como funciona el sistema aeroportuario a tiempo real, y, que muestra datos coherentes.
+
+El dashboard está compuesto por un panel con varias opciones. En primer lugar, incluye un modo automático donde las vistas, tanto operativa como táctica, se alternan según un tiempo determinado. Por otro lado, están las ventanas de vista táctica y operativa que el usuario puede cambiar manualmente cuando lo desee. Además, se incluyen botones de \textit{play}, \textit{pausa} y \textit{stop}, y es posible ajustar la velocidad de la simulación para visualizarla más rápido en tiempo real.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{portada/CentroControl.png}
+    \caption{Centro de Cotrol Dashboard}
+    \label{fig:Centro de Cotrol Dashboard}
+\end{figure}
+
+Al realizar la simulación, como se mencionó anteriormente, se pueden observar dos vistas principales.
+\\
+\\
+La vista operativa muestra las colas de llegadas y salidas de las aeronaves, mientras que la otra vista indica la ocupación del parking. Cuando estas colas alcanazan un número elevado de aeronaves ($\ge 8$) o hay muchas aeronaves estacionadas ($\ge 45$), se genera una alerta que se muestra directamente en el programa. Además, en la parte inferior se pueden ver las últimas aeronaves que están aterrizando, estacionadas o despegando.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/VistaOperativa.png}
+    \caption{fig:Vista Operativa Dashboard}
+    \label{fig:Vista Operativa Dashboard}
+\end{figure}
+

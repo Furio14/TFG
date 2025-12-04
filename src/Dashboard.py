@@ -38,11 +38,11 @@ modo = st.sidebar.radio(
     ["Automatico", "Vista Operativa", "Vista Tactica"],
     index=0
 )
-if st.sidebar.button("Empezar"):
+if st.sidebar.button("Play"):
     st.session_state.simulando = True
-if st.sidebar.button("Pausar"):
+if st.sidebar.button("Pausa"):
     st.session_state.simulando = False
-if st.sidebar.button("Parar"):
+if st.sidebar.button("Stop"):
     st.session_state.simulando = False
     st.session_state.i = 0
     st.rerun()
