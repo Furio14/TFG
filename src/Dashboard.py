@@ -53,8 +53,14 @@ velocidad = st.sidebar.slider("Velocidad", 0.01, 1.0, 0.1, format="%f s")
 if not dataset.empty:
     progreso_dia = st.session_state.i/len(dataset)
     st.sidebar.progress(min(progreso_dia, 1.0), text="Progreso del Dia")
-
-def render_operativa(fila,colas):
+def emergencia(fila):
+    valor = str(fila.get('Emergencia','False')).strip()
+    if valor == 'True':
+        return ['background-color: #8B0000; color: white'] * len(fila)
+    else:
+        return[''] * len(fila)
+    
+def operativa(fila,colas,datasetHistory):
     st.subheader(f"VISTA OPERATIVA | {fila['Reloj']}")
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -78,28 +84,35 @@ def render_operativa(fila,colas):
         st.markdown(f"<div style='font-size:20px'>{iconos}</div>", unsafe_allow_html=True)
 
     st.divider()
-    if 'val1' not in st.session_state:
-        st.session_state.val1 = ""
-    if 'val2' not in st.session_state:
-        st.session_state.val2 = ""
-    if 'val3' not in st.session_state:
-        st.session_state.val3 = ""
-    mensaje1 = st.empty()
-    mensaje2 = st.empty()
-    mensaje3 = st.empty()
+    if 'aterrizaje' not in st.session_state:
+        st.session_state.aterrizaje = None
+    if 'parking' not in st.session_state:
+        st.session_state.parking = None
+    if 'despegue' not in st.session_state:
+        st.session_state.despegue = None
     
     if fila['Estado'] == "Aterrizaje":
-        st.session_state.val1 = f"Ultimo Aterrizaje registrado: Vuelo {fila['ID_Vuelo']} ({fila['Hora_Salida_Origen']}|{fila['Origen']} -> {fila['Hora_Llegada_Destino']}|{fila['Destino']}) aterrizo"
+        st.session_state.aterrizaje = fila
     if fila['Estado'] == "Estacionado":
-        st.session_state.val2 =f"Ultimo Estacionamiento registrado: Vuelo {fila['ID_Vuelo']} ({fila['Hora_Salida_Origen']}|{fila['Origen']} -> {fila['Hora_Llegada_Destino']}|{fila['Destino']}) estaciono"
+        st.session_state.parking = fila
     if fila['Estado'] == "Despegando":
-        st.session_state.val3 =f"Ultimo Despegue registrado: Vuelo {fila['ID_Vuelo']} ({fila['Hora_Salida_Origen']}|{fila['Origen']} -> {fila['Hora_Llegada_Destino']}|{fila['Destino']}) despego"
-    mensaje1.caption(st.session_state.val1)
-    mensaje2.caption(st.session_state.val2)
-    mensaje3.caption(st.session_state.val3)
+        st.session_state.despegue = fila
+        
+    st.markdown("Ultimos eventos registrados")
+    filas = []
+    if st.session_state.aterrizaje is not None:
+        filas.append(st.session_state.aterrizaje)
+    if st.session_state.parking is not None:
+        filas.append(st.session_state.parking)
+    if st.session_state.despegue is not None:
+        filas.append(st.session_state.despegue)
+
+    if filas:
+        resumen = pd.DataFrame(filas)
+        st.dataframe(resumen.style.apply(emergencia, axis=1),use_container_width=True,hide_index=True)
 
 
-def render_tactica(dataset_hist,fila):
+def tactica(datasetHistory,fila):
     st.subheader(f"VISTA TACTICA | {fila['Reloj']}")
     c4, c5, c6 = st.columns(3)
     with c4:
@@ -125,8 +138,8 @@ def render_tactica(dataset_hist,fila):
         st.markdown(f"               ")
 
     # Tendencia de Colas
-    if not dataset_hist.empty:
-        fig = px.area(dataset_hist, x="Reloj", y=["Aeronaves_En_Cola_Llegada", "Aeronaves_En_Cola_Salida"],
+    if not datasetHistory.empty:
+        fig = px.area(datasetHistory, x="Reloj", y=["Aeronaves_En_Cola_Llegada", "Aeronaves_En_Cola_Salida"],
                       title="Evolucion de Colas (Ultimas 2 horas)", height=300,
                       color_discrete_sequence=["#FFC107", "#FF4B4B"])
         st.plotly_chart(fig, use_container_width=True)
@@ -134,9 +147,14 @@ def render_tactica(dataset_hist,fila):
         st.markdown(f"               ")
         st.markdown(f"               ")
 
-def render_alerta(fila,colas):
+def alerta(fila,colas):
     motivo = "SATURACION DE PISTA" if colas['llegada'] > 7 else "PARKING COMPLETO"
     st.markdown(f"<div class='alerta'>ALERTA CRITICA: {motivo} ({fila['Reloj']})</div>", unsafe_allow_html=True)
+    st.error(f"Llegadas: {colas['llegada']} | Parking: {colas['parking']}/50")
+
+def averia(estado):
+    motivo = "OBJETO EN PISTA DE ATERRIZAJE" if estado['pistaAterrizaje'] == "Cerrada" else "OBJETO EN PISTA DE DESPEGUE"
+    st.markdown(f"<div class='averia'>AVERIA: {motivo} ({fila['Reloj']})</div>", unsafe_allow_html=True)
     st.error(f"Llegadas: {colas['llegada']} | Parking: {colas['parking']}/50")
 
 
@@ -148,32 +166,41 @@ idx = st.session_state.i
 fila = dataset.iloc[idx]
 
 inicio_hist = max(0,idx - 60)
-dataset_history = dataset.iloc[inicio_hist:idx+1]
+datasetH = dataset.iloc[inicio_hist:idx+1]
 
 colas = {
     'llegada': int(fila['Aeronaves_En_Cola_Llegada']),
     'parking': int(fila['Aeronaves_En_Estacionamiento']),
     'salida': int(fila['Aeronaves_En_Cola_Salida'])
 }
+estado = {
+    'pistaDespegue': fila['Estado_Pista_Despegue'],
+    'pistaAterrizaje':fila['Estado_Pista_Aterrizaje']  
+}
 
 container = st.container()
 with container:
     if colas['llegada'] > 7 or colas['parking'] >= 45:
-        render_alerta(fila,colas)
+        alerta(fila,colas)
+
+    if estado['pistaDespegue'] == "Cerrada" or estado['pistaAterrizaje'] == "Cerrada":
+        averia(estado)
     
     elif modo == "Vista Operativa":
-        render_operativa(fila,colas)
+        operativa(fila,colas,datasetH)
     
     elif modo == "Vista Tactica":
-        render_tactica(dataset_history,fila)
+        tactica(datasetH,fila)
     
     else:
         if (idx // 50) % 2 == 0:
-            render_operativa(fila,colas)
+            operativa(fila,colas,datasetH)
         else:
-            render_tactica(dataset_history,fila)
+            tactica(datasetH,fila)
 
 if st.session_state.simulando:
     time.sleep(velocidad)
     st.session_state.i += 1
     st.rerun() 
+
+############################FUNCIONES AUXILIARES############################

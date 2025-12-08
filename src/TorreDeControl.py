@@ -24,6 +24,7 @@ def controlAereo(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAter
             controlTurnosLlegadas(hora,turnos)
             Aeronave.totalAeronaves += 1
             Aeronave.totalPasajeros += avion.pasajeros
+            aterrizajeEmergencia(avion)
             # Ciclo completo de cada avion
             evento.process(cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves))
 
@@ -49,14 +50,19 @@ def controlLlegadas(evento,avion,colaAterrizajes,estadoClima,mes,aeronaves):
 # Una vez llegan las aeronaves las retira de la otra cola y las añade a la de aterrizados
 def controlAterrizajes(evento,pista,colaAterrizajes,colaEstacionados,estadoClima,mes,aeronaves):
     if colaAterrizajes:
-        with pista.request( ) as request: # si hay request de aterrizar en pista
+        avion = colaAterrizajes.items[0]
+        if avion.emergencia:
+            prioridad = -1
+        else:
+            prioridad = 1
+        with pista.request(priority=prioridad) as request: # si hay request de aterrizar en pista
             yield request
             tiempoHastaAterrizar = estadoClima['retraso']
             yield evento.timeout(tiempoHastaAterrizar)
             aterriza = yield colaAterrizajes.get()
+            aeronaves["AeronavesEnColaLlegada"] -= 1
             aterriza.horaLlegadaReal = tiempoEvento(evento.now)
             aterriza.tiempoLlegadaMinutos = int(evento.now)
-            aeronaves["AeronavesEnColaLlegada"] -= 1
             aterriza.infoAterrizaje(evento,estadoClima,mes,aeronaves)
             yield colaEstacionados.put(aterriza)   
     else:
@@ -103,7 +109,7 @@ def controlDespegues(evento,parking,pista,colaDespegues,estadoClima,mes,turnos,a
     if colaDespegues:
         salida = yield colaDespegues.get()
         avion = salida
-        with pista.request() as request: #hace request por si no hay ningún avión en la pista
+        with pista.request(priority=1) as request: #hace request por si no hay ningún avión en la pista
             yield request
             if(hasattr(avion,'ticketParking')):
                 yield parking.put(avion.gate)
@@ -205,5 +211,10 @@ def controlHorario(evento,turnos,retraso):
     if evento.now - retraso > 1440 * turnos["dias"]:
         turnos["dias"] += 1
             
+def aterrizajeEmergencia(avion):
+    if random.random() <0.02:
+        avion.emergencia = True
+    else:
+        avion.emergencia = False
         
         

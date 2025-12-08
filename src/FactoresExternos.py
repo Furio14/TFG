@@ -73,3 +73,13 @@ def operacionesMes(mes):
         case "DICIEMBRE":
             demandaMensual = 1.02
     return demandaMensual
+
+def generadorAverias(evento,pista,estado,modo,min,max):
+    while True:
+        tiempo = random.uniform(min,max)
+        yield evento.timeout(tiempo)
+        estado[modo] = 'Cerrada'
+        with pista.request(priority=0) as req:
+            yield req
+            yield evento.timeout(random.uniform(20,30))
+        estado[modo] = 'Activa'

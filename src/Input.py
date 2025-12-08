@@ -39,6 +39,8 @@ def procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizaje
                                 colaDespegues,estadoClima,mes,turnos,aeronaves,retraso))
     
     evento.process(logicaClima(evento,estadoClima,mes))
+    evento.process(generadorAverias(evento,pistaAterrizaje,estadoClima,'estadoPistaAterrizaje',0,720))
+    evento.process(generadorAverias(evento,pistaDespegue,estadoClima,'estadoPistaDespegue',720,1440))
 
 def resultados(turnos,aeronaves,resultados,semilla,i):
      resultados.append({

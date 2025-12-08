@@ -21,10 +21,10 @@ def main():
         print(f"Iteracion: {i}")
         random.seed(semillaActual)
         evento = simpy.Environment()
-        pistaAterrizaje = simpy.Resource(evento,capacity=1) #servidor para la pista de aterrizaje
-        pistaDespegue = simpy.Resource(evento,capacity=1) #servidor para la pista de despegue
+        pistaAterrizaje = simpy.PriorityResource(evento,capacity=1) #servidor para la pista de aterrizaje
+        pistaDespegue = simpy.PriorityResource(evento,capacity=1) #servidor para la pista de despegue
         anuncio = simpy.Resource(evento,capacity = 1) #servidor para la los anuncios de viajes de despegue
-        parking = simpy.Store(evento,capacity=100) #servidor para el estacionamiento
+        parking = simpy.Store(evento,capacity=50) #servidor para el estacionamiento
         colaAterrizajes = simpy.Store(evento,capacity = 10)
         colaEstacionados = simpy.Store(evento,capacity = 50)
         colaSalidas = simpy.Store(evento,capacity = 1)
@@ -34,7 +34,9 @@ def main():
         #DATOS EN LISTAS
         estadoClima = {
             'clima':'Soleado',
-            'retraso': 0.0
+            'retraso': 0.0,
+            'estadoPistaAterrizaje':'Activa',
+            'estadoPistaDespegue':'Activa'
         }
         turnos = {
             "Madrugada": 0,
