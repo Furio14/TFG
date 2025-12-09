@@ -1,7 +1,7 @@
 \chapter{Prototipo 2º}
 En este segundo prototipo se han incoporado cambios breves pero realistas que aportan un mayor nivel de autenticidad a la simulación. Además, se ha desarrollado un Dashboard que permite visualizar de forma clara el registro completo de eventos, funcionando como un panel de control similar al de una torre de control.
 
-\section{Dashboard y Agentes en Tiempo de Simulación}
+\section{Dashboard Aeroportuario}
 Se ha diseñado un dashboard simple, pero lleno de información valiosa que permite ver como funciona el sistema aeroportuario a tiempo real, y, que muestra datos coherentes.
 
 El dashboard está compuesto por un panel con varias opciones. En primer lugar, incluye un modo automático donde las vistas, tanto operativa como táctica, se alternan según un tiempo determinado. Por otro lado, están las ventanas de vista táctica y operativa que el usuario puede cambiar manualmente cuando lo desee. Además, se incluyen botones de \textit{play}, \textit{pausa} y \textit{stop}, y es posible ajustar la velocidad de la simulación para visualizarla más rápido en tiempo real.
@@ -21,7 +21,7 @@ La vista operativa muestra las colas de llegadas y salidas de las aeronaves, mie
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/VistaOperativa.png}
-    \caption{fig:Vista Operativa Dashboard}
+    \caption{Vista Operativa Dashboard}
     \label{fig:Vista Operativa Dashboard}
 \end{figure}
 
@@ -30,7 +30,25 @@ La vista táctica muestra información sobre el número de pasajeros que llega a
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{portada/VistaTactica.png}
-    \caption{fig:Vista Táctica Dashboard}
+    \caption{Vista Táctica Dashboard}
     \label{fig:Vista Táctica Dashboard}
 \end{figure}
 
+Además, el dashboard incorpora un sistema de estados de alerta que se muestra tanto en la vista táctica como en la operativa. Cuando la cola de llegadas supera las 8 aeronaves o la ocupación del parking excede los 45 puestos, se activa una alerta crítica. Esta señalización indica que el sistema aeroportuario está alcanzado niveles de saturación, y que, por tanto, es un momento clave en el que deberían activarse medidas para mejorar la situación. A continuación, se presenta una imagen que ilustra cómo se visualiza esta alerta en la interfaz:
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/AlertaCritica.png}
+    \caption{Alerta Crítica Dashboard}
+    \label{fig:Alerta Crítica Dashboard}
+\end{figure}
+
+Asimismo en la interfaz se pueden identificar los vuelos de emergencia, los cuales aparecen resaltados en color rojo. Estos casos se producen, por ejemplo, cuando una aeronave tiene el nivel de combustible bajo o necesita aterrizar con urgencia por cualquier otro motivo operativo. Debido a esta prioridad, dichos vuelos se incoporan directamente al proceso de aterrizaje, adelantándose al resto de la cola para garantizar su llegada inmediata:
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/Emergencia.png}
+    \caption{Vuelo de Emergencia Dashboard}
+    \label{fig:Vuelo de Emergencia Dashboard}
+\end{figure}
+
+\section{Evolución de la Lógica de la Simulación}
+A partir del prototipo anterior, que ya presentaba un nivel de desarrollo para aumentar el realismo de la simulación. En esta nueva versión se han implementado elementos adicionales del sistema aeroportuario, como el cierre temporal de pistas, los diferentes tipos de parking y otras características operativas. Todo ello contribuye a que la simulación represente de forma más fiel el comportamiento real de un aeropuerto. 

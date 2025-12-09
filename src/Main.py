@@ -29,8 +29,11 @@ def main():
         colaEstacionados = simpy.Store(evento,capacity = 50)
         colaSalidas = simpy.Store(evento,capacity = 1)
         colaDespegues = simpy.Store(evento,capacity = 10)
+        parkingBus = simpy.Store(evento,capacity = 10)
         for i in range(1,51):
             parking.put(i)
+        for i in range(51,61):
+            parkingBus.put(i)
         #DATOS EN LISTAS
         estadoClima = {
             'clima':'Soleado',
@@ -60,7 +63,7 @@ def main():
         Aeronave.totalAeronaves = 0
         Aeronave.totalPasajeros = 0
         aeronaves["AeronavesDiarias"] = vuelos
-        evento.process(procesos(evento,anuncio,parking,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,
+        evento.process(procesos(evento,anuncio,parking,parkingBus,pistaAterrizaje,pistaDespegue,colaAterrizajes,colaEstacionados,colaSalidas,
                                 colaDespegues,estadoClima,mes,retraso,turnos,aeronaves))
         evento.run(until=hora) #tiempo que dura la simulacion
         resultados(turnos,aeronaves,listaResultados,semillaActual,i) #te guarda los resultados generales en un txt

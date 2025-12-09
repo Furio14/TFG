@@ -31,7 +31,7 @@ Sin embargo, es importante destacar que la cantidad de operaciones se adapta a l
 Las variables de estado son fundamentales para analizar la eficiencia de las operaciones y la evolución del sistema bajo distintos escenarios. Se describen a continuación las variables principales empleadas durante la simulación, podemos distinguirlas en diferentes tipos:
 
 \begin{itemize}
-    \item \textbf{Variables de entidad:} identifican y caracterizan al agente principal (la aeronave) en su ciclo de vida (aterrizaje → despegue). Podemos encontrar atributos como:
+    \item Variables de entidad: identifican y caracterizan al agente principal (la aeronave) en su ciclo de vida (aterrizaje → despegue). Podemos encontrar atributos como:
     \begin{itemize}
         \item ID aeronave: Identificador único y permanente asignado a cada aeronave. Permite rastreare los diferentes vuelos que realiza y su cambio de datos operativos. Ejemplo: V921.
         \item ID vuelo: Identificador del vuelo específico que realiza una aeronave en una ruta determinada. Este identificador cambia con cada nuevo trayectoo. Ejemplo: IB334.
@@ -46,30 +46,37 @@ Las variables de estado son fundamentales para analizar la eficiencia de las ope
         \item Hora de Despegue: Hora real en la que la aeronave despega, dando por finalizado su ciclo en el aeropuerto.
         \item Tiempo de Ciclo de la aeronave: Duración total del tiempo que transcurre desde el aterrizaje de la aeronave hasta su siguiente despegue.
     \end{itemize}
-    \item \textbf{Variables de recursos:} definen la capacidad y el estado de los servidores físicos que atienden a las aeronaves. En este caso, son: 
+    \item Variables de recursos: definen la capacidad y el estado de los servidores físicos que atienden a las aeronaves. En este caso, son: 
     \begin{itemize}
         \item Pista de Aterrizaje: Cada aeronave debe solicitar permiso para poder aterrizar. La pista cuenta con una capacidad máxima de 10 aeronaves en cola, lo que permite un flujo ordenado y seguro durante las operaciones de llegada.
         \item Pista de Despegue: Cada aeronave debe solicitar autorización para utilizar pista. Esta también tiene una capacidad máxima de 10 aeronavess en cola, garantizando un control adecuado del tráfico aéreo y evitando congestiones en las salidas.
         \item Parking: es el área donde las aeronaves permanecen estacionadas después de aterrizar. Actualmente, su capacidad es ilimitada, aunque se recomienda establecer un tope para optimizar el uso de espacio. 
     \end{itemize}
-    \item \textbf{Variables de estado operacional:} se enfocan en la posición en el tiempo y en la lógica de la simulación. La variable principal, denominada \textbf{\textit{estado}} es actualizada por cada evento de la simulación, lo que permite trazar y garantizar la secuencia lógica y cronológica de las operaciones.
+    \item Variables de estado operacional: se enfocan en la posición en el tiempo y en la lógica de la simulación. La variable principal, denominada \textbf{\textit{estado}} es actualizada por cada evento de la simulación, lo que permite trazar y garantizar la secuencia lógica y cronológica de las operaciones.
     \
 \end{itemize}
 
 \section{Aeronaves}
 Distinguir los tipos de aeronaves que operan en el aeropuerto es crucial para la simulación. Esta clasificación permite identificar información esencial sobre cada vuelo. En el modelo de simulación se han clasificado dos categorías fundamentales:
 \begin{itemize}
-    \item \textbf{Aeronaves comerciales:} engloba todas las aeronaves que transportan pasajeros, independientemente de su tamaño.
-    \item \textbf{Aeronaves de carga:} aeronaves dedicadas exclusivamente al transporte de mercancías (suele ser la minoría). Su característica es que no llevan pasajeros y sus tiempos en tierra suelen ser diferentes.
+    \item Aeronaves comerciales: engloba todas las aeronaves que transportan pasajeros, independientemente de su tamaño.
+    \item Aeronaves de carga: aeronaves dedicadas exclusivamente al transporte de mercancías (suele ser la minoría). Su característica es que no llevan pasajeros y sus tiempos en tierra suelen ser diferentes.
 \end{itemize}
 
 \section{Pistas}
-Las pistas son elementos clave en la infraestructura aeroportuaria y actúan como los servidores principales dentro del modelo matemático de colas que representa el flujo de aeronaves. En esta simulación, se ha modelado el sistema con dos pistas independientes, cada una operando con un sistema de colas M/M/1:
-\begin{itemize}
-    \item \textbf{Pista de aterrizaje:} representa el punto de entrada al sistema aeroportuario para las aeronaves, su función es procesar las operaciones de aterrizaje.
-    \item \textbf{Pista de despegue:} este recurso actúa como punto de salida del sistema para las aeronaves que han completado sus operaciones en tierra, se utiliza exclusivamente para las maniobras de despegue.
+Las pistas son elementos clave en la infraestructura aeroportuaria y actúan como los servidores principales dentro del modelo matemático de colas que representa el flujo de aeronaves. Cada pista funciona de manera independiente y, habitualmente, se modela usando un sistema de colas M/M/1:
+\begin{itemize}  
+    \item Pista de aterrizaje: representa el punto de entrada al sistema aeroportuario para las aeronaves, su función es procesar las operaciones de aterrizaje.
+    \item Pista de despegue: este recurso actúa como punto de salida del sistema para las aeronaves que han completado sus operaciones en tierra, se utiliza exclusivamente para las maniobras de despegue.
 \end{itemize}
 Las pistas, por lo tanto, son componentes esenciales, ya que gobiernan directamente el rendimiento del sistema, la formación de colas y los tiempos de espera.
+\section{Gestión de Plataforma}
+El parking es un elemento fundamental en la operatividad aeroportuaria, ya que es el espacio donde se ubican las aeronaves una vez en tierra. Su gestión influye directamente en la fluidez del tráfico aéreo, si el parking se satura, el resto del sistema también se ve afectado, generando retrasos y bloqueos en la cadena operativa. Por este motivo, la asignación de plazas y el orden de ocupación son procesos esenciales para mantener un funcionamiento eficiente y evitar la congestión del aeropuerto.
+\begin{itemize}
+    \item Posiciones de Contacto: Permiten el desambarque directo a la terminal emdiante un finger o una pasarela.
+    \item Posiciones remotas: Requieren transporte adicional, como autboses, para llevar a los pasajeros a la terminal.
+\end{itemize}
+
 
 \section{Procesos de Terminal}
 Los procesos de terminal engloban todas las etapas que un pasajero debe completar desde que entra al edificio terminal hasta que accede a la aeronave. 
