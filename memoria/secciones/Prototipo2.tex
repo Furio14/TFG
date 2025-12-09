@@ -52,3 +52,22 @@ Asimismo en la interfaz se pueden identificar los vuelos de emergencia, los cual
 
 \section{Evolución de la Lógica de la Simulación}
 A partir del prototipo anterior, que ya presentaba un nivel de desarrollo para aumentar el realismo de la simulación. En esta nueva versión se han implementado elementos adicionales del sistema aeroportuario, como el cierre temporal de pistas, los diferentes tipos de parking y otras características operativas. Todo ello contribuye a que la simulación represente de forma más fiel el comportamiento real de un aeropuerto. 
+
+\subsection{Gestión de Pistas}
+Además de actuar como servidores en los que se gestionan las operaciones de aterrizaje y despegue, las pistas pueden presentar problemas que deben ser resueltas para evitar problemas y riesgos en las operaciones aéreas.
+\\
+\\
+Por ello, se ha incluido un proceso que contempla el cierre temporal de una pista cuando pasa un cierto tiempo. Durante este período la pista permanece inactiva hasta que el equipo correspondiente completa la intervención en el tiempo establecido.
+\\
+\\
+También se ha incluido un manejo de excepciones para aeronaves en estado de emergencia. Cuando se detecta un vuelo en estado de emergencia, se asume que presenta algún tipo de problema que requiere atención inmediata. Por ello, se le otorga prioridad absoluta en la cola de llegadas, permitiéndolo aterrizar antes que el resto de aeronaves. Esta situación se puede visualizar en el dashboard, tal y como se muestra en la figura \ref{fig:Vuelo de Emergencia Dashboard}.
+\subsection{Asignación de Estacionamientos}
+Cuando el aeropuerto se queda sin posiciones de contacto disponibles, las aeronaves deben ubicarse en posiciones remotas, donde un autobús translada a los pasasjeros hasta la terminal. Esto ocurre cuando la demanda supera la capacidad disponible de posiciones de contacto.
+\\
+\\
+Para reflejar esto en la simulación, se ha implementado un mecanismo el cual, cuando la cola del parking principal alcanza su límite, las aeronaves que van llegando a continuación se desvían automáticamente al parking secundario, que cuenta con una capacidad máxima de 10 posiciones. De esta manera el aeropuerto mantiene una mayor agilidad operativa y evita posibles saturaciones.
+\subsection{Procesamiento de Procesos en Paralelo}
+Una vez la aeronave esta estacionada, se llevan a cabo diversos procesos necearios para prepararlos para el siguiente vuelo. 
+\\
+\\
+En la simulación se han incluido los servicios de limpieza, catering y repostaje de combustible, los cuales se ejecutan de forma paralela. También se considera el tiempo correspondiente al embarque de los pasajeros. La duración total de estos procesos influye en la puntualidad, ya que, si uno de ellos se retrasa, el tiempo de salida del vuelo puede verse afectado, generando demoras en el sistema.
