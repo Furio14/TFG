@@ -435,7 +435,7 @@ A continuación se muestra una tabla con cada una de ellas:
 \subsection{Evolución del Código}
 El código fuente ha atravesado un proceso de evolución técnica. Se comenzo con una estructura básica y, posteriormente, se integraron reglas complejas.
 \subsubsection{Versión inicial del código}
-Para comenzar, antes de aplicar cualquier modelo matemático, se desarrolló un modelo base con el objetivo de establecer la estructura fundamental de la simulación. En este modelo, los aviones se generan de forma aleatoria mediante un generador que asigna a cada aeronave un número de identificación, un identificador de vuelo, un número aleatorio de pasajeros, el origen y destino de la aeronave, el estado de la aeronave y las horas de salida y llegada correspondientes [Listing \ref{listing:A1}].
+Para comenzar, antes de aplicar cualquier modelo matemático, se desarrolló un modelo base con el objetivo de establecer la estructura fundamental de la simulación. En este modelo, los aviones se generan de forma aleatoria mediante un generador que asigna a cada aeronave un número de identificación, un identificador de vuelo, un número aleatorio de pasajeros, el origen y destino de la aeronave, el estado de la aeronave y las horas de salida y llegada correspondientes [Listing \ref{listing:lst1}].
 \\
 \\
 Los aviones ingresan progresivamente al sistema y, durante la fase de simulación, su estado se actualiza dinámicamente. La aleatoriedad del proceso se logró mediante el uso de la función \textit{random.random()} de Python \cite{random}. Además, se implementaron colas FIFO para las operaciones de aterrizaje, estacionamiento y despegue, garantizando un flujo ordenado en cada etapa.
@@ -477,7 +477,7 @@ Las primeras clases desarrolladas fueron \textit{TorreDeControl.py}, \textit{Gen
 En esta fase, la generación de horas programadas introduce inconsistencias, ya que estos tiempos no están vinculados al reloj de la simulación \textit{evento.now}. Asimismo, faltaba implementar los tiempos de servicio aleatorios para simular realísticamente la ocupación de la pista.
 \\
 \\
-Aún así, los datos permiten visualizar claramente el comportamiento del sistema. Además, refleja la posibilidad de incorporar un dataset con información real de vuelos y horarios, de modo que los datos generados no sean aleatorios ni carezcan de sentido operativo. Para ello, se había previsto la introducción de nuevos campos para proporcionar más información, como la hora de estacionamiento, la hora programada de salida, la hora de despegue y el tiempo de ciclo de cada aeronave, lo que permitirá una simulación más coherente.
+Aún así, los datos permiten visualizar claramente el comportamiento del sistema. Además, refleja la posibilidad de incorporar un dataset con información real de vuelos y horarios, de modo que los datos generados no sean aleatorios ni carezcan de sentido operativo. Para ello, se había previsto la introducción de nuevos campos para proporcionar más información.
 \subsubsection{Desarrollo del prototipo funcional}
 A diferencia del código inicial, esta fase del modelo computacional implementa la lógica central de la simulación. Se introduce la gestión temporal basada en el reloj por eventos de Simpy \textit{evento.now}, asegurando que cada evento ocurra en un orden estrictamente cronológico. Para darle más realismo al modelo, se han integrado las fórmulas matemáticas discutidas previamente, como la distribución exponencial para las llegadas y la distribución normal para los servicios auxiliares. Además, se han añadido nuevas columnas de parámetros al \textit{log.csv}, como el reloj o el clima, para garantizar que todos los datos registrados sigan un orden cronológico y una lógica coherente.
 \\
@@ -614,20 +614,19 @@ En condiciones meteorológicas desfavorables, se observa un comportamiento más 
 
 \subsubsection{Análisis comparativo}
 Para facilitar la interpretación de los resultados, se realizará una comparación de gráficas. Este enfoque permite contrastar directamente el comportamiento de los turnos entre los distintos escenarios simulados.
+\\
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/TotalPorTurnoJulio.png}
     \caption{Ops. Aereas por Turno Escenario Base}
     \label{fig:Ops. Aereas por Turno Escenario Base}
 \end{figure}
-\\
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/TotalPorTurnoAtasco.png}
     \caption{Ops. Aereas por Turno Escenario de Estrés}
     \label{fig:Ops. Aereas por Turno Escenario de Estrés}
 \end{figure}
-\\
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/TotalPorTurnoEnero.png}

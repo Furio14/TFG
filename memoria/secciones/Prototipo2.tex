@@ -71,3 +71,94 @@ Una vez la aeronave esta estacionada, se llevan a cabo diversos procesos neceari
 \\
 \\
 En la simulación se han incluido los servicios de limpieza, catering y repostaje de combustible, los cuales se ejecutan de forma paralela. También se considera el tiempo correspondiente al embarque de los pasajeros. La duración total de estos procesos influye en la puntualidad, ya que, si uno de ellos se retrasa, el tiempo de salida del vuelo puede verse afectado, generando demoras en el sistema.
+\section{Experimentación y Validación del Prototipo 2}
+Para esta fase se ha mantenido la misma matriz de escenarios utilizada en la iteración anterior. Esta elección permite que podamos realizar una comparación directa entre ambas versiones y evaluar de manera más precisa las mejoras que han sido introducidas al simulador en este prototipo.
+\\
+\\
+Sin embargo, ya que hemos incorporado nuevos atributos, como el cierre y apertura de pistas, es previsible que los resultados obtenidos difieran notablemente respecto al primer prototipo. Por ello, tomamos en cuenta diferentes parámetros para los escenarios:
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|c|c|c|} 
+        \hline
+        Parámetros & Escenario Base & Escenario de Estrés & Escenario Adverso\\
+        \hline
+        Mes &  Julio & Julio & Enero\\
+        Clima & Soleado & Soleado & Nublado/Lluvioso\\
+        \textbf{Disponibilidad Pistas} & Dinámico & Dinámico & Dinámico \\
+        Tasa Tráfico & 200 operaciones & 400 operaciones & 300 operaciones\\
+        \textbf{Gestión Parking} & Mixta & Mixta & Mixta\\
+        Horas Simuladas & 24h & 24h & 24h\\
+        \textbf{Incidencias} & Activas & Activas & Activas\\
+        Turno Comienzo & Madrugada & Madrugada & Madrugada\\
+        \textbf{Iteraciones} & 75 & 75 & 75\\
+        \hline
+    \end{tabular}
+    \caption{Parámetros Actualizados Prototipo 2}
+    \label{tab:Parámetros Actualizados Prototipo 2}
+\end{table}
+Como se muestra en la tabla \ref{tab:Parámetros Actualizados Prototipo 2}, los parámetros de simulación se mantienen prácticamente iguales a los del prototipo anterior,  con la excepcion de tres nuevos factores que ahora permanecen constantes en los tres escenarios. A continuacion, se describe la lógica asociada a cada uno de ellos:
+\begin{itemize}
+    \item Disponibilidad de Pistas (Dinámica): El sistema incorpora la posibilidad de que las pistas se cierren temporalmente para labores de mantenimiento u otros procedimientos, volviendose a abrir una vez finalizados.
+    \item Gestion de Parking (Mixta): Ahora, el modelo tiene dos tipos de estacionamiento: posiciones de contacto, que permiten una operación más rápida, y posiciones remotas, que requieren el uso de autobus para el traslado de pasajeros. Cuando no quedan gates disponibles, las aeronaves se asignan a posiciones remotas.
+    \item Incidencias (Activas): También, se incorpora la presencia de vuelos con estado de emergencia. Estas aeronves reciben prioridad absoluta en la cola de llegadas, lo que les permite adelantar al resto de aeronaves.
+\end{itemize}
+
+\section{Prototipo 1 vs Prototipo 2}
+En este apartado se presenta una comparación de resultados obtenidos en el Prototipo 2 respecto al primer prototipo, con el objetivo de identificar los cambios introducidos y analizar las diferencias en el sistema.
+\\
+\\
+Para realizar la comparación, primero se ha analizado el total de operaciones aéreas por turnos en ambos prototipos, con el fin de identificar las diferencias en el rendimiento y observar cómo varía el comportamiento del sistema entre una versión y otra:
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{1\textwidth}
+        \includegraphics[width=\linewidth]{portada/TotalPorTurnoJulio.png}
+        \caption{Prototipo 1: Escenario Base}
+        \label{Prototipo 1: Escenario Base}
+    \end{subfigure}
+    \par\bigskip
+    \begin{subfigure}[b]{1\textwidth}
+        \includegraphics[width=\linewidth]{portada/TotalPorTurnoJulio2.png}
+        \caption{Prototipo 2: Escenario Base}
+        \label{Prototipo 2: Escenario Base}
+    \end{subfigure}
+    \caption{Comparación del Escenario Base}
+    \label{fig:Comparación del Escenario Base}
+\end{figure}
+Como se puede observar, al comparar las figuras \ref{Prototipo 1: Escenario Base} y \ref{Prototipo 2: Escenario Base}, la distribución de carga de trabajo por turnos se mantiene igual entre prototipos. Sin embargo, al analizar la distribución de operaciones por turno en el Prototipo 2 y compararlo con el del primer prototipo, se detectan valores atípicos que son los \textit{outliers}. Esto ocurre debido a las restricciones introducidas como el cierre de pistas o la saturación debida a vuelos de emergencia.
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[b]{1\textwidth}
+        \includegraphics[width=\linewidth]{portada/TotalPorTurnoAtasco.png}
+        \caption{Prototipo 1: Escenario Estrés}
+        \label{Prototipo 1: Escenario Estrés}
+    \end{subfigure}
+    \par\bigskip
+    \begin{subfigure}[b]{1\textwidth}
+        \includegraphics[width=\linewidth]{portada/TotalPorTurnoAtasco2.png}
+        \caption{Prototipo 2: Escenario Estrés}
+        \label{Prototipo 2: Escenario Estrés}
+    \end{subfigure}
+    \caption{Comparación del Escenario Estrés}
+    \label{fig:Comparación del Escenario Estrés}
+\end{figure}
+\\
+\\
+A primera vista se puede observar que el número de operaciones completadas tanto en la figura \ref{Prototipo 1: Escenario Estrés} y la figura \ref{Prototipo 2: Escenario Estrés} son bastantes similares, especialmente en el turno de tarde. Esto muestra la robustez del sistema, ya que incluso con cierres de pista o aterrizajes de emergencia, el sistema es capaz de mantener el flujo de operaciones sin que el aeropuerto colapse y ambos prototipos tienen un similiar números de \textit{outliers}. En otras palabras, aunque se aumente el realismo de la simulación, el sistema sigue siendo capaz de procesar el mismo número de vuelos.
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[b]{1\textwidth}
+        \includegraphics[width=\linewidth]{portada/TotalPorTurnoEnero.png}
+        \caption{Prototipo 1: Escenario Adverso}
+        \label{Prototipo 1: Escenario Adverso}
+    \end{subfigure}
+    \par\bigskip
+    \begin{subfigure}[b]{1\textwidth}
+        \includegraphics[width=\linewidth]{portada/TotalPorTurnoEnero2.png}
+        \caption{Prototipo 2: Escenario Adverso}
+        \label{Prototipo 2: Escenario Adverso}
+    \end{subfigure}
+    \caption{Comparación del Escenario Adverso}
+    \label{fig:Comparación del Escenario Adverso}
+\end{figure}

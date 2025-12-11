@@ -25,7 +25,7 @@ def parametrosIniciales():
             #HORAS
             hora = int(horas) * 60 + retraso
 
-            iteraciones = inputDatos("Cuantas iteraciones quieres realizar con estos params?",50,1,70)
+            iteraciones = inputDatos("Cuantas iteraciones quieres realizar con estos params?",50,1,75)
 
         except ValueError as e:
                 print("Error",e)
