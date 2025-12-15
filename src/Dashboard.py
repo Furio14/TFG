@@ -73,8 +73,8 @@ def operativa(fila,colas,datasetHistory):
     with c2:
         st.success("GATES")
         n = colas['parking']
-        st.metric("Ocupacion", f"{n}/50")
-        st.progress(n/50)
+        st.metric("Ocupacion", f"{n}/60")
+        st.progress(n/60)
 
     with c3:
         st.warning("SALIDAS")
@@ -150,12 +150,12 @@ def tactica(datasetHistory,fila):
 def alerta(fila,colas):
     motivo = "SATURACION DE PISTA" if colas['llegada'] > 7 else "PARKING COMPLETO"
     st.markdown(f"<div class='alerta'>ALERTA CRITICA: {motivo} ({fila['Reloj']})</div>", unsafe_allow_html=True)
-    st.error(f"Llegadas: {colas['llegada']} | Parking: {colas['parking']}/50")
+    st.error(f"Llegadas: {colas['llegada']} | Parking: {colas['parking']}/60")
 
 def averia(estado):
     motivo = "OBJETO EN PISTA DE ATERRIZAJE" if estado['pistaAterrizaje'] == "Cerrada" else "OBJETO EN PISTA DE DESPEGUE"
     st.markdown(f"<div class='averia'>AVERIA: {motivo} ({fila['Reloj']})</div>", unsafe_allow_html=True)
-    st.error(f"Llegadas: {colas['llegada']} | Parking: {colas['parking']}/50")
+    st.error(f"Llegadas: {colas['llegada']} | Parking: {colas['parking']}/60")
 
 
 if st.session_state.i >= len(dataset):
@@ -193,7 +193,7 @@ with container:
         tactica(datasetH,fila)
     
     else:
-        if (idx // 50) % 2 == 0:
+        if (idx // 60) % 2 == 0:
             operativa(fila,colas,datasetH)
         else:
             tactica(datasetH,fila)

@@ -70,7 +70,6 @@ def main():
     resDataset(listaResultados)
 
 
-
 if __name__ == "__main__":
     main()
     Graficas.generadorGraficas()

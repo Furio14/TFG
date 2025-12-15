@@ -65,6 +65,23 @@ def generadorGraficas():
     plt.ylabel("Tiempo Medio De Ciclo (Minutos)")
     plt.savefig("../graficosfinales/Regresion.png")
 
+    plt.figure(figsize=(10,6))
+    g = sns.jointplot(
+        data = datasetRes,
+        x="TotalOperacionesAereas",
+        y="MediaTiempoCicloAeronaves",
+        kind="kde",
+        fill=True,
+        color="#4CB391",
+        height=8
+    )
+    g.set_axis_labels("Número diario de Operaciones Aereas","Tiempo Medio De Ciclo (Minutos)",fontsize=12)
+    g.fig.suptitle("Densidad vs eficiencia", y=1.02,fontsize=15)
+    plt.savefig("../graficosfinales/Hexbin.png",bbox_inches='tight')
+
+    graficasPasajeros(datasetRes.head(10).copy(),"PasajerosIters",rotar=False)
+    graficasPasajeros(datasetRes,"PasajerosvolumenEntero",rotar=True)
+
 def graficasBoxPlot(cols,dataset,mode,name):
     plt.figure(figsize=(10,6))
     dataBoxPlot = dataset.melt(value_vars=cols,var_name="Turno",value_name=name)
@@ -89,3 +106,31 @@ def graficasBootstrap(datasetRes,mode):
     plt.axvline(icMin,color="black",linestyle= '--',label = "IC 2.5%")
     plt.axvline(icMax,color="black",linestyle= '--',label = "IC 97.5%")
     plt.axvline(media,color="red",linewidth = 2,label = "Media")
+
+def graficasPasajeros(dataset,nombre,rotar=False):
+    fig,eje = plt.subplots(figsize=(14,8))
+    iters = dataset['Semilla'].astype(str)
+    barras = eje.bar(iters,dataset['PasajerosTotales'],color='skyblue',label='Total Pasajeros', alpha=0.8)
+    eje.set_xticklabels(iters,rotation=90,fontsize=12)
+    eje.set_xlabel('Semilla',fontsize=16)
+    fontsize=12 if rotar else 16
+    eje.set_ylabel('Total Pasajeros',color='tab:blue',fontsize=18)
+    eje.tick_params(axis='y',labelcolor='tab:blue',labelsize=16)
+    eje.tick_params(axis='x',labelsize=fontsize)
+    eje.set_ylim(0,dataset['PasajerosTotales'].max()*1.2)
+
+    # EJE DERECHO: Línea para la Media de Pasajeros por Avión
+    eje2 = eje.twinx()
+    eje2.plot(iters, dataset['MediaPasajerosAeronave'], color='tab:red', marker='o', linewidth=3, label='Media por Avión')
+
+    eje2.set_ylabel('Media Pasajeros / Avión', color='tab:red', fontsize=18)
+    eje2.tick_params(axis='y', labelcolor='tab:red',labelsize=16)
+    # Ajustamos la escala para que la línea se vea bien (centrada)
+    miny = dataset['MediaPasajerosAeronave'].min() * 0.95
+    maxy = dataset['MediaPasajerosAeronave'].max() * 1.05
+    eje2.set_ylim(miny, maxy)
+
+    # Títulos y rejilla
+    plt.grid(axis='x', alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(f"../graficosfinales/{nombre}",dpi = 300)

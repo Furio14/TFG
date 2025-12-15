@@ -160,6 +160,7 @@ def aeronaveSalida(evento,avion):
     combustible = servicioCombustible()
     catering = servicioCatering()
     embarque = servicioEmbarque()
+    avion.pasajeros += random.randint(-20,20)
     serviciosParalelo = max(limpieza,combustible,catering)
     totalServicios = serviciosParalelo + embarque
     horaSalida = tiempoActual + totalServicios # asignamos tiempo random de salida
@@ -170,8 +171,6 @@ def aeronaveSalida(evento,avion):
     avion.horaLlegada = f"{horaLlegada:02d}:{minLlegada:02d}"
     avion.horaProgramadaSalida = avion.horaSalida # lahora programa es igual que la d salida nueva
     return avion
-
-###################################FUNCIONES AUXILIARES###################################
 
 # El tiempo actual del evento en formato horas (xx:xx)
 def tiempoEvento(evento):

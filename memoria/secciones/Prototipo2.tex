@@ -71,12 +71,11 @@ Una vez la aeronave esta estacionada, se llevan a cabo diversos procesos neceari
 \\
 \\
 En la simulación se han incluido los servicios de limpieza, catering y repostaje de combustible, los cuales se ejecutan de forma paralela. También se considera el tiempo correspondiente al embarque de los pasajeros. La duración total de estos procesos influye en la puntualidad, ya que, si uno de ellos se retrasa, el tiempo de salida del vuelo puede verse afectado, generando demoras en el sistema.
-\section{Experimentación y Validación del Prototipo 2}
+\section{Análisis de los Datos de la Simulación}
 Para esta fase se ha mantenido la misma matriz de escenarios utilizada en la iteración anterior. Esta elección permite que podamos realizar una comparación directa entre ambas versiones y evaluar de manera más precisa las mejoras que han sido introducidas al simulador en este prototipo.
 \\
 \\
 Sin embargo, ya que hemos incorporado nuevos atributos, como el cierre y apertura de pistas, es previsible que los resultados obtenidos difieran notablemente respecto al primer prototipo. Por ello, tomamos en cuenta diferentes parámetros para los escenarios:
-
 \begin{table}[H]
     \centering
     \renewcommand{\arraystretch}{1.3}
@@ -105,60 +104,80 @@ Como se muestra en la tabla \ref{tab:Parámetros Actualizados Prototipo 2}, los 
     \item Incidencias (Activas): También, se incorpora la presencia de vuelos con estado de emergencia. Estas aeronves reciben prioridad absoluta en la cola de llegadas, lo que les permite adelantar al resto de aeronaves.
 \end{itemize}
 
-\section{Prototipo 1 vs Prototipo 2}
-En este apartado se presenta una comparación de resultados obtenidos en el Prototipo 2 respecto al primer prototipo, con el objetivo de identificar los cambios introducidos y analizar las diferencias en el sistema.
+\section{Resultados de la Experimentación del Prototipo}
+A continuacion se muestran los resultados obtenidos con el segundo prototipo. Igual que en el apartado del primer prototipo, el objetivo es comparar cómo se comportan los distintos escenarios y comentar lo que se observa en las gráficas. Esto permite ver que ha cambiado con las nuevas funcionalidades y cómo afectan al sistema aeroportuario.
 \\
 \\
-Para realizar la comparación, primero se ha analizado el total de operaciones aéreas por turnos en ambos prototipos, con el fin de identificar las diferencias en el rendimiento y observar cómo varía el comportamiento del sistema entre una versión y otra:
+Para empezar, vamos a ver cómo evoluciona la cola de llegadas tras la incorporación de las nuevas funcionalidades, para ello miraremos la cola de llegada en condiciones normales:
+\\
+\\
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/EvolucionColaAterrizaje.png}
+    \caption{Evolución de la Cola de Aterrizaje}
+    \label{Evolución de la Cola de Aterrizaje}
+\end{figure}
+\\
+Se observa que la cola se aerca a su límite justo cuando se cierra la pista por mantenimiento. Esto coincide además con una franja horaria en la que llegan más vuelos, por lo que el cierre provoca que la cola se llene más rápido.
+\\
+\\
+Para continuar, vamos a seguir con el numero total de operaciones aéreas por turno, para ver la cantidad que hay en cada turno y los posibles cuellos de botella:
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/TotalPorTurnoJulio2.png}
+    \caption{Ops. Aereas por Turno Escenario Base PR2}
+    \label{Ops. Aereas por Turno Escenario Base PR2}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/TotalPorTurnoAtasco2.png}
+    \caption{Ops. Aereas por Turno Escenario de Estrés PR2}
+    \label{Ops. Aereas por Turno Escenario de Estrés PR2}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/TotalPorTurnoEnero2.png}
+    \caption{Ops. Aereas por Turno Escenario Adverso PR2}
+    \label{Ops. Aereas por Turno Escenario Adverso PR2}
+\end{figure}
+\\
+\\
+Después de ver los tres gráficos se puede observar que al igual que en el primer prototipo, los turnos de madrugada y noche son los de menor tráfico. El Escenario Adverso \ref{Ops. Aereas por Turno Escenario Adverso PR2} actúa como un escalón intermedio, ya que eleva las operaciones moderadamente respecto al Escenario Base \ref{Ops. Aereas por Turno Escenario Base PR2}. En cambio, el Escenario de Estrés \ref{Ops. Aereas por Turno Escenario de Estrés PR2} es drástico, ya que duplica el tráfico de madrugada y hace que el turno de noche supere al pico máximo de una tarde en el Base.
+\\
+\\
+En los turnos críticos de mañana y tarde,  en el Escenario Adverso  se aumentan tanto la carga como la dispersión de datos de sus operaciones. Por su parte, en el Escenario de Estrés el número de operaciones aéreas se dispara, duplicando en la tarde las operaciones del Escenario Base.
+\\
+\\
+Para analizar cómo responde el sistema ante una acumulación alta de operaciones aéreas, en este prototipo se utilizan gráficos tipo \textit{heatmap}. Aunque en el primer prototipo ya se representaban relaciones similares mediante gráficas de regresión lineal, el heatmap ofrece una visualización distinta y más intuitiva. En concreto, al igual que en el primer prototipo, permite ver simultáneamente el número de operaciones y el tiempo medio de ciclo de cada aeronave, destacando de forma más clara las zonas donde el sistema alcanza sus puntos críticos en cada escenario.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{portada/HexbinJulio.png}
+    \caption{Heatmap Escenario Base}
+    \label{Heatmap Escenario Base}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{portada/HexbinAtasco.png}
+    \caption{Heatmap Escenario de Estrés}
+    \label{Heatmap Escenario de Estrés}
+\end{figure}
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[b]{1\textwidth}
-        \includegraphics[width=\linewidth]{portada/TotalPorTurnoJulio.png}
-        \caption{Prototipo 1: Escenario Base}
-        \label{Prototipo 1: Escenario Base}
-    \end{subfigure}
-    \par\bigskip
-    \begin{subfigure}[b]{1\textwidth}
-        \includegraphics[width=\linewidth]{portada/TotalPorTurnoJulio2.png}
-        \caption{Prototipo 2: Escenario Base}
-        \label{Prototipo 2: Escenario Base}
-    \end{subfigure}
-    \caption{Comparación del Escenario Base}
-    \label{fig:Comparación del Escenario Base}
+    \includegraphics[width=0.7\textwidth]{portada/HexbinEnero.png}
+    \caption{Heatmap Escenario Adverso}
+    \label{Heatmap Escenario Adverso}
 \end{figure}
-Como se puede observar, al comparar las figuras \ref{Prototipo 1: Escenario Base} y \ref{Prototipo 2: Escenario Base}, la distribución de carga de trabajo por turnos se mantiene igual entre prototipos. Sin embargo, al analizar la distribución de operaciones por turno en el Prototipo 2 y compararlo con el del primer prototipo, se detectan valores atípicos que son los \textit{outliers}. Esto ocurre debido a las restricciones introducidas como el cierre de pistas o la saturación debida a vuelos de emergencia.
-\begin{figure}[h!]
-    \centering
-    \begin{subfigure}[b]{1\textwidth}
-        \includegraphics[width=\linewidth]{portada/TotalPorTurnoAtasco.png}
-        \caption{Prototipo 1: Escenario Estrés}
-        \label{Prototipo 1: Escenario Estrés}
-    \end{subfigure}
-    \par\bigskip
-    \begin{subfigure}[b]{1\textwidth}
-        \includegraphics[width=\linewidth]{portada/TotalPorTurnoAtasco2.png}
-        \caption{Prototipo 2: Escenario Estrés}
-        \label{Prototipo 2: Escenario Estrés}
-    \end{subfigure}
-    \caption{Comparación del Escenario Estrés}
-    \label{fig:Comparación del Escenario Estrés}
-\end{figure}
+
+Comparando los tres escenarios, se observa que el Escenario Base \ref{Heatmap Escenario Base} funciona de forma estable y bastante predecible. En su gráfico se muestra una diagonal clara y ascendente, lo que indica una correlación lineal, ya que el tiempo de ciclo aumenta proporcionalmente al tráfico, esto mantiene una disperisón baja y controlada.
 \\
 \\
-A primera vista se puede observar que el número de operaciones completadas tanto en la figura \ref{Prototipo 1: Escenario Estrés} y la figura \ref{Prototipo 2: Escenario Estrés} son bastantes similares, especialmente en el turno de tarde. Esto muestra la robustez del sistema, ya que incluso con cierres de pista o aterrizajes de emergencia, el sistema es capaz de mantener el flujo de operaciones sin que el aeropuerto colapse y ambos prototipos tienen un similiar números de \textit{outliers}. En otras palabras, aunque se aumente el realismo de la simulación, el sistema sigue siendo capaz de procesar el mismo número de vuelos.
-\begin{figure}[h!]
+En cambio, en el Escenario Adverso \ref{Heatmap Escenario Adverso} se rompe esa estabilidad. La distribución se desplaza mucho más hacia tiempos mayores(160 minutos) y los datos comienzan a dispersarse. Esto refleja que, ante un aumento de carga, el sistema ofrece mayor resistencia pero pierde eficiencia, costándole más procesar el flujo de aeronaves.
+\\
+\\
+En el Escenario de Estrés \ref{Heatmap Escenario de Estrés}, el comportamiento cambia por completo y se vuelve crítico. Ya que, a diferencia de la estabilidad anterior, la zona de densidad se expande formando una mancha masiva e irregular. Esto muestra un sistema en saturación inestable, con cargas extrema de 600 a 700 operaciones y con tiempos que se disparan a pico de 170 minutos con una variabiliad enorme, poniendo en evidencia que hay una perdida de control sobre la predicitibilidad del sistema.
+\begin{figure}[H]
     \centering
-    \begin{subfigure}[b]{1\textwidth}
-        \includegraphics[width=\linewidth]{portada/TotalPorTurnoEnero.png}
-        \caption{Prototipo 1: Escenario Adverso}
-        \label{Prototipo 1: Escenario Adverso}
-    \end{subfigure}
-    \par\bigskip
-    \begin{subfigure}[b]{1\textwidth}
-        \includegraphics[width=\linewidth]{portada/TotalPorTurnoEnero2.png}
-        \caption{Prototipo 2: Escenario Adverso}
-        \label{Prototipo 2: Escenario Adverso}
-    \end{subfigure}
-    \caption{Comparación del Escenario Adverso}
-    \label{fig:Comparación del Escenario Adverso}
+    \includegraphics[width=\textwidth]{portada/PasajerosIters.png}
+    \caption{Heatmap Escenario Adverso}
+    \label{Heatmap Escenario Adverso}
 \end{figure}

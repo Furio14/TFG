@@ -36,7 +36,7 @@ def logicaClima(evento,estado,mes):
                 estado['retraso'] = 2.5
             elif clima == 'Tormenta':
                 estado['retraso'] = 3.5
-            else: estado['retraso'] = 0
+            else: estado['retraso'] = 1
 
         yield evento.timeout(60) 
 
