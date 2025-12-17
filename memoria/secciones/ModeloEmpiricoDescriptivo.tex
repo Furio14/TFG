@@ -50,24 +50,24 @@ Las variables de estado son fundamentales para analizar la eficiencia de las ope
     \begin{itemize}
         \item Pista de Aterrizaje: Cada aeronave debe solicitar permiso para poder aterrizar. La pista cuenta con una capacidad máxima de 10 aeronaves en cola, lo que permite un flujo ordenado y seguro durante las operaciones de llegada.
         \item Pista de Despegue: Cada aeronave debe solicitar autorización para utilizar pista. Esta también tiene una capacidad máxima de 10 aeronavess en cola, garantizando un control adecuado del tráfico aéreo y evitando congestiones en las salidas.
-        \item Parking: es el área donde las aeronaves permanecen estacionadas después de aterrizar. Actualmente, su capacidad es ilimitada, aunque se recomienda establecer un tope para optimizar el uso de espacio. 
+        \item Parking: Es el área donde las aeronaves permanecen estacionadas después de aterrizar. Actualmente, su capacidad es ilimitada, aunque se recomienda establecer un tope para optimizar el uso de espacio. 
     \end{itemize}
-    \item Variables de estado operacional: se enfocan en la posición en el tiempo y en la lógica de la simulación. La variable principal, denominada \textbf{\textit{estado}} es actualizada por cada evento de la simulación, lo que permite trazar y garantizar la secuencia lógica y cronológica de las operaciones.
+    \item Variables de estado operacional: Se enfocan en la posición en el tiempo y en la lógica de la simulación. La variable principal, denominada \textbf{\textit{estado}} es actualizada por cada evento de la simulación, lo que permite trazar y garantizar la secuencia lógica y cronológica de las operaciones.
     \
 \end{itemize}
 
 \section{Aeronaves}
 Distinguir los tipos de aeronaves que operan en el aeropuerto es crucial para la simulación. Esta clasificación permite identificar información esencial sobre cada vuelo. En el modelo de simulación se han clasificado dos categorías fundamentales:
 \begin{itemize}
-    \item Aeronaves comerciales: engloba todas las aeronaves que transportan pasajeros, independientemente de su tamaño.
-    \item Aeronaves de carga: aeronaves dedicadas exclusivamente al transporte de mercancías (suele ser la minoría). Su característica es que no llevan pasajeros y sus tiempos en tierra suelen ser diferentes.
+    \item Aeronaves comerciales: Engloba todas las aeronaves que transportan pasajeros, independientemente de su tamaño.
+    \item Aeronaves de carga: Aeronaves dedicadas exclusivamente al transporte de mercancías (suele ser la minoría). Su característica es que no llevan pasajeros y sus tiempos en tierra suelen ser diferentes.
 \end{itemize}
 
 \section{Pistas}
 Las pistas son elementos clave en la infraestructura aeroportuaria y actúan como los servidores principales dentro del modelo matemático de colas que representa el flujo de aeronaves. Cada pista funciona de manera independiente y, habitualmente, se modela usando un sistema de colas M/M/1:
 \begin{itemize}  
-    \item Pista de aterrizaje: representa el punto de entrada al sistema aeroportuario para las aeronaves, su función es procesar las operaciones de aterrizaje.
-    \item Pista de despegue: este recurso actúa como punto de salida del sistema para las aeronaves que han completado sus operaciones en tierra, se utiliza exclusivamente para las maniobras de despegue.
+    \item Pista de aterrizaje: Representa el punto de entrada al sistema aeroportuario para las aeronaves, su función es procesar las operaciones de aterrizaje.
+    \item Pista de despegue: Este recurso actúa como punto de salida del sistema para las aeronaves que han completado sus operaciones en tierra, se utiliza exclusivamente para las maniobras de despegue.
 \end{itemize}
 Las pistas, por lo tanto, son componentes esenciales, ya que gobiernan directamente el rendimiento del sistema, la formación de colas y los tiempos de espera.
 \section{Gestión de Plataforma}

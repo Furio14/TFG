@@ -1,6 +1,9 @@
 \chapter{Primer anexo}
 \section{Módulos del programa}
 \label{anexo:ficheros del programa}
+En esta seccion se presentan los ficheros .py que forman parte del trabajo. Cada uno de ellos incluye una referencia a su correspondiente enlace en Github y se encarga de implementar funcionalidad específicas dentro del proyecto.
+\\
+\\
 \href{https://github.com/Furio14/TFG/blob/main/src/TorreDeControl.py}{TorreDeControl.py}
 \\
 \href{https://github.com/Furio14/TFG/blob/main/src/GeneradorAeronaves.py}{GeneradorAeronaves.py}
@@ -21,6 +24,9 @@
 
 \section{Código fuente de la simulación}
 \label{anexo:codigoFuente}
+Para facilitar la comprensión del funcionamiento del simulador y mostrar de manera clara cómo se implementan los componentes, en esta sección se presentan los fragmentos de código más relevantes.
+\\
+\\
 \begin{lstlisting}[language = Python,frame = single,caption = {Generador de aeronaves},label=listing:lst1,captionpos=b,breaklines=true,breakatwhitespace=false]
     def generador(evento):
         vueloRandom = random.choice(listaVuelos)
@@ -223,3 +229,30 @@
             evento.process(cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves))
 \end{lstlisting}
 
+\section{Gráficos Completos}
+\label{anexo:GraficosCompletos}
+Con el fin de representar los gráficos de manera completa y asegurar que se visualicen correctamente, en este apartado se muestran los gráficos completos correspondientes a todas las iteraciones realizadas.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/PasajerosvolumenEnteroSoleado.png}
+    \caption{Gráfica Pasajeros Volumen Entero Escenario Base}
+    \label{Gráfica Pasajeros Volumen Entero Escenario Base}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/PasajerosvolumenEnteroAtasco.png}
+    \caption{Gráfica Pasajeros Volumen Entero Escenario de Estrés}
+    \label{Gráfica Pasajeros Volumen Entero Escenario de Estrés}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/PasajerosvolumenEnteroEnero.png}
+    \caption{Gráfica Pasajeros Volumen Entero Escenario Adverso}
+    \label{Gráfica Pasajeros Volumen Entero Escenario Adverso}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{portada/PasajerosvolumenEnteroCritico.png}
+    \caption{Gráfica Pasajeros Volumen Entero Escenario Crítico}
+    \label{Gráfica Pasajeros Volumen Entero Escenario Crítico}
+\end{figure}
