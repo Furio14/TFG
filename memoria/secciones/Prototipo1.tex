@@ -475,11 +475,8 @@ Las primeras clases desarrolladas fueron \textit{TorreDeControl.py}, \textit{Gen
 \end{table}
 
 En esta fase, la generación de horas programadas introduce inconsistencias, ya que estos tiempos no están vinculados al reloj de la simulación \textit{evento.now}. Asimismo, faltaba implementar los tiempos de servicio aleatorios para simular realísticamente la ocupación de la pista.
-\\
-\\
-Aún así, los datos permiten visualizar claramente el comportamiento del sistema. Además, refleja la posibilidad de incorporar un dataset con información real de vuelos y horarios, de modo que los datos generados no sean aleatorios ni carezcan de sentido operativo. Para ello, se había previsto la introducción de nuevos campos para proporcionar más información.
 \subsubsection{Desarrollo del prototipo funcional}
-A diferencia del código inicial, esta fase del modelo computacional implementa la lógica central de la simulación. Se introduce la gestión temporal basada en el reloj por eventos de Simpy \textit{evento.now}, asegurando que cada evento ocurra en un orden estrictamente cronológico. Para darle más realismo al modelo, se han integrado las fórmulas matemáticas discutidas previamente, como la distribución exponencial para las llegadas y la distribución normal para los servicios auxiliares. Además, se han añadido nuevas columnas de parámetros al \textit{log.csv}, como el reloj o el clima, para garantizar que todos los datos registrados sigan un orden cronológico y una lógica coherente.
+A diferencia del código inicial, esta fase del modelo computacional implementa la lógica central de la simulación. Se introduce la gestión temporal basada en el reloj por eventos de Simpy \textit{evento.now}, asegurando que cada evento ocurra en un orden estrictamente cronológico. Para darle más realismo al modelo, se ha integrado un dataset de operaciones reales, que asigna ciudades y tiempos de vuelo verídicos entre aeropuertos. Esto se complementa con las fórmulas matemáticas discutidas previamente, como la distribución exponencial para las llegadas y la distribución normal para los servicios auxiliares. Además, se han añadido nuevas columnas de parámetros al \textit{log.csv}, como el reloj o el clima, para garantizar que todos los datos registrados sigan un orden cronológico y una lógica coherente.
 \\
 \\
 La implementación computacional se basa, en parte, en el \textit{ciclo completo del avión}, este proceso trata sobre el ciclo de vida completo de una aeronave en el aeropuerto.Se lanza una instancia de este proceso por cada avión en la función controlAéreo [Listing \ref{listing:lst2}].
@@ -560,7 +557,7 @@ Al contar con condiciones favorables y un número normal de operaciones, la tabl
     \label{tab:Escenario Base Estadísticas}
 \end{table}
 \\
-En condiciones normales, el sistema muestra un comportamiento estable. La media de operaciones se ajusta a lo programado y el tiempo de ciclo de cada aeronave es óptimo. Se observan fluctuaciones en la cantidad de operaciones totales, tal como reflejan los valores máximos y mínimos registrados. Estas variaciones están condicionadas por la influencia de los sistemas auxiliares y de los cambios meteorológicos, a pesar de partir de un escenario base con meteorología favorable.
+En condiciones normales, el sistema muestra un comportamiento estable. La media de operaciones se ajusta a lo programado y el tiempo de ciclo de cada aeronave es óptimo. Se observan fluctuaciones en la cantidad de operaciones totales, tal como reflejan los valores máximos y mínimos registrados. Estas variaciones dependen de los sistemas auxiliares y la meteorología, pese al escenario base favorable.
 \subsubsection{Escenario de Estrés}
 Al aumentar la carga de trabajo hasta 400 operaciones, el sistema aeroportuario comienza a operar cerca de sus límites físicos:
 \begin{table}[h!]
@@ -634,6 +631,8 @@ Para facilitar la interpretación de los resultados, se realizará una comparaci
     \label{fig:Ops. Aereas por Turno Escenario Adverso PR1}
 \end{figure}
 \\
+\\
+\\
 Al analizar los tres gráficos, se puede observar que todos mantienen el mismo patrón estructural: la madrugada tiene el menor número de operaciones, seguida por la noche y la mañana, mientras que la tarde alcanza el pico más alto. Esto confirma que la lógica de distribución horaria del simulador es consistente, sin importar la cantidad de datos.
 \\
 \\
@@ -664,6 +663,10 @@ Una vez identificado que el turno de tarde es el punto crítico, es interesante 
     \caption{Regresión Escenario Adverso}
     \label{fig:Regresion Escenario Adverso}
 \end{figure}
+\\
+\\
+\\
+\\
 \\
 \\
 \\
@@ -701,6 +704,7 @@ Para comenzar, se calculará el intervalo de confianza del tiempo de ciclo de la
     \caption{Regresión Escenario Adverso}
     \label{fig:Intervalo Escenario Adverso}
 \end{figure}
+\\
 \\
 Al comparar las gráficas, se puede obserar como se dispara el tiempo medio. Mientras que en el Escenario Base (\ref{fig:Intervalo Escenario Base}) los aviones entran y salen en un tiempo muy eficiente de entre 78 y 84 minutos, en cuanto las condiciones se complican, el servicio se deteriora de manera drástica. En los escenario de estrés (\ref{fig:Intervalo Escenario de Estrés}) y meteorología adversos (\ref{fig:Intervalo Escenario Adverso}), los tiempos medios se duplican con creces, saltando hasta los 171 y 200 minutos.
 \\
