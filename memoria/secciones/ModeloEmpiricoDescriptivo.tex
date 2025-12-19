@@ -57,14 +57,14 @@ Las variables de estado son fundamentales para analizar la eficiencia de las ope
 \end{itemize}
 
 \section{Aeronaves}
-Distinguir los tipos de aeronaves que operan en el aeropuerto es crucial para la simulación. Esta clasificación permite identificar información esencial sobre cada vuelo. En el modelo de simulación se han clasificado dos categorías fundamentales:
+Distinguir los tipos de aeronaves \cite{TiposAeronaves} que operan en el aeropuerto es crucial para la simulación. Esta clasificación permite identificar información esencial sobre cada vuelo. En el modelo de simulación se han clasificado dos categorías fundamentales:
 \begin{itemize}
     \item Aeronaves comerciales: Engloba todas las aeronaves que transportan pasajeros, independientemente de su tamaño.
     \item Aeronaves de carga: Aeronaves dedicadas exclusivamente al transporte de mercancías (suele ser la minoría). Su característica es que no llevan pasajeros y sus tiempos en tierra suelen ser diferentes.
 \end{itemize}
 
 \section{Pistas}
-Las pistas son elementos clave en la infraestructura aeroportuaria y actúan como los servidores principales dentro del modelo matemático de colas que representa el flujo de aeronaves. Cada pista funciona de manera independiente y, habitualmente, se modela usando un sistema de colas M/M/1:
+Las pistas \cite{TiposPistas} son elementos clave en la infraestructura aeroportuaria y actúan como los servidores principales dentro del modelo matemático de colas que representa el flujo de aeronaves. Cada pista funciona de manera independiente y, habitualmente, se modela usando un sistema de colas M/M/1:
 \begin{itemize}  
     \item Pista de aterrizaje: Representa el punto de entrada al sistema aeroportuario para las aeronaves, su función es procesar las operaciones de aterrizaje.
     \item Pista de despegue: Este recurso actúa como punto de salida del sistema para las aeronaves que han completado sus operaciones en tierra, se utiliza exclusivamente para las maniobras de despegue.
@@ -82,10 +82,10 @@ El parking es un elemento fundamental en la operatividad aeroportuaria, ya que e
 Los procesos de terminal engloban todas las etapas que un pasajero debe completar desde que entra al edificio terminal hasta que accede a la aeronave. 
 \\
 \\
-Incluyen la facturación y despacho de equipaje, también conocido como check-in, los controles de seguridad y el control de pasaportes en vuelos internacionales. Estos procesos son vitales, ya que la congestión en estos puntos retrasa el proceso de \textit{embarque} y, en consecuencia, impide que la aeronave pueda ser programada para su salida a tiempo.
+Incluyen la facturación y despacho de equipaje, también conocido como check-in, los controles de seguridad y el control de pasaportes en vuelos internacionales. Estos procesos son vitales, ya que la congestión en estos puntos retrasa el proceso de \textit{embarque} \cite{Embarque} y, en consecuencia, impide que la aeronave pueda ser programada para su salida a tiempo.
 
 \section{Gestión de las instalaciones}
-La gestión se centra en la operatividad y mantenimiento de la infraestructura física del aeropuerto. Se trata de asegurarse de que todo lo que necesitan los pasajeros, la mercancía y las aeronaves este disponible y funcionado.
+La gestión se centra en la operatividad y mantenimiento de la infraestructura física del aeropuerto \cite{Instalaciones}. Se trata de asegurarse de que todo lo que necesitan los pasajeros, la mercancía y las aeronaves este disponible y funcionado.
 \\
 \\
 Dentro de un aeropuerto hay varias infraestructuras clave que, si fallan, pueden afectar en gran medida al sistema aeroportuario.  Algunos ejemplos de estas infraestructuras son:
