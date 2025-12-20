@@ -84,8 +84,29 @@ Por último, la Tabla \ref{tab:Comparativa Escenario Adverso} muestra claramente
 Por el contrario el Prototipo 2 presenta un comportamiento más estable. No solo consigue mejorar los tiempos medios, reduciéndolos hasta 160 minutos, sino que además lo ahce manteniendo una variabilidad muy baja ($\pm2.5$). Por ello, esto indica que hasta en situaciones complicadas como restricciones meteorológicas o fallos operativos, el modelo sigue ofreciendo resultados coherentes.
 \section{Conclusiones y Líneas de Trabajo Futuro}
 Finalmente, en esta sección se presentan las conclusiones generales del trabajo, así como las posibles líneas de investigación o deasrrollo futuro sobre este tema.
-\subsection{Conclusiones}
+\subsection{Evaluación de los Objetivos del TFG}
+En esta sección se evalúa si se han cumplidos los objetivos definidos al principio de este trabajo correctamente. Para ello, se analizan de forma individual cada uno de los objetivos planteados:
+\begin{itemize}
+    \item \textbf{Definir y modelar el sistema aeroportuario:} Se han identificado casi en su totalidad todos los elementos esenciales que forman parte del flujo operacional de un aeropuerto. A lo largo del trabajo se ha hablado tanto de la infraestructura como de los procesos clave en la gestion aeroportuaria, y se ha incluido un diagrama fisico que reccoge los aspectos más importantes para facilitar la compresión del Modelo Empírico.
+    \\
+    \\
+    Como posibles mejoras, se podrían añadir más servicios auxiliares y otros factores que influyen en el funcionamiento de un aeropuerto, como por ejemplo controles adicionales o los sistemas de transporte utilizados para acceder al aeropuerto. No obstante, teniendo en cuenta el alcanze de este proyecto, puede considerarse que este objetivo se ha cumplido de manera satisfactoria. 
+    \item \textbf{Formular la metodología matemática:} Dentro del Prototipo 1 se ha desarrollado un modelo matemático basado en la \textit{Teoría de Colas}. En este modelo también se han explicado las diferentes fórmulas matemáticas utilizadas, las cuales introducen procesos aleatorios y ectocásticos en la simulación.
+    \\
+    \\
+    Como mejora adicional, se podríann haber incorporado más factores aleatorios y más servicios, como por ejemplo pasajeros que llegan tarde al embarque y obligan a bajar su equipaje. o fallo técnicos del avión. Este último caso, en parte, ya se ha considerado mediante la simulación de aterrizajes de emergencia. Aún así, teniendo en cuenta el alcanze del proyecto, puede afirmarse que este objetivo se ha cumplido de forma satisfactoria.
+    \item \textbf{Implementar y validar un prototipo funcional:} Se ha desarrollado un prototipo que gestiona correctamente la concurrencia entre aeronaves y algunos servicios auxiliares. Cada aeronave cuenta con su propio ciclo, el cual se ejecuta de forma correcta y aleatoria, respetando los límites y horarios establecidos. Por ejemplo, una aeronave no puede aterrizar hasta que haya pasado al menos un minuto desde el aterrizaje de otra, y del mismo modo, no es posible que dos aeronaves ocupen simultáneamente el mismo puesto de estacionamiento.
+    \\
+    \\
+    No obstante, el modelo puede mejorarse mediante la inclusión de nuevos eventos o una gestión más precisa de la concurrencia con los servicios auxiliares. Aun así, en términos generales, puede considerarse que este objetivo también se ha cumplido satisfactoriamente.
+    \item \textbf{Analizar e interpretar los resultados obtenidos:} Para cada prototipo se ha intentado realizar una evaluación similar en los escenarios, aunque variado ligeramente el tipo de gráficas utilizadas en cada caso para analizar resultados desde diferentes puntos de vista. Dado que un sistema aeroportuario se generan una gran cantidad de resultados, no ha sido posible abordar todos los aspectos de evaluación, pero sí se han considerado los más representativos, como el tiempo medio ciclo, el número de pasajeros y la carga de trabajo en los distintos turnos de un dia.
+    \\
+    \\
+    Aun así, se podrían haber realizado más análisis para obtener conclusiones más completas. De todas formas, los resultados principales han podido representarse de forma adecuada. Por tanto este objetivo, puede considerarse casi cumplido, aunque quedaría margen de mejora en este apartado.
+\end{itemize} 
 
-\subsection{Líneas de Trabajo Futuro}
+\subsection{Trabajos a Futuro}
+
+\subsection{Análisis del Impacto}
 
 
