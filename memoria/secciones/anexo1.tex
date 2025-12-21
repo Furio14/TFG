@@ -229,6 +229,70 @@ Para facilitar la comprensión del funcionamiento del simulador y mostrar de man
             evento.process(cicloAvion(evento,avion,parking,anuncio,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves))
 \end{lstlisting}
 
+\begin{lstlisting}[frame = single,caption = {log.csv},label=listing:lst12,captionpos=b,breaklines=true,breakatwhitespace=false,basicstyle=\ttfamily\small]
+    Reloj,ID,ID_Vuelo,Estado,Estado_Pista_Aterrizaje,Estado_Pista_Despegue,Pasajeros,Origen,Destino,Hora_Salida_Origen,Hora_Programada_Llegada_Destino,Hora_Llegada_Destino,Hora_Estacionamiento,Hora_Programada_Salida,Hora_Despegue,Tiempo_Ciclo_Aeronave,Mes,Clima,Aeronaves_En_Cola_Llegada,Aeronaves_En_Estacionamiento,Aeronaves_En_Cola_Salida,Gate,Tipo_Parking,Emergencia
+    00:07,X142,SK1505,Llegando,Activa,Activa,130,Copenhague,Madrid,20:37,00:07,---,---,---,---,---,MAYO,Soleado,1,0,0,,,False
+    00:07,X142,SK1505,Aterrizaje,Activa,Activa,130,Copenhague,Madrid,20:37,00:07,00:07,---,---,---,---,MAYO,Soleado,0,0,0,,,False
+
+    00:11,F467,IB6166,Llegando,Activa,Activa,281,San Francisco,Madrid,12:11,00:11,---,---,---,---,---,MAYO,Soleado,1,0,0,,,False
+    00:11,F467,IB6166,Aterrizaje,Activa,Activa,281,San Francisco,Madrid,12:11,00:11,00:11,---,---,---,---,MAYO,Soleado,0,0,0,,,False
+
+    00:14,U996,IB700,Llegando,Activa,Activa,260,El Cairo,Madrid,19:44,00:14,---,---,---,---,---,MAYO,Soleado,1,0,0,,,False
+    00:14,U996,IB700,Aterrizaje,Activa,Activa,260,El Cairo,Madrid,19:44,00:14,00:14,---,---,---,---,MAYO,Soleado,0,0,0,,,False
+
+    00:16,X142,SK1505,Estacionado,Activa,Activa,130,Copenhague,Madrid,20:37,00:07,00:07,00:16,---,---,---,MAYO,Soleado,0,1,0,1,Finger,False
+
+    00:16,X142,SK1510,Programado,Activa,Activa,149,Madrid,Munich,01:05,03:45,00:07,00:16,01:05,---,---,MAYO,Soleado,0,1,0,1,Finger,False
+
+    00:20,F467,IB6166,Estacionado,Activa,Activa,281,San Francisco,Madrid,12:11,00:11,00:11,00:20,---,---,---,MAYO,Soleado,0,2,0,2,Finger,False
+
+    00:20,F467,IB6167,Programado,Activa,Activa,292,Madrid,Frankfurt,01:08,03:38,00:11,00:20,01:08,---,---,MAYO,Soleado,0,2,0,2,Finger,False
+
+    00:26,U996,IB700,Estacionado,Activa,Activa,260,El Cairo,Madrid,19:44,00:14,00:14,00:26,---,---,---,MAYO,Soleado,0,3,0,3,Finger,False
+
+    00:26,U996,IB702,Programado,Activa,Activa,259,Madrid,Chicago,01:05,09:05,00:14,00:26,01:05,---,---,MAYO,Soleado,0,3,0,3,Finger,False
+
+    00:26,R389,IB6402,Llegando,Activa,Activa,191,Mexico D.F.,Madrid,13:56,00:26,---,---,---,---,---,MAYO,Soleado,1,3,0,,,False
+    00:26,R389,IB6402,Aterrizaje,Activa,Activa,191,Mexico D.F.,Madrid,13:56,00:26,00:26,---,---,---,---,MAYO,Soleado,0,3,0,,,False
+
+    00:32,T383,DY1740,Llegando,Activa,Activa,247,Oslo,Madrid,20:52,00:32,---,---,---,---,---,MAYO,Soleado,1,3,0,,,False
+    00:32,T383,DY1740,Aterrizaje,Activa,Activa,247,Oslo,Madrid,20:52,00:32,00:32,---,---,---,---,MAYO,Soleado,0,3,0,,,False
+
+    00:34,R389,IB6402,Estacionado,Activa,Activa,191,Mexico D.F.,Madrid,13:56,00:26,00:26,00:34,---,---,---,MAYO,Soleado,0,4,0,4,Finger,False
+
+    00:34,R389,IB6404,Programado,Activa,Activa,171,Madrid,Sevilla,01:21,02:16,00:26,00:34,01:21,---,---,MAYO,Soleado,0,4,0,4,Finger,False
+
+    00:44,S294,UX1048,Llegando,Activa,Activa,147,Roma,Madrid,22:29,00:44,---,---,---,---,---,MAYO,Soleado,1,4,0,,,False
+    00:44,S294,UX1048,Aterrizaje,Activa,Activa,147,Roma,Madrid,22:29,00:44,00:44,---,---,---,---,MAYO,Soleado,0,4,0,,,False
+
+    00:45,T383,DY1740,Estacionado,Activa,Activa,247,Oslo,Madrid,20:52,00:32,00:32,00:45,---,---,---,MAYO,Soleado,0,5,0,5,Finger,False
+
+    00:45,T383,DY1742,Programado,Activa,Activa,246,Madrid,Santiago de Chile,01:25,14:25,00:32,00:45,01:25,---,---,MAYO,Soleado,0,5,0,5,Finger,False
+
+    00:55,S294,UX1048,Estacionado,Activa,Activa,147,Roma,Madrid,22:29,00:44,00:44,00:55,---,---,---,MAYO,Soleado,0,6,0,6,Finger,False
+
+    00:55,S294,UX1053,Programado,Activa,Activa,141,Madrid,Mumbai,01:39,10:09,00:44,00:55,01:39,---,---,MAYO,Soleado,0,6,0,6,Finger,False
+
+    00:56,C277,FR5454,Llegando,Activa,Activa,261,Bruselas,Madrid,22:46,00:56,---,---,---,---,---,MAYO,Soleado,1,6,0,,,False
+    00:56,C277,FR5454,Aterrizaje,Activa,Activa,261,Bruselas,Madrid,22:46,00:56,00:56,---,---,---,---,MAYO,Soleado,0,6,0,,,False
+
+    01:02,N655,IB6051,Llegando,Activa,Activa,181,Johannesburgo,Madrid,15:02,01:02,---,---,---,---,---,MAYO,Soleado,1,6,0,,,False
+    01:02,N655,IB6051,Aterrizaje,Activa,Activa,181,Johannesburgo,Madrid,15:02,01:02,01:02,---,---,---,---,MAYO,Soleado,0,6,0,,,False
+
+    01:04,O350,IB960,Llegando,Activa,Activa,115,Tenerife,Madrid,22:24,01:04,---,---,---,---,---,MAYO,Soleado,1,6,0,,,False
+    01:04,O350,IB960,Aterrizaje,Activa,Activa,115,Tenerife,Madrid,22:24,01:04,01:04,---,---,---,---,MAYO,Soleado,0,6,0,,,False
+
+    01:05,C277,FR5454,Estacionado,Activa,Activa,261,Bruselas,Madrid,22:46,00:56,00:56,01:05,---,---,---,MAYO,Soleado,0,7,0,7,Finger,False
+
+    01:05,C277,FR5456,Programado,Activa,Activa,263,Madrid,Tokyo,01:43,16:13,00:56,01:05,01:43,---,---,MAYO,Soleado,0,7,0,7,Finger,False
+
+    01:05,U996,IB702,ColaDespegues,Activa,Activa,259,Madrid,Chicago,01:05,09:05,00:14,00:26,01:05,---,---,MAYO,Soleado,0,6,1,3,,False
+
+    01:06,U996,IB702,Despegando,Activa,Activa,259,Madrid,Chicago,01:05,09:05,---,00:26,01:05,01:06,00:52,MAYO,Soleado,0,6,0,,,False
+
+    01:06,X142,SK1510,ColaDespegues,Activa,Activa,149,Madrid,Munich,01:05,03:45,00:07,00:16,01:05,---,---,MAYO,Soleado,0,5,1,1,,False
+\end{lstlisting}
+
 \section{Gráficos Completos}
 \label{anexo:GraficosCompletos}
 Con el fin de representar los gráficos de manera completa y asegurar que se visualicen correctamente, en este apartado se muestran los gráficos completos correspondientes a todas las iteraciones realizadas.
