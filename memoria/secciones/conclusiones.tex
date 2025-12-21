@@ -82,9 +82,7 @@ Por último, la Tabla \ref{tab:Comparativa Escenario Adverso} muestra claramente
 \\
 \\
 Por el contrario el Prototipo 2 presenta un comportamiento más estable. No solo consigue mejorar los tiempos medios, reduciéndolos hasta 160 minutos, sino que además lo ahce manteniendo una variabilidad muy baja ($\pm2.5$). Por ello, esto indica que hasta en situaciones complicadas como restricciones meteorológicas o fallos operativos, el modelo sigue ofreciendo resultados coherentes.
-\section{Conclusiones y Líneas de Trabajo Futuro}
-Finalmente, en esta sección se presentan las conclusiones generales del trabajo, así como las posibles líneas de investigación o deasrrollo futuro sobre este tema.
-\subsection{Evaluación de los Objetivos del TFG}
+\section{Evaluación de los Objetivos del TFG}
 En esta sección se evalúa si se han cumplidos los objetivos definidos al principio de este trabajo correctamente. Para ello, se analizan de forma individual cada uno de los objetivos planteados:
 \begin{itemize}
     \item \textbf{Definir y modelar el sistema aeroportuario:} Se han identificado casi en su totalidad todos los elementos esenciales que forman parte del flujo operacional de un aeropuerto. A lo largo del trabajo se ha hablado tanto de la infraestructura como de los procesos clave en la gestion aeroportuaria, y se ha incluido un diagrama fisico que reccoge los aspectos más importantes para facilitar la compresión del Modelo Empírico.
@@ -105,8 +103,28 @@ En esta sección se evalúa si se han cumplidos los objetivos definidos al princ
     Aun así, se podrían haber realizado más análisis para obtener conclusiones más completas. De todas formas, los resultados principales han podido representarse de forma adecuada. Por tanto este objetivo, puede considerarse casi cumplido, aunque quedaría margen de mejora en este apartado.
 \end{itemize} 
 
-\subsection{Trabajos a Futuro}
+\section{Trabajo Futuro}
+Aunque este Trabajo de Fin de Grado ha cumplido con la mayoría de objetivos planteados, es importante señalar que el modelo desarrollado representa solo una parte de la complejidad de un aeropuerto. Esta simplificación del proyecto está condicionada tanto por el tiempo disponible como por el alcanze propio de un proyecto de dicha magnitud realizado de forma individual. Aun así, el prototipo final construido constituye una base sólida sobre la que se pueden plantear diversas mejoras y ampliación en trabajos futuros.
+\\
+\\
+En primer lugar, una posible mejora sería la integración de datos reales en tiempo casi real. En lugar de generar las llegadas de forma aleatoria y estadística, el simulador podría alimentarse de programaciones de vuelos reales mediante bases de datos disponibles o APIs de tráfico aéreo. Esto permitiría que la simulación reflejara situaciones reales del día a día del aeropuerto y aumentará su utilidad práctica.
+\\
+\\
+Otra mejora interesante estaría relacionado con la evolución del sistema. Por un lado, la visualización podría mejorarse utilizando motores gráficos como Unity, lo que permitiría mostrar el aeropuerto en un entorno 3D más claro y fácil de interpretar. Por otro lado, se podrían aplicar técnicas de Machine Learning a partir de los datos generados por la simulación. De esta forma, el sistema podría aprender a identificar situaciones de saturación y anticipar posibles problemas operativos con mayor antelación, ayudando así a mejorar la toma de decisiones.
+\\
+\\
+También se podría aumentar el nivel de detalle del ciclo de cada aeronave. En lugar de tratar el servicio en tierra como un solo proceso (estacionamiento), sería posible modelar de forma más específica tareas como la limpieza, el catering o el embarque, es decir, que en el log aparezcan más estados para saber en cada momento en que proceso se encuentra la aeronave. Además, resultaría interesante incluir la simulación del flujo de los pasajeros dentro de la terminal, de forma que se pudiera relacionar el estado de pistas con posibles situaciones de congestión en puertas y zonas comunes.
+\\
+\\
+Por último otra mejora importante sería el análisis del impacto medioambiental. Teniendo en cuenta que el simulador ya calcula tiempos de espera y de rodaje con los motores en funcionamiento, se podrían añadir estimaciones del consumo de combustible y de las emisiones de C02. De esta manera, el modelo no solo permitiría analizar la eficiencia operativa del aeropuerto, sino que tambiéne estudiar posibles medidas para reducir su impacto medioambiental. 
+\section{Análisis del Impacto}
+\subsection{Impacto en los Objetivos de Desarrollo Sostenible}
+La simulación de operaciones, flujo de aeronaves y sistemas auiliares en un aeropuerto es clave para modernizar los aeropuertos. Por ello, el desarrollo de este trabajo contribuye a varios Objetos de Desarrollo Sostinble (ODS), que se exponen a continuación:
+\begin{itemize}
+    \item \textbf{ODS 8:} Trabajo decente y Crecimiento económico.
+    \item \textbf{ODS 9:} Industria, Innovación e Infraestructura.
+\end{itemize}
 
-\subsection{Análisis del Impacto}
+\section{Conclusiones Personales}
 
 
