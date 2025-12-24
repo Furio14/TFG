@@ -5,7 +5,7 @@ Para abordar el desarrollo del prototipo de este trabajo, se comenzará describi
 Además, se presentará la modelización matemática, que traduce estos componentes y flujos a los fundamentos de la \textit{Teoría de Colas}, justificando el uso de los sistemas utilizados.
 \\
 \\
-Finalmente, se detallará la modelización computacional, que implementa el modelo matemático en Simpy\cite{simpy}, explicando la lógica del código y la gestión de eventos.
+Finalmente, se detallará la modelización computacional, que implementa el modelo matemático en Simpy \cite{simpy}, explicando la lógica del código y la gestión de eventos.
 \section{Caracterización Estadística de las Operaciones Aéreas}
 El modelo empírico desarrollado para esta simulación reproduce de manera detallada las operaciones de aeronaves y el flujo de pasajeros dentro del aeropuerto. Se consideran las pistas de aterrizaje y despegue, áreas de estacionamiento y procesos asociados a cada vuelo.
 \\
@@ -33,8 +33,8 @@ Las variables de estado son fundamentales para analizar la eficiencia de las ope
 \begin{itemize}
     \item Variables de entidad: identifican y caracterizan al agente principal (la aeronave) en su ciclo de vida (aterrizaje → despegue). Podemos encontrar atributos como:
     \begin{itemize}
-        \item ID aeronave: Identificador único y permanente asignado a cada aeronave. Permite rastreare los diferentes vuelos que realiza y su cambio de datos operativos. Ejemplo: V921.
-        \item ID vuelo: Identificador del vuelo específico que realiza una aeronave en una ruta determinada. Este identificador cambia con cada nuevo trayectoo. Ejemplo: IB334.
+        \item Id aeronave: Identificador único y permanente asignado a cada aeronave. Permite rastrearé los diferentes vuelos que realiza y su cambio de datos operativos. Ejemplo: V921.
+        \item Id vuelo: Identificador del vuelo específico que realiza una aeronave en una ruta determinada. Este identificador cambia con cada nuevo trayecto. Ejemplo: IB334.
         \item Número de pasajeros: Número total de pasajeros transportados por vuelo.
         \item Origen: Ciudad desde el cual despega la aeronave.
         \item Destino: Ciudad al cual llega la aeronave.
@@ -49,7 +49,7 @@ Las variables de estado son fundamentales para analizar la eficiencia de las ope
     \item Variables de recursos: definen la capacidad y el estado de los servidores físicos que atienden a las aeronaves. En este caso, son: 
     \begin{itemize}
         \item Pista de Aterrizaje: Cada aeronave debe solicitar permiso para poder aterrizar. La pista cuenta con una capacidad máxima de 10 aeronaves en cola, lo que permite un flujo ordenado y seguro durante las operaciones de llegada.
-        \item Pista de Despegue: Cada aeronave debe solicitar autorización para utilizar pista. Esta también tiene una capacidad máxima de 10 aeronavess en cola, garantizando un control adecuado del tráfico aéreo y evitando congestiones en las salidas.
+        \item Pista de Despegue: Cada aeronave debe solicitar autorización para utilizar pista. Esta también tiene una capacidad máxima de 10 aeronaves en cola, garantizando un control adecuado del tráfico aéreo y evitando congestiones en las salidas.
         \item Parking: Es el área donde las aeronaves permanecen estacionadas después de aterrizar. Actualmente, su capacidad es ilimitada, aunque se recomienda establecer un tope para optimizar el uso de espacio. 
     \end{itemize}
     \item Variables de estado operacional: Se enfocan en la posición en el tiempo y en la lógica de la simulación. La variable principal, denominada \textbf{\textit{estado}} es actualizada por cada evento de la simulación, lo que permite trazar y garantizar la secuencia lógica y cronológica de las operaciones.
@@ -73,8 +73,8 @@ Las pistas, por lo tanto, son componentes esenciales, ya que gobiernan directame
 \section{Gestión de Plataforma}
 El parking es un elemento fundamental en la operatividad aeroportuaria, ya que es el espacio donde se ubican las aeronaves una vez en tierra. Su gestión influye directamente en la fluidez del tráfico aéreo, si el parking se satura, el resto del sistema también se ve afectado, generando retrasos y bloqueos en la cadena operativa. Por este motivo, la asignación de plazas y el orden de ocupación son procesos esenciales para mantener un funcionamiento eficiente y evitar la congestión del aeropuerto.
 \begin{itemize}
-    \item Posiciones de Contacto: Permiten el desambarque directo a la terminal emdiante un finger o una pasarela.
-    \item Posiciones remotas: Requieren transporte adicional, como autboses, para llevar a los pasajeros a la terminal.
+    \item Posiciones de Contacto: Permiten el desembarque directo a la terminal mediante un finger o una pasarela.
+    \item Posiciones remotas: Requieren transporte adicional, como autobuses, para llevar a los pasajeros a la terminal.
 \end{itemize}
 
 
@@ -85,7 +85,7 @@ Los procesos de terminal engloban todas las etapas que un pasajero debe completa
 Incluyen la facturación y despacho de equipaje, también conocido como check-in, los controles de seguridad y el control de pasaportes en vuelos internacionales. Estos procesos son vitales, ya que la congestión en estos puntos retrasa el proceso de \textit{embarque} \cite{Embarque} y, en consecuencia, impide que la aeronave pueda ser programada para su salida a tiempo.
 
 \section{Gestión de las instalaciones}
-La gestión se centra en la operatividad y mantenimiento de la infraestructura física del aeropuerto \cite{Instalaciones}. Se trata de asegurarse de que todo lo que necesitan los pasajeros, la mercancía y las aeronaves este disponible y funcionado.
+La gestión se centra en la operatividad y mantenimiento de la infraestructura física del aeropuerto \cite{Instalaciones}. Se trata de asegurarse de que todo lo que necesitan los pasajeros, la mercancía y las aeronaves esté disponible y funcionado.
 \\
 \\
 Dentro de un aeropuerto hay varias infraestructuras clave que, si fallan, pueden afectar en gran medida al sistema aeroportuario.  Algunos ejemplos de estas infraestructuras son:
@@ -95,7 +95,7 @@ Dentro de un aeropuerto hay varias infraestructuras clave que, si fallan, pueden
     \item Suministros: Se tienen en cuenta la limpieza y la electricidad.
     \item Sistema de Equipajes: Son las cintas que llevan las maletas y las máquinas que las clasifican.
 \end{itemize}
-Para que todo esto funcione bien, se intenta que las cosas se averíen lo menos posible para no generar retrasos, y si pasa, que se arreglen lo más rápido posible. Por ello, hay dos tipos de mantenimientio a tomar en cuenta:
+Para que todo esto funcione bien, se intenta que las cosas se averíen lo menos posible para no generar retrasos, y si pasa, que se arreglen lo más rápido posible. Por ello, hay dos tipos de mantenimiento a tomar en cuenta:
 \begin{itemize}
     \item Preventivo: Son revisiones programadas para evitar averías importantes.
     \item Correctivo: Reparación de algo que se ha averiado de forma inesperada.
@@ -110,8 +110,8 @@ Estas tareas se ejecutan de forma concurrente e incluyen:
     \item Handling de Rampa: Carga y descarga de equipajes y mercancías.
     \item Servicios de Cabina: Catering, limpieza interior, y gestión de residuos. 
 \end{itemize}
-La eficiciencia y coordinacion de estos servicios son cruciales, ya que determinan el tiempo total que la aeronave permanece inoperativa en el parking.  Cualquier retraso es cualqueira de estos procesos impacta directamente a la hora de salida., pudiendo generar retrasos que impacten a la hora de salida de otros vuelos.
-\section{Gestión de Contigencias y Factores Externos}
+La eficiencia y coordinación de estos servicios son cruciales, ya que determinan el tiempo total que la aeronave permanece inoperativa en el parking.  Cualquier retraso es cualquiera de estos procesos impacta directamente a la hora de salida, pudiendo generar retrasos que impacten a la hora de salida de otros vuelos.
+\section{Gestión de Contingencias y Factores Externos}
 La capacidad real de un aeropuerto casi nunca coincide con su capacidad teórica, esto se debe a que siempre hay factores externos que complican las operaciones aeroportuarias y obligan a recurrir a otros planes para mantener todo funcionando.
 
 \subsection{Meteorología}
