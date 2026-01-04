@@ -15,8 +15,22 @@
 ## Estructura del Trabajo
 
 ```text
-|── csv/                    
-|── graficosfinales/
+|── csv/     
+|   |── ciudades.csv                    # [INPUT] Contiene los datos reales de distancias entre aeropuertos con sus IDs
+|   |── estadisticas.csv                # [OUTPUT] Contiene el cálculo total de métricas clave de todas las iteraciones
+|   |── log.csv                         # [OUTPUT] Traza detallada evento a evento del simulador
+|   └── resultados.csv                  # [OUTPUT] Contiene información y métricas de cada iteración y semilla que se realiza en una simulación          
+|── graficosfinales/                    # Cada vez que termina la simulación se generan distintas gráficas para poder analizar visualmente los datos y comparar cambios en distintos escenarios
+|   |── EvolucionColaAterrizaje.png
+|   |── Hexbin.png
+|   |── MediaBoostrap.png
+|   |── MediaPasajeros.png
+|   |── PasajerosIters.png
+|   |── PasajerosvolumenEntero.png
+|   |── Regresion.png
+|   |── TasaLlegadaPorTurno.png
+|   |── TasaSalidaPorTurno.png
+|   └── TotalPorTurno.png
 |── memoria/
 |   |── build/
 |   |── portada/
@@ -25,16 +39,16 @@
 |   |── README.md
 |   └── tfg_etsiinf_plantilla.tex
 |── src/
-|   |── Aeronaves.py
-|   |── Dashboard.py
-|   |── FactoresExternos.py
-|   |── GeneradorAeronaves.py
-|   |── Gráficas.py
-|   |── Input.py
-|   |── Launch.py
-|   |── Main.py 
-|   |── ServiciosAuxiliares.py 
-|   └── TorreDeControl.py
+|   |── Aeronaves.py                    # Define la clase `Aeronave`, sus atributos y métodos de registro
+|   |── Dashboard.py                    # Panel de Control para la visualización de los datos a tiempo real
+|   |── FactoresExternos.py             # Configuración del clima, retrasos y condiciones externas
+|   |── GeneradorAeronaves.py           # Genera aeronaves combinando datos de `ciudades.csv` con generación ectocástica
+|   |── Graficas.py                     # Generación automática de gráficas al finalizar la simulación
+|   |── Input.py                        # Módulo que contiene la configuración interactiva de escenarios
+|   |── Launch.py                       # Lanzador de la aplicación del dashboard
+|   |── Main.py                         # Script de ejecución que controla las iteraciones y el flujo del programa
+|   |── ServiciosAuxiliares.py          # Gestión de operaciones y servicios de pista
+|   └── TorreDeControl.py               # Es el núcleo de la simulación. Controla el flujo de eventos y asignación de recursos
 |── .gitignore
 |── README.md
 └── requirements.txt
