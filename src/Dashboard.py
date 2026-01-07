@@ -180,7 +180,7 @@ estado = {
 
 container = st.container()
 with container:
-    if colas['llegada'] > 7 or colas['parking'] >= 45:
+    if colas['llegada'] > 7 or colas['parking'] >= 50:
         alerta(fila,colas)
 
     if estado['pistaDespegue'] == "Cerrada" or estado['pistaAterrizaje'] == "Cerrada":

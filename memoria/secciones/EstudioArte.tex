@@ -51,16 +51,14 @@ Dicho esto, estas herramientas tienen sus limitaciones que pueden dificultar su 
 \end{itemize}
 
 \section{Fundamentos teóricos}
-El modelo propuesto se basa en una simulación de eventos discretos, dinámicos y estocásticos. Dicho sistema avanza cada vez que ocurren eventos relevantes, como puede ser la llegada o el aterrizaje de una aeronave.
+El modelo propuesto se basa en una simulación de eventos basada en tiempos discretos, dinámicos y estocásticos. Dicho sistema avanza cada vez que ocurren eventos relevantes, como puede ser la llegada o el aterrizaje de una aeronave.
 \\
 \\
 En este modelo, en la simulación de eventos discretos se describe el estado del sistema con conjuntos de variables de estado. Estas variables son condiciones que pueden ir cambiando con el transcurso del tiempo. Por ejemplo, que la pista de despegue esté libre u ocupada, es decir, si una aeronave quiere despegar, pero hay tres aeronaves por delante esperando. Se trata de un modelo dinámico, ya que el sistema va evolucionando cada vez que transcurre el tiempo, y estocástico, ya que presenta comportamientos aleatorios debido a diferentes factores, como la cantidad de demanda, el tráfico de aeronaves o la meteorología.
 \\
 \\
-El modelo aeroportuario será un modelo de cola FIFO. Este tipo de modelo de cola (First in, First out) funciona de tal manera que la entidad que llegue antes al servicio es atendida antes que las que lleguen después. En este caso, los aviones actúan como entidades que ingresan al sistema para recibir un servicio, en este caso, el aterrizaje o despegue, y permanecen en la cola hasta que el servicio se libere. Por ejemplo, cuando ya no haya aviones en la pista. 
-\\
-\\
-Además, no permite operaciones simultáneas; por tanto, serán secuenciales. Por lo tanto, habrá una pista con la capacidad de despegue y aterrizaje.
+El modelo aeroportuario será un modelo de cola FIFO. Este tipo de modelo de cola (First in, First out) funciona de tal manera que la entidad que llegue antes al servicio es atendida antes que las que lleguen después. En este caso, los aviones actúan como entidades que ingresan al sistema para recibir un servicio, en este caso, el aterrizaje o despegue, y permanecen en la cola hasta que el servicio se libere. Por ejemplo, cuando ya no haya aviones en la pista.
+Además, no permite operaciones simultáneas. Por lo tanto, serán secuenciales y habrá una pista con la capacidad de despegue y aterrizaje.
 \\
 \\
 Este enfoque permite que el flujo de las operaciones sea ordenado y que se puedan analizar indicadores como el tiempo promedio de espera de cada avión que está en la cola, el tamaño de dicha cola, el nivel de utilización de dicha pista, etc.

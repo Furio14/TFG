@@ -1,5 +1,5 @@
 \chapter{Prototipo 2º}
-En este segundo prototipo se han incoporado cambios breves pero realistas que aportan un mayor nivel de autenticidad a la simulación. Además, se ha desarrollado un Dashboard que permite visualizar de forma clara el registro completo de eventos, funcionando como un panel de control similar al de una torre de control.
+En este segundo prototipo se han incorporado cambios breves, pero realistas que aportan un mayor nivel de autenticidad a la simulación. Además, se ha desarrollado un Dashboard que permite visualizar de forma clara el registro completo de eventos, funcionando como un panel de control similar al de una torre de control.
 
 \section{Dashboard Aeroportuario}
 Se ha diseñado un dashboard simple, pero lleno de información valiosa que permite ver como funciona el sistema aeroportuario a tiempo real, y, que muestra datos coherentes.
@@ -9,14 +9,14 @@ El dashboard está compuesto por un panel con varias opciones. En primer lugar, 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.6\textwidth]{portada/CentroControl.png}
-    \caption{Centro de Cotrol Dashboard}
+    \caption{Centro de Control Dashboard}
     \label{fig:Centro de Cotrol Dashboard}
 \end{figure}
 
 Al realizar la simulación, como se mencionó anteriormente, se pueden observar dos vistas principales.
 \\
 \\
-La vista operativa muestra las colas de llegadas y salidas de las aeronaves, mientras que la otra vista indica la ocupación del parking. Cuando estas colas alcanazan un número elevado de aeronaves ($\ge 8$) o hay muchas aeronaves estacionadas ($\ge 45$), se genera una alerta que se muestra directamente en el programa. Además, en la parte inferior se pueden ver las últimas aeronaves que están aterrizando, estacionadas o despegando.
+La vista operativa muestra las colas de llegadas y salidas de las aeronaves, mientras que la otra vista indica la ocupación del parking. Cuando estas colas alcanzan un número elevado de aeronaves ($\ge 8$) o hay muchas aeronaves estacionadas ($\ge 50$), se genera una alerta que se muestra directamente en el programa. Además, en la parte inferior se pueden ver las últimas aeronaves que están aterrizando, estacionadas o despegando.
 
 \begin{figure}[h!]
     \centering
@@ -34,7 +34,7 @@ La vista táctica muestra información sobre el número de pasajeros que llega a
     \label{fig:Vista Táctica Dashboard}
 \end{figure}
 
-Además, el dashboard incorpora un sistema de estados de alerta que se muestra tanto en la vista táctica como en la operativa. Cuando la cola de llegadas supera las 8 aeronaves o la ocupación del parking excede los 45 puestos, se activa una alerta crítica. Esta señalización indica que el sistema aeroportuario está alcanzado niveles de saturación, y que, por tanto, es un momento clave en el que deberían activarse medidas para mejorar la situación. A continuación, se presenta una imagen que ilustra cómo se visualiza esta alerta en la interfaz:
+Además, el dashboard incorpora un sistema de estados de alerta que se muestra tanto en la vista táctica como en la operativa. Cuando la cola de llegadas supera las 8 aeronaves, la ocupación del parking excede los 45 puestos, o se produce un cierre de pista, se activa una alerta crítica. Esta señalización indica que el sistema aeroportuario está alcanzado niveles de saturación, y que, por tanto, es un momento clave en el que deberían activarse medidas para mejorar la situación. A continuación, se presenta una imagen que ilustra cómo se visualiza está alerta en la interfaz:
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/AlertaCritica.png}
@@ -42,7 +42,7 @@ Además, el dashboard incorpora un sistema de estados de alerta que se muestra t
     \label{fig:Alerta Crítica Dashboard}
 \end{figure}
 
-Asimismo en la interfaz se pueden identificar los vuelos de emergencia, los cuales aparecen resaltados en color rojo. Estos casos se producen, por ejemplo, cuando una aeronave tiene el nivel de combustible bajo o necesita aterrizar con urgencia por cualquier otro motivo operativo. Debido a esta prioridad, dichos vuelos se incoporan directamente al proceso de aterrizaje, adelantándose al resto de la cola para garantizar su llegada inmediata:
+Asimismo en la interfaz se pueden identificar los vuelos de emergencia, los cuales aparecen resaltados en color rojo. Estos casos se producen, por ejemplo, cuando una aeronave tiene el nivel de combustible bajo o necesita aterrizar con urgencia por cualquier otro motivo operativo. Debido a esta prioridad, dichos vuelos se incorporan directamente al proceso de aterrizaje, adelantándose al resto de la cola para garantizar su llegada inmediata:
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/Emergencia.png}
@@ -120,11 +120,11 @@ Adicionalmente, se ha diseñado un cuarto escenario que, a diferencia de los ant
     \caption{Parámetros Escenario Crítico}
     \label{tab:Parámetros Escenario Crítico}
 \end{table}
-Como se muestra en la tabla \ref{tab:Parámetros Actualizados Prototipo 2} y  \ref{tab:Parámetros Escenario Crítico}, los parámetros de simulación se mantienen prácticamente iguales a los del prototipo anterior,  con la excepcion de tres nuevos factores que ahora permanecen constantes en los cuatro escenarios. A continuacion, se describe la lógica asociada a cada uno de ellos:
+Como se muestra en la tabla \ref{tab:Parámetros Actualizados Prototipo 2} y  \ref{tab:Parámetros Escenario Crítico}, los parámetros de simulación se mantienen prácticamente iguales a los del prototipo anterior,  con la excepción de tres nuevos factores que ahora permanecen constantes en los cuatro escenarios. A continuación, se describe la lógica asociada a cada uno de ellos:
 \begin{itemize}
-    \item Disponibilidad de Pistas (Dinámica): El sistema incorpora la posibilidad de que las pistas se cierren temporalmente para labores de mantenimiento u otros procedimientos, volviendose a abrir una vez finalizados.
-    \item Gestion de Parking (Mixta): Ahora, el modelo tiene dos tipos de estacionamiento: posiciones de contacto, que permiten una operación más rápida, y posiciones remotas, que requieren el uso de autobus para el traslado de pasajeros. Cuando no quedan gates disponibles, las aeronaves se asignan a posiciones remotas.
-    \item Incidencias (Activas): También, se incorpora la presencia de vuelos con estado de emergencia. Estas aeronves reciben prioridad absoluta en la cola de llegadas, lo que les permite adelantar al resto de aeronaves.
+    \item Disponibilidad de Pistas (Dinámica): El sistema incorpora la posibilidad de que las pistas se cierren temporalmente para labores de mantenimiento u otros procedimientos, volviéndose a abrir una vez finalizados.
+    \item Gestión de Parking (Mixta): Ahora, el modelo tiene dos tipos de estacionamiento: posiciones de contacto, que permiten una operación más rápida, y posiciones remotas, que requieren el uso de autobús para el traslado de pasajeros. Cuando no quedan gates disponibles, las aeronaves se asignan a posiciones remotas.
+    \item Incidencias (Activas): También, se incorpora la presencia de vuelos con estado de emergencia. Estas aeronaves reciben prioridad absoluta en la cola de llegadas, lo que les permite adelantar al resto de aeronaves.
 \end{itemize}
 
 \section{Resultados de la Experimentación del Prototipo}
@@ -144,13 +144,13 @@ Para empezar, vamos a ver cómo evoluciona la cola de llegadas tras la incorpora
 Se observa que cuando la pista se cierra por mantenimiento la cola de llegadas se satura rápidamente, llegando a su máximo de 10 aeronaves sobre las 8:30. Esto ocurre además en una franja horaria con mayor demanda (Turno de Mañana), lo que hace que la cola se llene aún más rápido. Más adelante, alrededor de las 18:00, aparece otro pico similar, lo que indica que estos dos periodos son críticos para la operación del aeropuerto.
 \\
 \\
-Para continuar, vamos a seguir con el numero total de operaciones aéreas por turno, para ver la cantidad que hay en cada turno y los posibles cuellos de botella:
+Para continuar, vamos a seguir con el número total de operaciones aéreas por turno, para ver la cantidad que hay en cada turno y los posibles cuellos de botella:
 \\
 \\
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/TotalPorTurnoJulio2.png}
-    \caption{Ops. Aereas por Turno Escenario Base PR2}
+    \caption{Ops. Aéreas por Turno Escenario Base PR2}
     \label{fig:Ops. Aereas por Turno Escenario Base PR2}
 \end{figure}
 \\
@@ -158,13 +158,13 @@ Para continuar, vamos a seguir con el numero total de operaciones aéreas por tu
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/TotalPorTurnoAtasco2.png}
-    \caption{Ops. Aereas por Turno Escenario de Estrés PR2}
+    \caption{Ops. Aéreas por Turno Escenario de Estrés PR2}
     \label{fig:Ops. Aereas por Turno Escenario de Estrés PR2}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{portada/TotalPorTurnoEnero2.png}
-    \caption{Ops. Aereas por Turno Escenario Adverso PR2}
+    \caption{Ops. Aéreas por Turno Escenario Adverso PR2}
     \label{fig:Ops. Aereas por Turno Escenario Adverso PR2}
 \end{figure}
 Después de ver los tres gráficos se puede observar que al igual que en el primer prototipo, los turnos de madrugada y noche son los de menor tráfico. El Escenario Adverso \ref{fig:Ops. Aereas por Turno Escenario Adverso PR2} actúa como un escalón intermedio, ya que eleva las operaciones moderadamente respecto al Escenario Base \ref{fig:Ops. Aereas por Turno Escenario Base PR2}. En cambio, el Escenario de Estrés \ref{fig:Ops. Aereas por Turno Escenario de Estrés PR2} es drástico, ya que duplica el tráfico de madrugada y hace que el turno de noche supere al pico máximo de una tarde en el Base.
@@ -174,7 +174,7 @@ En los turnos críticos de mañana y tarde,  en el Escenario Adverso  se aumenta
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{portada/TotalPorTurnoCritico.png}
-    \caption{Ops. Aereas por Turno Escenario Crítico}
+    \caption{Ops. Aéreas por Turno Escenario Crítico}
     \label{fig:Ops. Aereas por Turno Escenario Crítico}
 \end{figure}
 El gráfico del Escenario Crítico \ref{fig:Ops. Aereas por Turno Escenario Crítico} ofrece una perspectiva de la cantidad de operaciones aéreas acumulada durante la simulación continua de una semana (168 horas). El eje vertical representa el volumen total de operaciones procesadas durante los 7 días.
@@ -227,7 +227,7 @@ Como consecuencia, se observan picos de hasta 960 minutos y una media cercana a 
 Para este prototipo también se han generado varios gráficos en los que se representa el número de pasajeros por iteración, así como la media de pasajeros por aeronave en cada una de ellas. Estos resultados permiten analizar cómo evoluciona el flujo de pasajeros a lo largo de la simulación y comprender mejor su comportamiento en este prototipo. A continuación, se presentan los gráficos correspondientes:
 \\
 \\
-Con el fin de mejorar la legibilidad y faciliatar la interpretación, se muestran en esta sección únicamente 10 iteraciones representativas de las 75 totales. Los gráficos completos, que incluyen todas las iteraciones, se presentan en \ref{anexo:GraficosCompletos}.
+Con el fin de mejorar la legibilidad y facilitar la interpretación, se muestran en esta sección únicamente 10 iteraciones representativas de las 75 totales. Los gráficos completos, que incluyen todas las iteraciones, se presentan en \ref{anexo:GraficosCompletos}.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/PasajerosItersSoleado.png}

@@ -11,27 +11,27 @@ El objetivo de esta sección es acotar el alcance del modelo, indicando que proc
 \subsection{Componentes Incluidos en el Prototipo}
 Para este prototipo inicial, se han seleccionado los elementos más críticos del modelo empírico descriptivo. Estos componentes no representan al aeropuerto en su totalidad, más bien, representan sus características fundamentales para simular de forma realista los principales cuellos de botella del sistema.
 
-\textbf{Variables de Estado: } Se ha implementado el conjunto completo de las variables de estado mencionadas anteriormente en el modelo empírico descriptivo
+\textbf{Variables de Estado: }Se ha implementado el conjunto completo de las variables de estado mencionadas anteriormente en el modelo empírico descriptivo
 \\
 \\
-\textbf{Aeronaves: } Este prototipo se centra solo en aeronaves comerciales, ya que estas constituyen el 99.79\% de las operaciones aéreas del aeropuerto
+\textbf{Aeronaves: }Este prototipo se centra solo en aeronaves comerciales, ya que estas constituyen el 99.79\% de las operaciones aéreas del aeropuerto
 \\
 \\
-\textbf{Pistas: } Se ha modelado un sistema de pistas, compuesto por una pista dedicada al aterrizaje y otra al despegue. Ambos son recursos únicos con capacidad unitaria, ya que solo se puede realizar una operación en dicha pista a la vez. Ambas pistas tienen una cola finita para poder aterrizar, con una capacidad máxima de  10 aviones por pista.
+\textbf{Pistas: }Se ha modelado un sistema de pistas, compuesto por una pista dedicada al aterrizaje y otra al despegue. Ambos son recursos únicos con capacidad unitaria, ya que solo se puede realizar una operación en dicha pista a la vez. Ambas pistas tienen una cola finita para poder aterrizar, con una capacidad máxima de  10 aviones por pista.
 \\
 \\
-\textbf{Parking: } Se ha implementado la zona de estacionamiento de aeronaves como un recurso central. Se modela como un almacén con capacidad máxima finita de 50 aeronaves.
+\textbf{Parking: }Se ha implementado la zona de estacionamiento de aeronaves como un recurso central. Se modela como un almacén con capacidad máxima finita de 50 aeronaves.
 \\
 \\
-\textbf{Sistemas Auxiliares: } No se han implementado como procesos independientes. Sin embargo, su impacto en la simulación si se ha modelado. Este efecto se ha implementado en una variable que afecta el retraso estocástico que se añade al tiempo de estacionamiento de la aeronave.
+\textbf{Sistemas Auxiliares: }No se han implementado como procesos independientes. Sin embargo, su impacto en la simulación si se ha modelado. Este efecto se ha implementado en una variable que afecta el retraso estocástico que se añade al tiempo de estacionamiento de la aeronave.
 \subsection{Componentes Excluidos en el Prototipo}
 Para mantener el enfoque de este prototipo inicial, varios sistemas complejos del modelo empírico han sido excluidos.
 \\
 \\
-\textbf{Procesos de Terminal: } En línea con lo dicho anteriormente, todos los procesos internos de la terminal quedan fuera del alcance de este prototipo.
+\textbf{Procesos de Terminal: }En línea con lo dicho anteriormente, todos los procesos internos de la terminal quedan fuera del alcance de este prototipo.
 \\
 \\
-\textbf{Gestión de instalaciones: } En este prototipo se han excluido ciertas funciones de la gestión de instalaciones, como la avería de las instalaciones, la limpieza y el transporte de equipaje.
+\textbf{Gestión de instalaciones: }En este prototipo se han excluido ciertas funciones de la gestión de instalaciones, como la avería de las instalaciones, la limpieza y el transporte de equipaje.
  
 
 \section{Modelo Matemático}
@@ -291,14 +291,14 @@ Dentro de este ciclo se encuentran cinco funciones fundamentales que aseguran el
 \textbf{ControlAterrizajes(params):} Permite a la aeronave aterrizar cuando la pista está libre. En esta función se calcula el tiempo de aterrizaje y, dependiendo de las condiciones climáticas, pueden producirse retrasos. Una vez que aterriza la aeronave, se dirige al estacionamiento (Ver código en \ref{listing:lst4}).
 \\
 \\
-\textbf{ControlEstacionados(params):} Gestiona el estacionamiento de las aeronaves. Si hay espacio disponible, la aeronave se estaciona y permanece allí mientras se realizan las operaciones en tierra. Al llegar la hora de salida, se solicita incorporarse a la cola de despegue(Ver código en \ref{listing:lst5}).
+\textbf{ControlEstacionados(params):} Gestiona el estacionamiento de las aeronaves. Si hay espacio disponible, la aeronave se estaciona y permanece allí mientras se realizan las operaciones en tierra. Al llegar la hora de salida, se solicita incorporarse a la cola de despegue (Ver código en \ref{listing:lst5}).
 \\
 \\
 \textbf{ControlSalidas(params):} Maneja la espera en la cola de despegue. Si la cola está completa, la aeronave permanece en su lugar, lo que puede generar cuellos de botella. Si no está completa, espera hasta que haya disponibilidad en la pista para despegar (Ver código en \ref{listing:lst6}).
 \\
 \\
 \textbf{ControlDespegues(params):} Gestiona el despegue de la aeronave. Una vez que la pista de despegue está libre, el avión despega, completando así su ciclo en el aeropuerto (Ver código en \ref{listing:lst7}).
-\subsection{Párametros del Modelo}
+\subsection{Parámetros del Modelo}
 El comportamiento del sistema está regido por una serie de \textit{inputs}. El simulador, así, permite configurar distintos escenarios mediante la modificación de estos parámetros.
 \subsubsection{Parámetros de Entrada}
 El usuario puede definir diferentes parámetros de entrada, los cuales determinan el comportamiento del simulador y afectan en su desarrollo:

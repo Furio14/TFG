@@ -1,11 +1,5 @@
 \chapter{Modelo Empírico Descriptivo}
 Para abordar el desarrollo del prototipo de este trabajo, se comenzará describiendo la modelización empírica, en la cual se analizan y definen los componentes del sistema aeroportuario y los factores externos que influyen en él. El resultado de este análisis es el modelo empírico descriptivo, el cual describe conceptualmente los elementos clave de la simulación.
-\\
-\\
-Además, se presentará la modelización matemática, que traduce estos componentes y flujos a los fundamentos de la \textit{Teoría de Colas}, justificando el uso de los sistemas utilizados.
-\\
-\\
-Finalmente, se detallará la modelización computacional, que implementa el modelo matemático en Simpy \cite{simpy}, explicando la lógica del código y la gestión de eventos.
 \section{Caracterización Estadística de las Operaciones Aéreas}
 El modelo empírico desarrollado para esta simulación reproduce de manera detallada las operaciones de aeronaves y el flujo de pasajeros dentro del aeropuerto. Se consideran las pistas de aterrizaje y despegue, áreas de estacionamiento y procesos asociados a cada vuelo.
 \\
@@ -23,12 +17,10 @@ Durante el año 2024, el aeropuerto registró un total de 419,332 (99.79\%) oper
 \\
 \\
 Aunque los datos detallados por franja horaria no están disponibles públicamente, estos valores sirven como base para estimar la tasa media de llegadas y salidas, la cual se emplea en el modelo matemático.
-\\
-\\
 Sin embargo, es importante destacar que la cantidad de operaciones se adapta a la configuración específica simulada.
 
 \section{Variables de estado}
-Las variables de estado son fundamentales para analizar la eficiencia de las operaciones y la evolución del sistema bajo distintos escenarios. Se describen a continuación las variables principales empleadas durante la simulación, podemos distinguirlas en diferentes tipos:
+Las variables de estado son fundamentales para analizar la eficiencia de las operaciones y la evolución del sistema bajo distintos escenarios. Se describen a continuación las variables principales que se emplean durante la simulación, podemos distinguirlas en diferentes tipos:
 
 \begin{itemize}
     \item Variables de entidad: identifican y caracterizan al agente principal (la aeronave) en su ciclo de vida (aterrizaje → despegue). Podemos encontrar atributos como:
@@ -149,9 +141,10 @@ Este esquema sintetiza visualmente los componentes del modelo empírico descrito
         \node (colaDespegue) [cola, below=of parking] {Cola Despegues};
         \node (pistaDespegues) [proceso, below=of colaDespegue] {Pista Despegue (Cola M/M/1)};
         \node (despegues) [io, below=of pistaDespegues] {Despegues};
-        \node (servicioAuxiliar) [factor, right=of colaDespegue, node distance=5.5cm,yshift=+1cm,xshift=0.6cm] {3.1.6 Servicios Auxiliares};
-        \node (procesosTerminal) [factor, right=of pistaAterrizaje, node distance=5.5cm,yshift=-1cm] {3.1.4 Procesos de Terminal};
-        \node (gestionInstalaciones) [factor, left=of parking, node distance=5.5cm,xshift=-1cm] {3.1.5 Gestión de Instalaciones};
+        \node (servicioAuxiliar) [factor,right=of colaDespegue,node distance=5.5cm,yshift=+1cm,xshift=0.6cm] {3.8 Servicios Auxiliares};
+        \node (procesosTerminal) [factor,right=of pistaAterrizaje,node distance=5.5cm,yshift=-1cm] {3.6 Procesos de Terminal};
+        \node (gestionInstalaciones) [factor,left=of parking, node distance=5.5cm,xshift=-1cm] {3.7 Gestión de Instalaciones};
+        \node (factoresExternos) [factor,left=of colaAterrizajes,node distance=5.5cm,xshift=-1cm] {3.9 Gestión de Contigencias};
 
         \draw [flujo_principal] (llegadas) -- (colaAterrizajes);
         \draw [flujo_principal] (colaAterrizajes) -- (pistaAterrizaje);
@@ -165,6 +158,11 @@ Este esquema sintetiza visualmente los componentes del modelo empírico descrito
         \draw [flujo_factor] (gestionInstalaciones) -- (pistaAterrizaje);
         \draw [flujo_factor] (gestionInstalaciones) -- (pistaDespegues);
         \draw [flujo_factor] (gestionInstalaciones) -- (parking);
+        \draw [flujo_factor] (factoresExternos) -- (llegadas);
+        \draw [flujo_factor] (factoresExternos) -- (pistaAterrizaje);
+        \draw [flujo_factor] (factoresExternos) -- (parking);
+        \draw [flujo_factor] (factoresExternos) -- (pistaDespegues);
+        \draw [flujo_factor] (factoresExternos) -- (despegues);
 
     \end{tikzpicture}
     \caption{Diagrama del Sistema Físico}
