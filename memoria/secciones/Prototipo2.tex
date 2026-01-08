@@ -167,16 +167,17 @@ Para continuar, vamos a seguir con el número total de operaciones aéreas por t
     \caption{Ops. aéreas por turno escenario adverso prototipo 2}
     \label{fig:Ops. Aereas por Turno Escenario Adverso PR2}
 \end{figure}
-Después de ver los tres gráficos se puede observar que al igual que en el primer prototipo, los turnos de madrugada y noche son los de menor tráfico. El Escenario Adverso (Figura \ref{fig:Ops. Aereas por Turno Escenario Adverso PR2}) actúa como un escalón intermedio, ya que eleva las operaciones moderadamente respecto al Escenario Base (Figura \ref{fig:Ops. Aereas por Turno Escenario Base PR2}). En cambio, el Escenario de Estrés (Figura \ref{fig:Ops. Aereas por Turno Escenario de Estrés PR2}) es drástico, ya que duplica el tráfico de madrugada y hace que el turno de noche supere al pico máximo de una tarde en el Base.
+Después de ver los tres gráficos se puede observar que al igual que en el primer prototipo, los turnos de madrugada y noche son los de menor tráfico. El Escenario Adverso (Figura \ref{fig:Ops. Aereas por Turno Escenario Adverso PR2}) actúa como un escalón intermedio, ya que eleva las operaciones levemente respecto al Escenario Base (Figura \ref{fig:Ops. Aereas por Turno Escenario Base PR2}). En cambio, el Escenario de Estrés (Figura \ref{fig:Ops. Aereas por Turno Escenario de Estrés PR2}) es drástico, ya que duplica el tráfico de madrugada y hace que el de noche supere al pico máximo de una tarde en el Base.
 \\
 \\
 En los turnos críticos de mañana y tarde,  en el Escenario Adverso  se aumentan tanto la carga como la dispersión de datos de sus operaciones. Por su parte, en el Escenario de Estrés el número de operaciones aéreas se dispara, duplicando en la tarde las operaciones del Escenario Base.
-\begin{figure}[H]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{portada/TotalPorTurnoCritico.png}
     \caption{Ops. aéreas por turno escenario crítico}
     \label{fig:Ops. Aereas por Turno Escenario Crítico}
 \end{figure}
+\\
 El gráfico del Escenario Crítico (Figura \ref{fig:Ops. Aereas por Turno Escenario Crítico}) ofrece una perspectiva de la cantidad de operaciones aéreas acumulada durante la simulación continua de una semana (168 horas). El eje vertical representa el volumen total de operaciones procesadas durante los 7 días.
 \\
 \\
@@ -186,7 +187,7 @@ Después de analizar el gráfico, se observa que el turno de tarde es el períod
 Sin embargo, el resultado más destacable de este análisis es la baja dispersión de datos, ya que a pesar de introducir factores críticos como el aumento de la tasa de tráfico, los resultados apenas varían entre iteraciones, lo que indica que el simulador muestra un sistema robusto a nivel de ejecución.
 \\
 \\
-Para analizar cómo responde el sistema ante una acumulación alta de operaciones aéreas, en este prototipo se utilizan gráficos tipo \textit{heatmap}. Aunque en el primer prototipo ya se representaban relaciones similares mediante gráficas de regresión lineal, el heatmap ofrece una visualización distinta y más intuitiva. En concreto, al igual que en el primer prototipo, permite ver simultáneamente el número de operaciones y el tiempo medio de ciclo de cada aeronave, destacando de forma más clara las zonas donde el sistema alcanza sus puntos críticos en cada escenario.
+Para analizar cómo responde el sistema ante una acumulación alta de operaciones aéreas, en este prototipo se utilizan gráficos tipo \textit{heatmap} (Figuras \ref{fig:Heatmap Escenario Base}, \ref{fig:Heatmap Escenario de Estrés} y \ref{fig:Heatmap Escenario Adverso}). Aunque en el primer prototipo ya se representaban relaciones similares mediante gráficas de regresión lineal, el heatmap ofrece una visualización distinta y más intuitiva. En concreto, al igual que en el primer prototipo, permite ver simultáneamente el número de operaciones y el tiempo medio de ciclo de cada aeronave, destacando de forma más clara las zonas donde el sistema alcanza sus puntos críticos en cada escenario.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{portada/HexbinJulio.png}
@@ -205,26 +206,26 @@ Para analizar cómo responde el sistema ante una acumulación alta de operacione
     \caption{Heatmap escenario adverso}
     \label{fig:Heatmap Escenario Adverso}
 \end{figure}
-Comparando los tres escenarios, se observa que el Escenario Base \ref{fig:Heatmap Escenario Base} funciona de forma estable y bastante predecible. En su gráfico se muestra una diagonal clara y ascendente, lo que indica una correlación lineal, ya que el tiempo de ciclo aumenta proporcionalmente al tráfico, esto mantiene una disperisón baja y controlada.
+Comparando los tres escenarios, se observa que el Escenario Base (Figura \ref{fig:Heatmap Escenario Base}) funciona de forma estable y bastante predecible. En su gráfico se muestra una diagonal clara y ascendente, lo que indica una correlación lineal, ya que el tiempo de ciclo aumenta proporcionalmente al tráfico, esto mantiene una dispersión baja y controlada.
 \\  
 \\
-En cambio, en el Escenario Adverso \ref{fig:Heatmap Escenario Adverso} se rompe esa estabilidad. La distribución se desplaza mucho más hacia tiempos mayores (190 minutos) y los datos comienzan a dispersarse. Esto refleja que, ante un aumento de carga, el sistema ofrece mayor resistencia pero pierde eficiencia, costándole más procesar el flujo de aeronaves.
+En cambio, en el Escenario Adverso (Figura \ref{fig:Heatmap Escenario Adverso}) se rompe esa estabilidad. La distribución se desplaza mucho más hacia tiempos mayores (190 minutos) y los datos comienzan a dispersarse. Esto refleja que, ante un aumento de carga, el sistema ofrece mayor resistencia, pero pierde eficiencia, costándole más procesar el flujo de aeronaves.
 \\
 \\
-En el Escenario de Estrés \ref{fig:Heatmap Escenario de Estrés}, el comportamiento cambia por completo y se vuelve crítico. Ya que, a diferencia de la estabilidad anterior, la zona de densidad forma una mancha masiva situada en la parte superior del gráfico, con un núcleo de operación centrado en 165-175 minutos y alcanzando extremos de casi 200 minutos, similares a los peores momentos del adverso. Esto pone en evidencia que con cargas de 600 a 750 operaciones, el aeropuerto opera permanentemente en estado de saturación, sin capacidad para reducir los retrasos.
+En el Escenario de Estrés (Figura \ref{fig:Heatmap Escenario de Estrés}), el comportamiento cambia por completo y se vuelve crítico. Ya que, a diferencia de la estabilidad anterior, la zona de densidad forma una mancha masiva situada en la parte superior del gráfico, con un núcleo de operación centrado en 165-175 minutos y alcanzando extremos de casi 200 minutos, similares a los peores momentos del adverso. Esto pone en evidencia que con cargas de 600 a 750 operaciones, el aeropuerto opera permanentemente en estado de saturación, sin capacidad para reducir los retrasos.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{portada/HexbinCritico.png}
     \caption{Heatmap escenario crítico}
     \label{fig:Heatmap Escenario Crítico}
 \end{figure}
-Tras analizar el resultado de la gráfica \ref{fig:Heatmap Escenario Crítico}, a primera vista los datos resultan alarmantes. En este escenario, el número de operaciones es claramente superior al de los demás, y el tiempo de ciclo alcanza valores elevados. De primeras, el volumen total de operaciones, puede parecer una cifra alta, sin embargo, al ser una simulación de siete días, esto equivale a una media de 800 operaciones diarias.
+Tras analizar el resultado de la gráfica (Figura \ref{fig:Heatmap Escenario Crítico}), a primera vista los datos resultan alarmantes. En este escenario, el número de operaciones es claramente superior al de los demás, y el tiempo de ciclo alcanza valores elevados. De primeras, el volumen total de operaciones, puede parecer una cifra alta, sin embargo, al ser una simulación de siete días, esto equivale a una media de 800 operaciones diarias.
 \\
 \\
 Como consecuencia, se observan picos de hasta 960 minutos y una media cercana a los 900 minutos, lo que indica una saturación intensa a lo largo de los días. El sistema no tiene tiempo a recuperarse y supera su punto de retorno: incluso los períodos de menor actividad, como la madrugada, no logran absorber los retrasos acumulados, esto hace que la congestión continué aumentando de forma progresiva.
 \\
 \\
-Para este prototipo también se han generado varios gráficos en los que se representa el número de pasajeros por iteración, así como la media de pasajeros por aeronave en cada una de ellas. Estos resultados permiten analizar cómo evoluciona el flujo de pasajeros a lo largo de la simulación y comprender mejor su comportamiento en este prototipo. A continuación, se presentan los gráficos correspondientes:
+Para este prototipo también se han generado varios gráficos en los que se representa el número de pasajeros por iteración, así como la media de pasajeros por aeronave en cada una de ellas (Figuras \ref{fig:Gráfica Pasajeros Escenario Base}, \ref{fig:Gráfica Pasajeros Escenario de Estrés} y \ref{fig:Gráfica Pasajeros Escenario Adverso}). Estos resultados permiten analizar cómo evoluciona el flujo de pasajeros a lo largo de la simulación y comprender mejor su comportamiento en este prototipo. A continuación, se presentan los gráficos correspondientes:
 \\
 \\
 Con el fin de mejorar la legibilidad y facilitar la interpretación, se muestran en esta sección únicamente 10 iteraciones representativas de las 75 totales. Los gráficos completos, que incluyen todas las iteraciones, se presentan en \ref{anexo:GraficosCompletos}.
@@ -249,10 +250,10 @@ Con el fin de mejorar la legibilidad y facilitar la interpretación, se muestran
 Se puede observar como evoluciona el flujo de pasajeros en cada escenario en función de la carga de operaciones. En el Escenario Base \ref{fig:Gráfica Pasajeros Escenario Base}, el sistema gestiona un volumen medio de aproximadamente 64.000 pasajeros diarios, lo que representa un nivel de operación estable y adecuado bajo condiciones normales.
 \\
 \\
-En el Escenario Adverso \ref{fig:Gráfica Pasajeros Escenario Adverso}, a pesar de las dificultades meteorológicas, el incremento en la tasa de tráfico eleva el flujo hasta unos 82.000 pasajeros diarios. Esto supone un aumento del 28\% respecto al Escenario Base, lo que incrementa la presión sobre el sistema aeroportuario y contribuye a una mayor saturación.
+En el Escenario Adverso (Figura \ref{fig:Gráfica Pasajeros Escenario Adverso}), a pesar de las dificultades meteorológicas, el incremento en la tasa de tráfico eleva el flujo hasta unos 82.000 pasajeros diarios. Esto supone un aumento del 28\% respecto al Escenario Base, lo que incrementa la presión sobre el sistema aeroportuario y contribuye a una mayor saturación.
 \\
 \\
-En el Escenario de Estrés \ref{fig:Gráfica Pasajeros Escenario de Estrés}, el salto es mucho más grande,  ya que el volumen de pasajeros se dispara hasta alcanzar aproximadamente 135.000 pasajeros diarios. Este valor representa un incremento de más del 110\% respecto a las condiciones normales, indicando que el sistema no solo se ve sometido a una carga extrema de aeronaves, sino también a un flujo masivo y continuo de pasajeros.
+En el Escenario de Estrés (Figura \ref{fig:Gráfica Pasajeros Escenario de Estrés}), el salto es mucho más grande,  ya que el volumen de pasajeros se dispara hasta alcanzar aproximadamente 135.000 pasajeros diarios. Este valor representa un incremento de más del 110\% respecto a las condiciones normales, indicando que el sistema no solo se ve sometido a una carga extrema de aeronaves, sino también a un flujo masivo y continuo de pasajeros.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/PasajerosItersCritico.png}
@@ -270,7 +271,7 @@ En el Escenario de Estrés \ref{fig:Gráfica Pasajeros Escenario de Estrés}, el
 \\
 \\
 \\
-Finalmente, el gráfico del Escenario Crítico \ref{fig:Gráfica Pasajeros Escenario Crítico} nos permite analizar la demanda total de pasajeros a lo largo de 168 horas de simulación (1 semana). En este caso se observa un cambio claro de escala, ya que el volumen acumulado de pasajeros alcanza valores cercanos a 1.100.000 pasajeros por iteración. Si esa cifra se reparte a lo largo de la semana equivale a una media de aproximadamente 157.000 pasajeros diarios, lo que supera el número registrado en el Escenario de Estrés.
+Finalmente, el gráfico del Escenario Crítico (Figura \ref{fig:Gráfica Pasajeros Escenario Crítico}) nos permite analizar la demanda total de pasajeros a lo largo de 168 horas de simulación (1 semana). En este caso se observa un cambio claro de escala, ya que el volumen acumulado de pasajeros alcanza valores cercanos a 1.100.000 pasajeros por iteración. Si esa cifra se reparte a lo largo de la semana equivale a una media de aproximadamente 157.000 pasajeros diarios, lo que supera el número registrado en el Escenario de Estrés.
 \\
 \\
 Este nivel de demanda de pasajeros explica la saturación observada en los análisis anteriores, ya que el sistema se mantiene sometido a una carga muy elevada de forma continua durante varios días, sin tener casi margen para recuperarse.
