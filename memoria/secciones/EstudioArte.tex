@@ -1,4 +1,4 @@
-\chapter{Estado del arte y Trabajo Previo}
+\chapter{Estado del arte y Trabajo previo}
 Este capítulo presenta una revisión del Estado del Arte y los trabajos previos relevantes para la simulación de operaciones aeroportuarias. El objetivo es establecer el contexto teórico y tecnológico en el que se enmarca este proyecto, analizando los fundamentos de las metodologías claves empleadas en el sector.
 \section{Estado del arte}
 El objetivo de este apartado es revisar las tecnologías, metodologías y herramientas utilizadas en la simulación de operaciones aeroportuarias. Se analizan tanto los fundamentos prácticos como teóricos que sustentan el desarrollo del modelo, así como las soluciones existentes en el ámbito académico.
@@ -26,7 +26,7 @@ Además de identificar cuellos de botella, las herramientas de simulación permi
 Una de las principales ventajas de las herramientas de simulación es su capacidad para optimizar los procesos operativos de un aeropuerto. Utilizando estas simulaciones, es posible modelar y probar diferentes estrategias de asignación de recursos, como la asignación de puertas de embarque o la gestión del flujo de pasajeros.
 \\
 \\
-Teniendo esto en cuenta, simulando diferentes niveles de capacidad o ajustes en los tiempos de servicio, es posible encontrar la combinación óptima que mejore la utilización de los recursos disponibles. Esto no solo mejora la experiencia de los usuarios, sino que también aumenta la capacidad de manejo del aeropuerto.
+Teniendo esto en cuenta, simulando diferentes niveles de capacidad o ajustes en los tiempos de servicio, es posible encontrar la combinación óptima que mejore la utilización de los recursos disponibles. Esto no solo mejora la experiencia de los usuarios, sino que también aumenta la eficiencia de manejo del aeropuerto.
 \subsection{Escenarios críticos}
 Además de la optimización de procesos, estas herramientas permiten la evaluación de escenarios críticos que podrían afectar la eficiencia de las operaciones aeroportuarias.
 \\
@@ -58,17 +58,18 @@ En este modelo, en la simulación de eventos discretos se describe el estado del
 \\
 \\
 El modelo aeroportuario será un modelo de cola FIFO. Este tipo de modelo de cola (First in, First out) funciona de tal manera que la entidad que llegue antes al servicio es atendida antes que las que lleguen después. En este caso, los aviones actúan como entidades que ingresan al sistema para recibir un servicio, en este caso, el aterrizaje o despegue, y permanecen en la cola hasta que el servicio se libere. Por ejemplo, cuando ya no haya aviones en la pista.
-Además, no permite operaciones simultáneas. Por lo tanto, serán secuenciales y habrá una pista con la capacidad de despegue y aterrizaje.
+Además, no permite operaciones simultáneas. Por lo tanto, serán secuenciales y habrá una pista con la capacidad de despegue y aterrizaje. Existen otras políticas de gestión de las colas de espera, que tienen en cuenta prioridades, resolución de incidentes y conflictos. En un escenario real se puede implementar FIFO como base y activar otras según ciertas reglas.
+La simulación puede servir para evaluar que gestión de las colas es mejor en cada escenario.
 \\
 \\
-Este enfoque permite que el flujo de las operaciones sea ordenado y que se puedan analizar indicadores como el tiempo promedio de espera de cada avión que está en la cola, el tamaño de dicha cola, el nivel de utilización de dicha pista, etc.
+Este enfoque del modelo de simulación, permite que el flujo de las operaciones y el estado del sistema se pueda analizar como el resultado de experimentos de simulación donde trabajamos sobre indicadores como el tiempo promedio de espera de cada avión que está en la cola, el tamaño de dicha cola, el nivel de utilización de dicha pista, etc.
 
-\section{Trabajos Previos}
+\section{Trabajos previos}
 En los últimos años, ha habido varios estudios sobre la simulación de operaciones aeroportuarias, enfocándose en la logística de pasajeros, la gestión de los servicios aeroportuarios y la optimización del flujo de operaciones. Entre estos estudios, quiero destacar el trabajo realizado en el Aeropuerto Internacional de la Ciudad de México \cite{AeropuertoDeMexico}.
 \\
 \\
 Este trabajo desarrolló dos modelos de simulación que coordinaban las llegadas y salidas de las aeronaves, así como sus movimientos. Este estudio permitió identificar patrones de congestión y propuso muchas mejoras en las asignaciones de aeronaves en pista. Usaron modelos de simulación discreta, donde se representan actividades que ocurren en momentos específicos, como la llegada o el aterrizaje. Se basaron en datos reales del AICM, mostrando operaciones de vuelo, distancias, tiempo, etc.
-Determinaron que el AICM tenía operaciones cercanas a su máxima capacidad y propusieron ajustes operativos para mejorar la eficiencia. Usaron un simulador más antiguo, técnico y sencillo de codificar (SIMNET II).
+Determinaron que (AICM) tenía operaciones cercanas a su máxima capacidad y propusieron ajustes operativos para mejorar la eficiencia. Usaron un simulador clásico, técnico y sencillo de codificar (SIMNET II).
 Su metodología hace que el desarrollo de modelos como el propuesto tenga una base sólida.
 \\
 \\

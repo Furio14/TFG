@@ -108,29 +108,26 @@ def graficasBootstrap(datasetRes,mode):
     plt.axvline(media,color="red",linewidth = 2,label = "Media")
 
 def graficasPasajeros(dataset,nombre,rotar=False):
-    fig,eje = plt.subplots(figsize=(14,8))
-    iters = dataset['Semilla'].astype(str)
-    barras = eje.bar(iters,dataset['PasajerosTotales'],color='skyblue',label='Total Pasajeros', alpha=0.8)
-    eje.set_xticklabels(iters,rotation=90,fontsize=12)
-    eje.set_xlabel('Semilla',fontsize=16)
-    fontsize=12 if rotar else 16
-    eje.set_ylabel('Total Pasajeros',color='tab:blue',fontsize=18)
-    eje.tick_params(axis='y',labelcolor='tab:blue',labelsize=16)
-    eje.tick_params(axis='x',labelsize=fontsize)
-    eje.set_ylim(0,dataset['PasajerosTotales'].max()*1.2)
+    dataPlot = dataset.sort_values('PasajerosTotales', ascending=False).copy()
+    iters = dataPlot['Semilla'].astype(str)
+    fig,(ej1,ej2) = plt.subplots(2,1,figsize=(14,7),sharex=True)
+    datos = dataPlot['PasajerosTotales']/1000
+    ej1.bar(iters,datos,color='skyblue',label='Total Pasajeros', alpha=0.8)
 
-    # EJE DERECHO: Línea para la Media de Pasajeros por Avión
-    eje2 = eje.twinx()
-    eje2.plot(iters, dataset['MediaPasajerosAeronave'], color='tab:red', marker='o', linewidth=3, label='Media por Avión')
+    ej1.set_ylabel('Total Pasajeros (Miles)',color='tab:blue',fontsize=18)
+    ej1.set_title(f'Resultados por semilla', fontsize=16, fontweight='bold')
+    ej1.grid(axis='y',alpha=0.3,linestyle='--')
+    ej1.set_ylim(0,datos.max()*1.1)
 
-    eje2.set_ylabel('Media Pasajeros / Avión', color='tab:red', fontsize=18)
-    eje2.tick_params(axis='y', labelcolor='tab:red',labelsize=16)
-    # Ajustamos la escala para que la línea se vea bien (centrada)
-    miny = dataset['MediaPasajerosAeronave'].min() * 0.95
-    maxy = dataset['MediaPasajerosAeronave'].max() * 1.05
-    eje2.set_ylim(miny, maxy)
+    ej2.scatter(iters, dataPlot['MediaPasajerosAeronave'], color='tab:red', s=100, label='Media por Avión',zorder=3)
+    ej2.vlines(iters,0,dataPlot['MediaPasajerosAeronave'],color='tab:red',alpha=0.3,linewidth=1)
 
-    # Títulos y rejilla
-    plt.grid(axis='x', alpha=0.3)
+    ej2.set_ylabel('Media Pasajeros / Avión', color='tab:red', fontsize=18)
+    ej2.set_xlabel('Semilla', fontsize=18)
+    ej2.grid(axis='both',alpha=0.3,linestyle='--')
+    miny = dataPlot['MediaPasajerosAeronave'].min() * 0.98
+    maxy = dataPlot['MediaPasajerosAeronave'].max() * 1.02
+    ej2.set_ylim(miny, maxy)
+    plt.xticks(rotation=90,fontsize=10)
     plt.tight_layout()
     plt.savefig(f"../graficosfinales/{nombre}",dpi = 300)

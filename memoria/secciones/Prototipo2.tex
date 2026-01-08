@@ -1,59 +1,59 @@
 \chapter{Prototipo 2º}
-En este segundo prototipo se han incorporado cambios breves, pero realistas que aportan un mayor nivel de autenticidad a la simulación. Además, se ha desarrollado un Dashboard que permite visualizar de forma clara el registro completo de eventos, funcionando como un panel de control similar al de una torre de control.
+En este segundo prototipo se han incorporado cambios realistas que aportan un mayor nivel de autenticidad a la simulación. Además, se ha desarrollado un Dashboard que permite visualizar el registro completo de eventos, funcionando como un panel de control auxiliar de una torre de control.
 
-\section{Dashboard Aeroportuario}
+\section{Dashboard aeroportuario}
 Se ha diseñado un dashboard simple, pero lleno de información valiosa que permite ver como funciona el sistema aeroportuario a tiempo real, y, que muestra datos coherentes.
 
-El dashboard está compuesto por un panel con varias opciones. En primer lugar, incluye un modo automático donde las vistas, tanto operativa como táctica, se alternan según un tiempo determinado. Por otro lado, están las ventanas de vista táctica y operativa que el usuario puede cambiar manualmente cuando lo desee. Además, se incluyen botones de \textit{play}, \textit{pausa} y \textit{stop}, y es posible ajustar la velocidad de la simulación para visualizarla más rápido en tiempo real.
+El dashboard está compuesto por un panel con varias opciones (Figura \ref{fig:Centro de Control Dashboard}). En primer lugar, incluye un modo automático donde las vistas, tanto operativa como táctica, se alternan según un tiempo determinado. Por otro lado, están las ventanas de vista táctica y operativa que el usuario puede cambiar manualmente cuando lo desee. Además, se incluyen botones de \textit{play}, \textit{pausa} y \textit{stop}, y es posible ajustar la velocidad de la simulación para visualizarla más rápido en tiempo real.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.6\textwidth]{portada/CentroControl.png}
-    \caption{Centro de Control Dashboard}
-    \label{fig:Centro de Cotrol Dashboard}
+    \caption{Centro de control dashboard}
+    \label{fig:Centro de Control Dashboard}
 \end{figure}
 
 Al realizar la simulación, como se mencionó anteriormente, se pueden observar dos vistas principales.
 \\
 \\
-La vista operativa muestra las colas de llegadas y salidas de las aeronaves, mientras que la otra vista indica la ocupación del parking. Cuando estas colas alcanzan un número elevado de aeronaves ($\ge 8$) o hay muchas aeronaves estacionadas ($\ge 50$), se genera una alerta que se muestra directamente en el programa. Además, en la parte inferior se pueden ver las últimas aeronaves que están aterrizando, estacionadas o despegando.
+La vista operativa (Figura \ref{fig:Vista Operativa Dashboard}), muestra las colas de llegadas y salidas de las aeronaves, mientras que la otra vista indica la ocupación del parking. Cuando estas colas alcanzan un número elevado de aeronaves ($\ge 8$) o hay muchas aeronaves estacionadas ($\ge 50$), se genera una alerta que se muestra directamente en el programa. Además, en la parte inferior se pueden ver las últimas aeronaves que están aterrizando, estacionadas o despegando.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/VistaOperativa.png}
-    \caption{Vista Operativa Dashboard}
+    \caption{Vista operativa dashboard}
     \label{fig:Vista Operativa Dashboard}
 \end{figure}
 
-La vista táctica muestra información sobre el número de pasajeros que llega al aeropuerto y cuantos de ellos se están atendiendo. Además, presenta el clima actual, el estado de la simulación y un gráfico que refleja la cantidad de aeronaves en la cola de llegadas y salidas.
+La vista táctica (Figura \ref{fig:Vista Táctica Dashboard}), muestra información sobre el número de pasajeros que llega al aeropuerto y cuantos de ellos se están atendiendo. Además, presenta el clima actual, el estado de la simulación y un gráfico que refleja la cantidad de aeronaves en la cola de llegadas y salidas.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{portada/VistaTactica.png}
-    \caption{Vista Táctica Dashboard}
+    \caption{Vista táctica dashboard}
     \label{fig:Vista Táctica Dashboard}
 \end{figure}
 
-Además, el dashboard incorpora un sistema de estados de alerta que se muestra tanto en la vista táctica como en la operativa. Cuando la cola de llegadas supera las 8 aeronaves, la ocupación del parking excede los 45 puestos, o se produce un cierre de pista, se activa una alerta crítica. Esta señalización indica que el sistema aeroportuario está alcanzado niveles de saturación, y que, por tanto, es un momento clave en el que deberían activarse medidas para mejorar la situación. A continuación, se presenta una imagen que ilustra cómo se visualiza está alerta en la interfaz:
+Además, el dashboard incorpora un sistema de estados de alerta que se muestra tanto en la vista táctica como en la operativa. Cuando la cola de llegadas supera las 8 aeronaves, la ocupación del parking excede los 45 puestos, o se produce un cierre de pista, se activa una alerta crítica. Esta señalización indica que el sistema aeroportuario está alcanzado niveles de saturación, y que, por tanto, es un momento clave en el que deberían activarse medidas para mejorar la situación. A continuación, se presenta una imagen que ilustra cómo se visualiza está alerta en la interfaz (Figura \ref{fig:Alerta Crítica Dashboard}):
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/AlertaCritica.png}
-    \caption{Alerta Crítica Dashboard}
+    \caption{Alerta crítica dashboard}
     \label{fig:Alerta Crítica Dashboard}
 \end{figure}
 
-Asimismo en la interfaz se pueden identificar los vuelos de emergencia, los cuales aparecen resaltados en color rojo. Estos casos se producen, por ejemplo, cuando una aeronave tiene el nivel de combustible bajo o necesita aterrizar con urgencia por cualquier otro motivo operativo. Debido a esta prioridad, dichos vuelos se incorporan directamente al proceso de aterrizaje, adelantándose al resto de la cola para garantizar su llegada inmediata:
+Asimismo en la interfaz se pueden identificar los vuelos de emergencia (Figura \ref{fig:Vuelo de Emergencia Dashboard}), los cuales aparecen resaltados en color rojo. Estos casos se producen, por ejemplo, cuando una aeronave tiene el nivel de combustible bajo o necesita aterrizar con urgencia por cualquier otro motivo operativo. Debido a esta prioridad, dichos vuelos se incorporan directamente al proceso de aterrizaje, adelantándose al resto de la cola para garantizar su llegada inmediata:
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/Emergencia.png}
-    \caption{Vuelo de Emergencia Dashboard}
+    \caption{Vuelo de emergencia dashboard}
     \label{fig:Vuelo de Emergencia Dashboard}
 \end{figure}
 
-\section{Evolución de la Lógica de la Simulación}
+\section{Evolución de la lógica de la simulación}
 A partir del prototipo anterior, que ya presentaba un nivel de desarrollo para aumentar el realismo de la simulación. En esta nueva versión se han implementado elementos adicionales del sistema aeroportuario, como el cierre temporal de pistas, los diferentes tipos de parking y otras características operativas. Todo ello contribuye a que la simulación represente de forma más fiel el comportamiento real de un aeropuerto. 
 
-\subsection{Gestión de Pistas}
+\subsection{Gestión de pistas}
 Además de actuar como servidores en los que se gestionan las operaciones de aterrizaje y despegue, las pistas pueden presentar problemas que deben ser resueltas para evitar problemas y riesgos en las operaciones aéreas.
 \\
 \\
@@ -61,26 +61,26 @@ Por ello, se ha incluido un proceso que contempla el cierre temporal de una pist
 \\
 \\
 También se ha incluido un manejo de excepciones para aeronaves en estado de emergencia. Cuando se detecta un vuelo en estado de emergencia, se asume que presenta algún tipo de problema que requiere atención inmediata. Por ello, se le otorga prioridad absoluta en la cola de llegadas, permitiéndolo aterrizar antes que el resto de aeronaves. Esta situación se puede visualizar en el dashboard, tal y como se muestra en la figura \ref{fig:Vuelo de Emergencia Dashboard}.
-\subsection{Asignación de Estacionamientos}
-Cuando el aeropuerto se queda sin posiciones de contacto disponibles, las aeronaves deben ubicarse en posiciones remotas, donde un autobús translada a los pasasjeros hasta la terminal. Esto ocurre cuando la demanda supera la capacidad disponible de posiciones de contacto.
+\subsection{Asignación de estacionamientos}
+Cuando el aeropuerto se queda sin posiciones de contacto disponibles, las aeronaves deben ubicarse en posiciones remotas, donde un autobús traslada a los pasajeros hasta la terminal. Esto ocurre cuando la demanda supera la capacidad disponible de posiciones de contacto.
 \\
 \\
 Para reflejar esto en la simulación, se ha implementado un mecanismo el cual, cuando la cola del parking principal alcanza su límite, las aeronaves que van llegando a continuación se desvían automáticamente al parking secundario, que cuenta con una capacidad máxima de 10 posiciones. De esta manera el aeropuerto mantiene una mayor agilidad operativa y evita posibles saturaciones.
-\subsection{Procesamiento de Procesos en Paralelo}
-Una vez la aeronave esta estacionada, se llevan a cabo diversos procesos necearios para prepararlos para el siguiente vuelo. 
+\subsection{Procesamiento de procesos en paralelo}
+Una vez la aeronave está estacionada, se llevan a cabo diversos procesos necesarios para prepararlos para el siguiente vuelo. 
 \\
 \\
 En la simulación se han incluido los servicios de limpieza, catering y repostaje de combustible, los cuales se ejecutan de forma paralela. También se considera el tiempo correspondiente al embarque de los pasajeros. La duración total de estos procesos influye en la puntualidad, ya que, si uno de ellos se retrasa, el tiempo de salida del vuelo puede verse afectado, generando demoras en el sistema.
-\section{Análisis de los Datos de la Simulación}
+\section{Análisis de los datos de la simulación}
 Para esta fase se ha mantenido la misma matriz de escenarios utilizada en la iteración anterior. Esta elección permite que podamos realizar una comparación directa entre ambas versiones y evaluar de manera más precisa las mejoras que han sido introducidas al simulador en este prototipo.
 \\
 \\
-Sin embargo, ya que hemos incorporado nuevos atributos, como el cierre y apertura de pistas, es previsible que los resultados obtenidos difieran notablemente respecto al primer prototipo. Por ello, tomamos en cuenta diferentes parámetros para los escenarios:
+Sin embargo, ya que hemos incorporado nuevos atributos, como el cierre y apertura de pistas, es previsible que los resultados obtenidos difieran notablemente respecto al primer prototipo. Por ello, tomamos en cuenta diferentes parámetros para los escenarios (Tabla \ref{tab:Parámetros Actualizados Prototipo 2}):
 
 \begin{table}[H]
     \centering
     \renewcommand{\arraystretch}{1.3}
-    \begin{tabular}{|c|c|c|c|} 
+    \begin{tabular}{|l|l|l|l|} 
         \hline
         Parámetros & Escenario Base & Escenario de Estrés & Escenario Adverso\\
         \hline
@@ -95,14 +95,14 @@ Sin embargo, ya que hemos incorporado nuevos atributos, como el cierre y apertur
         \textbf{Iteraciones} & 75 & 75 & 75\\
         \hline
     \end{tabular}
-    \caption{Parámetros Actualizados Prototipo 2}
+    \caption{Parámetros actualizados prototipo 2}
     \label{tab:Parámetros Actualizados Prototipo 2}
 \end{table}
 Adicionalmente, se ha diseñado un cuarto escenario que, a diferencia de los anteriores, este nuevo escenario tiene como finalidad verificar la capacidad de respuesta y adaptación del sistema ante adversidades y cambios en el entorno operativo:
 \begin{table}[H]
     \centering
     \renewcommand{\arraystretch}{1.3}
-    \begin{tabular}{|c|c|c|c|} 
+    \begin{tabular}{|l|l|l|l|} 
         \hline
         Parámetros & Escenario Crítico\\
         \hline
@@ -117,7 +117,7 @@ Adicionalmente, se ha diseñado un cuarto escenario que, a diferencia de los ant
         Iteraciones & 75\\
         \hline
     \end{tabular}
-    \caption{Parámetros Escenario Crítico}
+    \caption{Parámetros escenario crítico}
     \label{tab:Parámetros Escenario Crítico}
 \end{table}
 Como se muestra en la tabla \ref{tab:Parámetros Actualizados Prototipo 2} y  \ref{tab:Parámetros Escenario Crítico}, los parámetros de simulación se mantienen prácticamente iguales a los del prototipo anterior,  con la excepción de tres nuevos factores que ahora permanecen constantes en los cuatro escenarios. A continuación, se describe la lógica asociada a cada uno de ellos:
@@ -127,30 +127,30 @@ Como se muestra en la tabla \ref{tab:Parámetros Actualizados Prototipo 2} y  \r
     \item Incidencias (Activas): También, se incorpora la presencia de vuelos con estado de emergencia. Estas aeronaves reciben prioridad absoluta en la cola de llegadas, lo que les permite adelantar al resto de aeronaves.
 \end{itemize}
 
-\section{Resultados de la Experimentación del Prototipo}
-A continuacion se muestran los resultados obtenidos con el segundo prototipo. Igual que en el apartado del primer prototipo, el objetivo es comparar cómo se comportan los distintos escenarios y comentar lo que se observa en las gráficas. Esto permite ver que ha cambiado con las nuevas funcionalidades y cómo afectan al sistema aeroportuario.
+\section{Resultados de la experimentación del prototipo}
+A continuación se muestran los resultados obtenidos con el segundo prototipo. Igual que en el apartado del primer prototipo, el objetivo es comparar cómo se comportan los distintos escenarios y comentar lo que se observa en las gráficas. Esto permite ver que ha cambiado con las nuevas funcionalidades y cómo afectan al sistema aeroportuario.
 \\
 \\
-Para empezar, vamos a ver cómo evoluciona la cola de llegadas tras la incorporación de las nuevas funcionalidades, para ello miraremos la cola de llegada en condiciones normales:
+Para empezar, vamos a ver cómo evoluciona la cola de llegadas tras la incorporación de las nuevas funcionalidades, para ello miraremos el número medio de un día de la cola de llegada en condiciones normales (Figura \ref{fig:Evolución de la Cola de Aterrizaje}):
 \\
 \\
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/EvolucionColaAterrizaje.png}
-    \caption{Evolución de la Cola de Aterrizaje}
+    \caption{Evolución de la cola de aterrizaje}
     \label{fig:Evolución de la Cola de Aterrizaje}
 \end{figure}
 \\
 Se observa que cuando la pista se cierra por mantenimiento la cola de llegadas se satura rápidamente, llegando a su máximo de 10 aeronaves sobre las 8:30. Esto ocurre además en una franja horaria con mayor demanda (Turno de Mañana), lo que hace que la cola se llene aún más rápido. Más adelante, alrededor de las 18:00, aparece otro pico similar, lo que indica que estos dos periodos son críticos para la operación del aeropuerto.
 \\
 \\
-Para continuar, vamos a seguir con el número total de operaciones aéreas por turno, para ver la cantidad que hay en cada turno y los posibles cuellos de botella:
+Para continuar, vamos a seguir con el número total de operaciones aéreas por turno, para ver la cantidad que hay en cada turno y los posibles cuellos de botella (Figuras \ref{fig:Ops. Aereas por Turno Escenario Base PR2}, \ref{fig:Ops. Aereas por Turno Escenario de Estrés PR2} y \ref{fig:Ops. Aereas por Turno Escenario Adverso PR2}):
 \\
 \\
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/TotalPorTurnoJulio2.png}
-    \caption{Ops. Aéreas por Turno Escenario Base PR2}
+    \caption{Ops. aéreas por turno escenario base prototipo 2}
     \label{fig:Ops. Aereas por Turno Escenario Base PR2}
 \end{figure}
 \\
@@ -158,51 +158,51 @@ Para continuar, vamos a seguir con el número total de operaciones aéreas por t
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/TotalPorTurnoAtasco2.png}
-    \caption{Ops. Aéreas por Turno Escenario de Estrés PR2}
+    \caption{Ops. aéreas por turno escenario de estrés prototipo 2}
     \label{fig:Ops. Aereas por Turno Escenario de Estrés PR2}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{portada/TotalPorTurnoEnero2.png}
-    \caption{Ops. Aéreas por Turno Escenario Adverso PR2}
+    \caption{Ops. aéreas por turno escenario adverso prototipo 2}
     \label{fig:Ops. Aereas por Turno Escenario Adverso PR2}
 \end{figure}
-Después de ver los tres gráficos se puede observar que al igual que en el primer prototipo, los turnos de madrugada y noche son los de menor tráfico. El Escenario Adverso \ref{fig:Ops. Aereas por Turno Escenario Adverso PR2} actúa como un escalón intermedio, ya que eleva las operaciones moderadamente respecto al Escenario Base \ref{fig:Ops. Aereas por Turno Escenario Base PR2}. En cambio, el Escenario de Estrés \ref{fig:Ops. Aereas por Turno Escenario de Estrés PR2} es drástico, ya que duplica el tráfico de madrugada y hace que el turno de noche supere al pico máximo de una tarde en el Base.
+Después de ver los tres gráficos se puede observar que al igual que en el primer prototipo, los turnos de madrugada y noche son los de menor tráfico. El Escenario Adverso (Figura \ref{fig:Ops. Aereas por Turno Escenario Adverso PR2}) actúa como un escalón intermedio, ya que eleva las operaciones moderadamente respecto al Escenario Base (Figura \ref{fig:Ops. Aereas por Turno Escenario Base PR2}). En cambio, el Escenario de Estrés (Figura \ref{fig:Ops. Aereas por Turno Escenario de Estrés PR2}) es drástico, ya que duplica el tráfico de madrugada y hace que el turno de noche supere al pico máximo de una tarde en el Base.
 \\
 \\
 En los turnos críticos de mañana y tarde,  en el Escenario Adverso  se aumentan tanto la carga como la dispersión de datos de sus operaciones. Por su parte, en el Escenario de Estrés el número de operaciones aéreas se dispara, duplicando en la tarde las operaciones del Escenario Base.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{portada/TotalPorTurnoCritico.png}
-    \caption{Ops. Aéreas por Turno Escenario Crítico}
+    \caption{Ops. aéreas por turno escenario crítico}
     \label{fig:Ops. Aereas por Turno Escenario Crítico}
 \end{figure}
-El gráfico del Escenario Crítico \ref{fig:Ops. Aereas por Turno Escenario Crítico} ofrece una perspectiva de la cantidad de operaciones aéreas acumulada durante la simulación continua de una semana (168 horas). El eje vertical representa el volumen total de operaciones procesadas durante los 7 días.
+El gráfico del Escenario Crítico (Figura \ref{fig:Ops. Aereas por Turno Escenario Crítico}) ofrece una perspectiva de la cantidad de operaciones aéreas acumulada durante la simulación continua de una semana (168 horas). El eje vertical representa el volumen total de operaciones procesadas durante los 7 días.
 \\
 \\
-Después de analizar el gráfico, se observa que el turno de tarde es el período crítico de la operación, ya que acumula una mediana superior a 2350 operaciones (336 operaciones cada día), lo que supone un 25\% más de carga que el turno de tarde del Escenario de Estrés \ref{fig:Ops. Aereas por Turno Escenario de Estrés PR2}.
+Después de analizar el gráfico, se observa que el turno de tarde es el período crítico de la operación, ya que acumula una mediana superior a 2350 operaciones (336 operaciones cada día), lo que supone un 25\% más de carga que el turno de tarde del Escenario de Estrés (Figura \ref{fig:Ops. Aereas por Turno Escenario de Estrés PR2}).
 \\
 \\
-Sin embargo, el resultado más destacable de este análisis es la baja dispersión de datos, ya que a pesar de introducir factores críticos como el aumento de la tasa de tráfico, los resultados apenas varían entre iteraciones, lo que indica que el simulador es robusto a nivel de ejecución.
+Sin embargo, el resultado más destacable de este análisis es la baja dispersión de datos, ya que a pesar de introducir factores críticos como el aumento de la tasa de tráfico, los resultados apenas varían entre iteraciones, lo que indica que el simulador muestra un sistema robusto a nivel de ejecución.
 \\
 \\
 Para analizar cómo responde el sistema ante una acumulación alta de operaciones aéreas, en este prototipo se utilizan gráficos tipo \textit{heatmap}. Aunque en el primer prototipo ya se representaban relaciones similares mediante gráficas de regresión lineal, el heatmap ofrece una visualización distinta y más intuitiva. En concreto, al igual que en el primer prototipo, permite ver simultáneamente el número de operaciones y el tiempo medio de ciclo de cada aeronave, destacando de forma más clara las zonas donde el sistema alcanza sus puntos críticos en cada escenario.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{portada/HexbinJulio.png}
-    \caption{Heatmap Escenario Base}
+    \caption{Heatmap escenario base}
     \label{fig:Heatmap Escenario Base}
 \end{figure}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{portada/HexbinAtasco.png}
-    \caption{Heatmap Escenario de Estrés}
+    \caption{Heatmap escenario de estrés}
     \label{fig:Heatmap Escenario de Estrés}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{portada/HexbinEnero.png}
-    \caption{Heatmap Escenario Adverso}
+    \caption{Heatmap escenario adverso}
     \label{fig:Heatmap Escenario Adverso}
 \end{figure}
 Comparando los tres escenarios, se observa que el Escenario Base \ref{fig:Heatmap Escenario Base} funciona de forma estable y bastante predecible. En su gráfico se muestra una diagonal clara y ascendente, lo que indica una correlación lineal, ya que el tiempo de ciclo aumenta proporcionalmente al tráfico, esto mantiene una disperisón baja y controlada.
@@ -215,7 +215,7 @@ En el Escenario de Estrés \ref{fig:Heatmap Escenario de Estrés}, el comportami
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{portada/HexbinCritico.png}
-    \caption{Heatmap Escenario Crítico}
+    \caption{Heatmap escenario crítico}
     \label{fig:Heatmap Escenario Crítico}
 \end{figure}
 Tras analizar el resultado de la gráfica \ref{fig:Heatmap Escenario Crítico}, a primera vista los datos resultan alarmantes. En este escenario, el número de operaciones es claramente superior al de los demás, y el tiempo de ciclo alcanza valores elevados. De primeras, el volumen total de operaciones, puede parecer una cifra alta, sin embargo, al ser una simulación de siete días, esto equivale a una media de 800 operaciones diarias.
@@ -228,22 +228,22 @@ Para este prototipo también se han generado varios gráficos en los que se repr
 \\
 \\
 Con el fin de mejorar la legibilidad y facilitar la interpretación, se muestran en esta sección únicamente 10 iteraciones representativas de las 75 totales. Los gráficos completos, que incluyen todas las iteraciones, se presentan en \ref{anexo:GraficosCompletos}.
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{portada/PasajerosItersSoleado.png}
-    \caption{Gráfica Pasajeros Escenario Base}
+    \caption{Gráfica pasajeros escenario base}
     \label{fig:Gráfica Pasajeros Escenario Base}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{portada/PasajerosItersAtasco.png}
-    \caption{Gráfica Pasajeros Escenario de Estrés}
+    \caption{Gráfica pasajeros escenario de estrés}
     \label{fig:Gráfica Pasajeros Escenario de Estrés}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{portada/PasajerosItersEnero.png}
-    \caption{Gráfica Pasajeros Escenario Adverso}
+    \caption{Gráfica pasajeros escenario adverso}
     \label{fig:Gráfica Pasajeros Escenario Adverso}
 \end{figure}
 Se puede observar como evoluciona el flujo de pasajeros en cada escenario en función de la carga de operaciones. En el Escenario Base \ref{fig:Gráfica Pasajeros Escenario Base}, el sistema gestiona un volumen medio de aproximadamente 64.000 pasajeros diarios, lo que representa un nivel de operación estable y adecuado bajo condiciones normales.
@@ -256,7 +256,7 @@ En el Escenario de Estrés \ref{fig:Gráfica Pasajeros Escenario de Estrés}, el
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/PasajerosItersCritico.png}
-    \caption{Gráfica Pasajeros Escenario Crítico}
+    \caption{Gráfica pasajeros escenario crítico}
     \label{fig:Gráfica Pasajeros Escenario Crítico}
 \end{figure}
 \\

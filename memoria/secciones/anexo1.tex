@@ -58,14 +58,14 @@ Para facilitar la comprensión del funcionamiento del simulador y mostrar de man
     # Nos indica si el avion esta despegando
     yield evento.process(controlDespegues(evento,parking,pistaDespegues,colaDespegues,estadoClima,mes,turnos,aeronaves))
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Gestión de la Cola de Llegada},label=listing:lst3,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Gestión de la cola de llegada},label=listing:lst3,captionpos=b,breaklines=true,breakatwhitespace=false]
     # Una vez solicitan aterrizar los aviones se les añade a la cola de llegadas
     def controlLlegadas(evento,avion,colaAterrizajes,estadoClima,mes,aeronaves):
         yield colaAterrizajes.put(avion)
         aeronaves["AeronavesEnColaLlegada"] += 1
         avion.infoColaAterrizaje(evento,estadoClima,mes,aeronaves)
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Operación de Aterrizaje},label=listing:lst4,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Operación de aterrizaje},label=listing:lst4,captionpos=b,breaklines=true,breakatwhitespace=false]
     # Una vez llegan las aeronaves las retira de la otra cola y las añade a la de aterrizados
     def controlAterrizajes(evento,pista,colaAterrizajes,colaEstacionados,estadoClima,mes,aeronaves):
         if colaAterrizajes:
@@ -82,7 +82,7 @@ Para facilitar la comprensión del funcionamiento del simulador y mostrar de man
     else:
         yield evento.timeout(0.1)
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Operación de Estacionamiento},label=listing:lst5,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Operación de estacionamiento},label=listing:lst5,captionpos=b,breaklines=true,breakatwhitespace=false]
     # Una vez aterrizan las aeronaves te informa de si esta estacionado
     def controlEstacionados(evento,parking,colaEstacionados,colaSalidas,estadoClima,mes,aeronaves):
         if colaEstacionados:
@@ -100,7 +100,7 @@ Para facilitar la comprensión del funcionamiento del simulador y mostrar de man
         else:
             yield evento.timeout(0.1)
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Programación de Salida},label=listing:lst6,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Programación de salida},label=listing:lst6,captionpos=b,breaklines=true,breakatwhitespace=false]
     # Una vez estan estacionadas las aeronaves se les asigna una hora de salida para ser anunciado
     def controlSalidas(evento,anuncio,colaSalidas,colaDespegues,estadoClima,mes,aeronaves):
         if colaSalidas:
@@ -121,7 +121,7 @@ Para facilitar la comprensión del funcionamiento del simulador y mostrar de man
         else:
             yield evento.timeout(0.1)
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Operación de Despegue},label=listing:lst7,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Operación de despegue},label=listing:lst7,captionpos=b,breaklines=true,breakatwhitespace=false]
     # Una vez estan estacionadas las aeronaves se les asigna una tarea de salir a pista
     def controlDespegues(evento,parking,pista,colaDespegues,estadoClima,mes,turnos,aeronaves):
         if colaDespegues:
@@ -150,13 +150,13 @@ Para facilitar la comprensión del funcionamiento del simulador y mostrar de man
         else:
             yield evento.timeout(0.1)
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Tasa Horarios},label=listing:lst8,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Tasa horarios},label=listing:lst8,captionpos=b,breaklines=true,breakatwhitespace=false]
     tasaHora = {0:0.1,1:0.1,2:0.08,3:0.07,4:0.07,5:0.08,
             6:0.1,7:0.2,8:0.3,9:0.3,10:0.4,11:0.4,
             12:0.4,13:0.45,14:0.4,15:0.5,16:0.45,17:0.4,
             18:0.35,19:0.3,20:0.25,21:0.2,22:0.15,23:0.1}
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Factores Externos},label=listing:lst9,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Factores externos},label=listing:lst9,captionpos=b,breaklines=true,breakatwhitespace=false]
     Invierno = {"Soleado":0.3,"Nublado":0.4,"Lluvioso":0.2,"Niebla":0.05,"Tormenta":0.05}
     Primavera = {"Soleado":0.6,"Nublado":0.25,"Lluvioso":0.1,"Niebla":0.02,"Tormenta":0.05}
     Verano = {"Soleado":0.8,"Nublado":0.15,"Lluvioso":0.03,"Niebla":0.01,"Tormenta":0.03}
@@ -189,7 +189,7 @@ Para facilitar la comprensión del funcionamiento del simulador y mostrar de man
 
             yield evento.timeout(60)
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Generador Aeronaves},label=listing:lst10,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Generador aeronaves},label=listing:lst10,captionpos=b,breaklines=true,breakatwhitespace=false]
     def generador(evento):
     vueloRandom = random.choice(listaVuelos)
     letra = random.choice("ABCDEFGHIJLKMNOPQRSTUVWXYZ") # genera letra random
@@ -209,7 +209,7 @@ Para facilitar la comprensión del funcionamiento del simulador y mostrar de man
     horaLlegada = f"{(horasHastaLlegada)%24:02d}:{minsHastaLlegada:02d}"            
     return Aeronave(id,idVuelo,estado,pasajeros,origen,destino,horaSalida,horaLlegada,horaLlegadaReal="---",horaEstacionado="---",horaProgramadaSalida="---",horaDespegue="---",tiempoCicloAvion="---")
 \end{lstlisting}
-\begin{lstlisting}[language = Python,frame = single,caption = {Control Aéreo},label=listing:lst11,captionpos=b,breaklines=true,breakatwhitespace=false]
+\begin{lstlisting}[language = Python,frame = single,caption = {Control aéreo},label=listing:lst11,captionpos=b,breaklines=true,breakatwhitespace=false]
     def controlAereo(evento,anuncio,parking,pistaAterrizajes,pistaDespegues,colaAterrizajes,colaEstacionados,colaSalidas,colaDespegues,estadoClima,mes,turnos,aeronaves,retraso):
     while True:
             vuelosMedia = aeronaves["AeronavesDiarias"] #media de vuelos cada dia
@@ -293,30 +293,30 @@ Para facilitar la comprensión del funcionamiento del simulador y mostrar de man
     01:06,X142,SK1510,ColaDespegues,Activa,Activa,149,Madrid,Munich,01:05,03:45,00:07,00:16,01:05,---,---,MAYO,Soleado,0,5,1,1,,False
 \end{lstlisting}
 
-\section{Gráficos Completos}
+\section{Gráficos completos}
 \label{anexo:GraficosCompletos}
 Con el fin de representar los gráficos de manera completa y asegurar que se visualicen correctamente, en este apartado se muestran los gráficos completos correspondientes a todas las iteraciones realizadas.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/PasajerosvolumenEnteroSoleado.png}
-    \caption{Gráfica Pasajeros Volumen Entero Escenario Base}
+    \caption{Gráfica pasajeros volumen entero escenario base}
     \label{Gráfica Pasajeros Volumen Entero Escenario Base}
 \end{figure}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/PasajerosvolumenEnteroAtasco.png}
-    \caption{Gráfica Pasajeros Volumen Entero Escenario de Estrés}
+    \caption{Gráfica pasajeros volumen entero escenario de estrés}
     \label{Gráfica Pasajeros Volumen Entero Escenario de Estrés}
 \end{figure}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/PasajerosvolumenEnteroEnero.png}
-    \caption{Gráfica Pasajeros Volumen Entero Escenario Adverso}
+    \caption{Gráfica pasajeros volumen entero escenario adverso}
     \label{Gráfica Pasajeros Volumen Entero Escenario Adverso}
 \end{figure}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/PasajerosvolumenEnteroCritico.png}
-    \caption{Gráfica Pasajeros Volumen Entero Escenario Crítico}
+    \caption{Gráfica pasajeros volumen entero escenario crítico}
     \label{Gráfica Pasajeros Volumen Entero Escenario Crítico}
 \end{figure}

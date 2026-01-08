@@ -1,7 +1,7 @@
 \chapter{Modelo Empírico Descriptivo}
 Para abordar el desarrollo del prototipo de este trabajo, se comenzará describiendo la modelización empírica, en la cual se analizan y definen los componentes del sistema aeroportuario y los factores externos que influyen en él. El resultado de este análisis es el modelo empírico descriptivo, el cual describe conceptualmente los elementos clave de la simulación.
-\section{Caracterización Estadística de las Operaciones Aéreas}
-El modelo empírico desarrollado para esta simulación reproduce de manera detallada las operaciones de aeronaves y el flujo de pasajeros dentro del aeropuerto. Se consideran las pistas de aterrizaje y despegue, áreas de estacionamiento y procesos asociados a cada vuelo.
+\section{Caracterización estadística de las operaciones aéreas}
+El modelo empírico desarrollado para esta simulación representa las operaciones de aeronaves y el flujo de pasajeros dentro del aeropuerto. Se consideran las pistas de aterrizaje y despegue, áreas de estacionamiento y procesos asociados a cada vuelo.
 \\
 \\
 Para la construcción del modelo empírico se han usado datos reales proporcionados por AENA sobre el Aeropuerto de Madrid Barajas. Estos datos permiten caracterizar de manera precisa las operaciones aéreas.
@@ -56,13 +56,13 @@ Distinguir los tipos de aeronaves \cite{TiposAeronaves} que operan en el aeropue
 \end{itemize}
 
 \section{Pistas}
-Las pistas \cite{TiposPistas} son elementos clave en la infraestructura aeroportuaria y actúan como los servidores principales dentro del modelo matemático de colas que representa el flujo de aeronaves. Cada pista funciona de manera independiente y, habitualmente, se modela usando un sistema de colas M/M/1:
+Las pistas \cite{TiposPistas} son elementos clave en la infraestructura aeroportuaria y actúan como los servidores principales dentro del modelo matemático de colas que representa el flujo de aeronaves. Cada pista funciona de manera independiente:
 \begin{itemize}  
     \item Pista de aterrizaje: Representa el punto de entrada al sistema aeroportuario para las aeronaves, su función es procesar las operaciones de aterrizaje.
     \item Pista de despegue: Este recurso actúa como punto de salida del sistema para las aeronaves que han completado sus operaciones en tierra, se utiliza exclusivamente para las maniobras de despegue.
 \end{itemize}
-Las pistas, por lo tanto, son componentes esenciales, ya que gobiernan directamente el rendimiento del sistema, la formación de colas y los tiempos de espera.
-\section{Gestión de Plataforma}
+Las pistas, por lo tanto, son componentes esenciales, ya que determinan el rendimiento del sistema, la formación de colas y los tiempos de espera.
+\section{Gestión de plataforma}
 El parking es un elemento fundamental en la operatividad aeroportuaria, ya que es el espacio donde se ubican las aeronaves una vez en tierra. Su gestión influye directamente en la fluidez del tráfico aéreo, si el parking se satura, el resto del sistema también se ve afectado, generando retrasos y bloqueos en la cadena operativa. Por este motivo, la asignación de plazas y el orden de ocupación son procesos esenciales para mantener un funcionamiento eficiente y evitar la congestión del aeropuerto.
 \begin{itemize}
     \item Posiciones de Contacto: Permiten el desembarque directo a la terminal mediante un finger o una pasarela.
@@ -70,7 +70,7 @@ El parking es un elemento fundamental en la operatividad aeroportuaria, ya que e
 \end{itemize}
 
 
-\section{Procesos de Terminal}
+\section{Procesos de terminal}
 Los procesos de terminal engloban todas las etapas que un pasajero debe completar desde que entra al edificio terminal hasta que accede a la aeronave. 
 \\
 \\
@@ -103,11 +103,11 @@ Estas tareas se ejecutan de forma concurrente e incluyen:
     \item Servicios de Cabina: Catering, limpieza interior, y gestión de residuos. 
 \end{itemize}
 La eficiencia y coordinación de estos servicios son cruciales, ya que determinan el tiempo total que la aeronave permanece inoperativa en el parking.  Cualquier retraso es cualquiera de estos procesos impacta directamente a la hora de salida, pudiendo generar retrasos que impacten a la hora de salida de otros vuelos.
-\section{Gestión de Contingencias y Factores Externos}
-La capacidad real de un aeropuerto casi nunca coincide con su capacidad teórica, esto se debe a que siempre hay factores externos que complican las operaciones aeroportuarias y obligan a recurrir a otros planes para mantener todo funcionando.
+\section{Gestión de contingencias y factores externos}
+La capacidad real de un aeropuerto casi nunca coincide con su capacidad teórica, esto se debe a que siempre hay factores externos que complican las operaciones aeroportuarias tales como la seguridad, los pasajeros, el mantenimiento, repostaje, equipaje y carga que obligan a recurrir a otros planes para mantener todo funcionando.
 
 \subsection{Meteorología}
-La Meteorología es el factor externo que más afecta posiblemente a la aviación. Cosas como la niebla o tormentas fuertes hacen que se reduzca la capacidad de operatividad de un aeropuerto.
+La Meteorología es el factor externo que más afecta posiblemente a la aviación. El viento, la niebla o tormentas fuertes hacen que se reduzca la capacidad de operatividad de un aeropuerto.
 \\
 \\
 Esto obliga a aumentar la distancia entre aviones tanto en el aire como en tierra. El problema es que eso reduce el número de despegues y aterrizajes y como consecuencia, empiezan a formarse colas de espera y retrasos en tierra.
@@ -165,7 +165,10 @@ Este esquema sintetiza visualmente los componentes del modelo empírico descrito
         \draw [flujo_factor] (factoresExternos) -- (despegues);
 
     \end{tikzpicture}
-    \caption{Diagrama del Sistema Físico}
+    \caption{Diagrama del sistema físico del aeropuerto}
     \label{fig:sistemaFisico}
 \end{figure}
+\\
+\\
+Tal y como se observa en la figura \ref{fig:sistemaFisico}, el Aeropuerto responde como sistema a la prestación de los servicios que demandan los vuelos programados, se planifica para garantizar: eficiencia, seguridad y capacidad.
 

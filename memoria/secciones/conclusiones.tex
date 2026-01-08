@@ -1,6 +1,6 @@
-\chapter{Resultados y Conclusiones}
+\chapter{Resultados y conclusiones}
 Una vez implementados y validados ambos prototipos, es necesario analizar los datos obtenidos. En este capítulo se comparan ambos prototipos con el objetivo de evaluar cuál de ellos ofrece un mayor grado de realismo y una representación fiel del flujo de operaciones y sistemas auxiliares. Por último, se presenta una síntesis de los resultados más relevantes del estudio y se proponen algunas ideas para mejorar y ampliar el modelo en trabajos futuros.
-\section{Análisis Comparativo de los Prototipos}
+\section{Análisis comparativo de los prototipos}
 El objetivo de esta sección es contrastar los resultados obtenidos en ambos prototipos para identificar las principales diferencias y los cambios más relevantes entre ellos. Mientras que el primer prototipo sirvió como una base inicial, pero muy completa, del modelo, mientras que el segundo se desarrolló con el objetivo de incoporar un mayor nivel de realismo con nuevas lógicas y funcionalidades.
 \\
 \\
@@ -25,7 +25,7 @@ Para comenzar se va a realizar una comparativa del Escenario Base de cada protot
         Consistencia del Flujo & Alta & Alta\\
         \hline
     \end{tabular}
-    \caption{Comparativa Escenario Base}
+    \caption{Comparativa escenario base}
     \label{tab:Comparativa Escenario Base}
 \end{table}
 Tal y como se observa en la Tabla \ref{tab:Comparativa Escenario Base}, el paso del primer al segundo prototipo supone una clara mejora del modelo, ya que se pasa de un enfoque lineal y fijo a uno estocástico. El cambio más notable se observa en el Tiempo Medio de Ciclo, que aumenta de 81 minutos en el primer prototipo a aproximadamente 116 minutos en el segundo prototipo. Es importante destacar que este incremento del 42\% no se debe a un peor funcionamiento, sino a que el primer modelo era demasiado optimista.
@@ -49,7 +49,7 @@ Mientras que en el Prototipo 1 la situación era ideal, ya que no había servici
         Consistencia del Flujo & Alta & Alta\\
         \hline
     \end{tabular}
-    \caption{Comparativa Escenario de Estrés}
+    \caption{Comparativa escenario de estrés}
     \label{tab:Comparativa Escenario de Estrés}
 \end{table}
 \\
@@ -74,7 +74,7 @@ En cambio, el Prototipo 2 demuestra que está mejor preparado para este tipo de 
         Consistencia del Flujo & Alta & Alta\\
         \hline
     \end{tabular}
-    \caption{Comparativa Escenario Adverso}
+    \caption{Comparativa escenario adverso}
     \label{tab:Comparativa Escenario Adverso}
 \end{table}
 \\
@@ -82,7 +82,7 @@ Por último, la Tabla \ref{tab:Comparativa Escenario Adverso} muestra claramente
 \\
 \\
 Por el contrario, el Prototipo 2 presenta un comportamiento más estable. No solo consigue mejorar los tiempos medios, reduciéndolos hasta 160 minutos, sino que además lo hace manteniendo una variabilidad muy baja ($\pm2.5$). Por ello, esto indica que hasta en situaciones complicadas como restricciones meteorológicas o fallos operativos, el modelo sigue ofreciendo resultados coherentes.
-\section{Evaluación de los Objetivos del TFG}
+\section{Evaluación de los objetivos del TFG}
 En esta sección se evalúa si se han cumplido los objetivos definidos al principio de este trabajo correctamente. Para ello, se analizan de forma individual cada uno de los objetivos planteados:
 \begin{itemize}
     \item \textbf{Definir y modelar el sistema aeroportuario:} Se han identificado casi en su totalidad todos los elementos esenciales que forman parte del flujo operacional de un aeropuerto. A lo largo del trabajo se ha hablado tanto de la infraestructura como de los procesos clave en la gestión aeroportuaria, y se ha incluido un diagrama físico que recoge los aspectos más importantes para facilitar la compresión del Modelo Empírico.
@@ -103,7 +103,7 @@ En esta sección se evalúa si se han cumplido los objetivos definidos al princi
     Aun así, se podrían haber realizado más análisis para obtener conclusiones más completas. De todas formas, los resultados principales han podido representarse de forma adecuada. Por tanto, este objetivo puede considerarse casi cumplido, aunque quedaría margen de mejora en este apartado.
 \end{itemize} 
 
-\section{Trabajo Futuro}
+\section{Trabajo futuro}
 Aunque este Trabajo de Fin de Grado ha cumplido con la mayoría de objetivos planteados, es importante señalar que el modelo desarrollado representa solo una parte de la complejidad de un aeropuerto. Esta simplificación del proyecto está condicionada tanto por el tiempo disponible como por el alcance propio de un proyecto de dicha magnitud realizado de forma individual. Aun así, el prototipo final construido constituye una base sólida sobre la que se pueden plantear diversas mejoras y ampliación en trabajos futuros.
 \\
 \\
@@ -117,15 +117,15 @@ También se podría aumentar el nivel de detalle del ciclo de cada aeronave. En 
 \\
 \\
 Por último, otra mejora importante sería el análisis del impacto medioambiental. Teniendo en cuenta que el simulador ya calcula tiempos de espera y de rodaje con los motores en funcionamiento, se podrían añadir estimaciones del consumo de combustible y de las emisiones de C02. De esta manera, el modelo no solo permitiría analizar la eficiencia operativa del aeropuerto, sino que también estudiar posibles medidas para reducir su impacto medioambiental. 
-\section{Análisis del Impacto}
-\subsection{Impacto General}
+\section{Análisis del impacto}
+\subsection{Impacto general}
 El desarrollo de este sistema de simulación no se limita únicamente al ámbito académico, sino que tiene implicaciones en distintos aspectos, tanto a nivel personal como en la mejora de la gestión operativa y económica del aeropuerto.
 \begin{itemize}
     \item \textbf{Nivel personal:} A nivel personal, este trabajo me ha ayudado a comprender mejor el funcionamiento de un sistema aeroportuario y la complejidad que conlleva, Además, ha supuesto un reto importante sacar a delante el proyecto y poner en práctica mis conocimientos adquiridos durante la carrera. Durante el desarrollo del TFG he mejorado notablemente mi manejo de Python y he aprendido a utilizar Latex para la redacción de documentos técnicos. Asimismo, he podido profundizar en el uso de simulaciones de eventos y he descubierto que este tipo de trabajos pueden resultar especialmente interesantes y motivadores.
     \item \textbf{Nivel operativo:} En este ámbito, un simulador aeroportuario permite probar escenarios hipotéticos sin asumir riesgos reales. Esto supone un cambio en la gestión del aeropuerto, ya que permite pasar de un modelo reactivo a uno más preventivo, identificando cuellos de botella o situaciones de saturación antes de que ocurran. En un entorno real no es posible realizar este tipo de pruebas como cerrar una pista o duplicar el tráfico aéreo, ya que implicaría un riesgo elevado para la seguridad y la operatividad de un aeropuerto.
     \item \textbf{Nivel económico:} El tiempo es uno de los recursos más valiosos en este tipo de escenarios, ya que cualquier retraso puede suponer un coste económico elevado, tanto en servicios adicionales como en tasas aeroportuarias. Por este motivo, optimizar el tiempo de ciclo de las aeronaves y los tiempos asociados a los distintos procesos permite reducir estos costes y mejorar la eficiencia económica del sistema en general. Esto tiene un impacto positivo tanto para las aerolíneas como para el propio aeropuerto.
 \end{itemize}
-\subsection{Impacto en los Objetivos de Desarrollo Sostenible}
+\subsection{Impacto en los objetivos de desarrollo sostenible}
 La simulación de operaciones, flujo de aeronaves y sistemas auxiliares en un aeropuerto es clave para modernizar los aeropuertos. Por ello, el desarrollo de este trabajo contribuye a varios Objetos de Desarrollo Sostenible (ODS), que se exponen a continuación:
 \begin{itemize}
     \item \textbf{ODS 8:} \textbf{Trabajo decente y Crecimiento económico.} La simulación desarrollada tiene como objetivo mejorar la eficiencia de las operaciones del aeropuerto. Al reducir los tiempos de espera y los retrasos, se mejora la productividad del aeropuerto, y, por tanto, ayuda a disminuir costes. Además, contar con una herramienta que permite anticipar situaciones de saturación facilita una mejor planificación del trabajo.
