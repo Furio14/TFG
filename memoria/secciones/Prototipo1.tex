@@ -190,19 +190,7 @@ Asimismo, el simulador incluye la zona de {\em estacionamiento}, que conecta las
 \\
 Por último, el sistema incorpora un {\em reloj de simulación} que controla el avance del tiempo discreto en los eventos y determina el orden cronológico de todas las operaciones. Es importante destacar que el reloj es esencial para el seguimiento temporal y la ejecución correcta de cada evento.
 \subsubsection{Eventos}
-Además del diseño estructural del simulador, es esencial describir también el comportamiento del sistema.
-\\
-\\
-A continuación, se presenta un diagrama visual que representa el flujo general de eventos en el aeropuerto y cómo las aeronaves transitan entre los distintos estados operativos:
-\\
-\\
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{portada/CicloAeronaves.png}
-    \caption{Diagrama ciclo de las aeronaves}
-\end{figure}
-
-Como se puede apreciar en el diagrama, el sistema se articula a través de un total de cinco eventos principales que determinan el comportamiento del simulador.
+Además del diseño estructural del simulador, es esencial describir también el comportamiento del sistema. Como se puede apreciar en el diagrama \ref{fig:sistemaFisico}, el sistema se articula a través de un total de cinco eventos principales que determinan el comportamiento del simulador.
 \\
 \\
 En el primer evento, las aeronaves solicitan su entrada en la cola de llegadas con el fin de obtener permiso para aterrizar. Cuando se concede dicho permiso, se inicia el segundo evento, en el cual la aeronave realiza el aterrizaje y avanza hacia el tercer estado, el estacionamiento.
@@ -324,7 +312,7 @@ El usuario del simulador puede definir diferentes parámetros de entrada, los cu
 \end{table}
 \subsubsection{Coeficientes de estacionalidad}
 La tasa de llegadas de la aeronave \textit{$\lambda$} no es constante, sino que varía en función de  los coeficientes de estacionalidad correspondientes a cada mes. Estos coeficientes permiten ajustar la tasa de llegadas según los cambios estacionales y son:
-\begin{table}[h!]
+\begin{table}[H]
     \centering
     \begin{minipage}{0.45\textwidth}
     \centering
@@ -365,7 +353,6 @@ La tasa de llegadas de la aeronave \textit{$\lambda$} no es constante, sino que 
     \end{minipage}
     \caption{Coeficientes enero-diciembre (Factores adimensionales de ponderación mensual)}
 \end{table}
-
 \subsubsection{Perfil horario de operaciones}
 El horario operativo se divide en cuatro turnos: madrugada, mañana, tarde y noche. Cada uno de ellos presenta distintos niveles de demanda tanto de aeronaves como de pasajeros, lo que permite identificar así determinadas horas pico. Para ello, con el objetivo de reproducir este comportamiento de manera realista, se ha modelado un sistema que refleja estas variaciones horarias:
 
@@ -537,8 +524,8 @@ La simulación de 50 iteraciones por escenario ha generado un registro de datos 
 En cada simulación se han utilizado un conjunto idéntico de semillas. Concretamente, se ha empleado el rango de semillas secuenciales [1000,1049]:
 
 \subsubsection{Escenario base}
-Al contar con condiciones favorables y un número normal de operaciones, la tabla permite comprobar la estabilidad operativa (\ref{tab:Escenario Base Estadísticas}):
-\begin{table}[h!]
+Al contar con condiciones favorables y un número normal de operaciones, la tabla permite comprobar la estabilidad operativa (Tabla \ref{tab:Escenario Base Estadísticas}):
+\begin{table}[H]
     \centering
     \renewcommand{\arraystretch}{1.3}
     \resizebox{1.05\textwidth}{!}{
@@ -559,10 +546,9 @@ Al contar con condiciones favorables y un número normal de operaciones, la tabl
     \caption{Estadísticas escenario base}
     \label{tab:Escenario Base Estadísticas}
 \end{table}
-\\
 En condiciones normales, el sistema muestra un comportamiento estable. La media de operaciones se ajusta a lo programado y el tiempo de ciclo de cada aeronave es óptimo. Se observan fluctuaciones en la cantidad de operaciones totales, tal como reflejan los valores máximos y mínimos registrados. Estas variaciones dependen de los sistemas auxiliares y la meteorología, pese al escenario base favorable.
 \subsubsection{Escenario de estrés}
-Al aumentar la carga de trabajo hasta 400 operaciones, el sistema aeroportuario comienza a operar cerca de sus límites físicos (\ref{tab:Escenario de Estrés Estadísticas}):
+Al aumentar la carga de trabajo hasta 400 operaciones, el sistema aeroportuario comienza a operar cerca de sus límites físicos (Tabla \ref{tab:Escenario de Estrés Estadísticas}):
 \begin{table}[h!]
     \centering
     \renewcommand{\arraystretch}{1.3}
@@ -588,7 +574,7 @@ Al aumentar la carga de trabajo hasta 400 operaciones, el sistema aeroportuario 
 Bajo condiciones de estrés, el sistema muestra un comportamiento inestable caracterizado principalmente por un incremento significativo en la carga de trabajo. El tiempo medio de ciclo de cada aeronave sufre una dura degradación, pasando de los 82 minutos en un escenario favorable a 200 minutos. Este aumento se atribuye principalmente a la saturación de la capacidad de estacionamiento y al elevado flujo de llegadas. No obstante, a pesar de la congestión, el modelo mantiene la coherencia esperada de un escenario de alta intensidad.
 
 \subsubsection{Escenario de atasco}
-En este escenario, el sistema opera bajo una carga de trabajo moderadamente superior a la media y una meteorología menos favorable. Los resultados obtenidos muestran la respuesta del sistema durante dichas condiciones (\ref{tab:Escenario de Atasco Estadísticas}):
+En este escenario, el sistema opera bajo una carga de trabajo moderadamente superior a la media y una meteorología menos favorable. Los resultados obtenidos muestran la respuesta del sistema durante dichas condiciones (Tabla \ref{tab:Escenario de Atasco Estadísticas}):
 \begin{table}[H]
     \centering
     \renewcommand{\arraystretch}{1.3}
@@ -626,15 +612,12 @@ Para facilitar la interpretación de los resultados, se realizará una comparaci
     \caption{Ops. aéreas por turno escenario de estrés prototipo 1}
     \label{fig:Ops. Aereas por Turno Escenario de Estrés PR1}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{portada/TotalPorTurnoEnero.png}
     \caption{Ops. aéreas por turno escenario adverso prototipo 1}
     \label{fig:Ops. Aereas por Turno Escenario Adverso PR1}
 \end{figure}
-\\
-\\
-\\
 Al analizar los tres gráficos, se puede observar que todos mantienen el mismo patrón estructural: la madrugada tiene el menor número de operaciones, seguida por la noche y la mañana, mientras que la tarde alcanza el pico más alto. Esto confirma que la lógica de distribución horaria del simulador es consistente, sin importar la cantidad de datos.
 \\
 \\
@@ -644,32 +627,25 @@ Sin embargo, existen diferencias notables en la cantidad de operaciones por esce
 Además, la presencia de los outliers también aporta información clave. En el escenario de atasco, estos valores de la tarde ponen de manifiesto la inestabilidad del sistema. En el escenario adverso, los outliers se concentran en la madrugada y la noche, probablemente ligados a la variación meteorológica. Por el contrario, el escenario de enero destaca por ser mucho más compacto y predecible, sin presentar estas irregularidades.
 \\
 \\
-Una vez identificado que el turno de tarde es el punto crítico, es interesante ver como reacciona el sistema ante la presión. Para ello, los gráficos (Figura \ref{fig:Regresion Escenario Base}, Figura \ref{fig:Regresion Escenario de Estrés} y Figura \ref{fig:Regresion Escenario Adverso}) combinan el número de operaciones aéreas con el tiempo que tardan en completar el ciclo, permitiéndonos observar la resistencia del sistema aeroportuario en cada escenario.
+Una vez identificado que el turno de tarde es el punto crítico, es interesante ver como reacciona el sistema ante la presión. Para ello, los gráficos (Figuras \ref{fig:Regresion Escenario Base}, \ref{fig:Regresion Escenario de Estrés} y \ref{fig:Regresion Escenario Adverso}) combinan el número de operaciones aéreas con el tiempo que tardan en completar el ciclo, permitiéndonos observar la resistencia del sistema aeroportuario en cada escenario.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/Regresion.png}
     \caption{Regresión escenario base}
     \label{fig:Regresion Escenario Base}
 \end{figure}
-\\
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/RegresionEstres.png}
     \caption{Regresión escenario de estrés}
     \label{fig:Regresion Escenario de Estrés}
 \end{figure}
-\\
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{portada/RegresionAdverso.png}
     \caption{Regresión escenario adverso}
     \label{fig:Regresion Escenario Adverso}
 \end{figure}
-\\
-\\
-\\
-\\
-\\
 En el Escenario Base (Figura \ref{fig:Regresion Escenario Base}), el sistema demuestra un comportamiento elástico y robusto. La nube de puntos alrededor de la línea de tendencia es compacta, lo que indica que es predecible. El sistema es capaz de absorber incrementos en la carga de operaciones sin que la penalización de tiempo afecte al flujo aeroportuario.
 \\
 \\
@@ -685,29 +661,25 @@ Por ello, en este apartado, aplicamos técnicas de Bootstrapping. El objetivo es
 \\
 \\
 Para comenzar, se calculará el intervalo de confianza del tiempo de ciclo de las aeronaves con el fin de establecer cuál es el tiempo resultante en cada escenario.
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{portada/MediaBootstrapJulio.png}
     \caption{Intervalo escenario base}
     \label{fig:Intervalo Escenario Base}
 \end{figure}
-\\
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/MediaBootstrapEstres.png}
     \caption{Intervalo escenario de estrés}
     \label{fig:Intervalo Escenario de Estrés}
 \end{figure}
-\\
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{portada/MediaBootstrapAdverso.png}
     \caption{Intervalo escenario adverso}
     \label{fig:Intervalo Escenario Adverso}
 \end{figure}
-\\
-\\
-Al comparar las gráficas (Figura \ref{fig:Intervalo Escenario Base}, Figura \ref{fig:Intervalo Escenario de Estrés} y Figura \ref{fig:Intervalo Escenario Adverso}), se puede observar como se dispara el tiempo medio. Mientras que en el Escenario Base (Figura \ref{fig:Intervalo Escenario Base}) los aviones entran y salen en un tiempo muy eficiente de entre 78 y 84 minutos, en cuanto las condiciones se complican, el servicio se deteriora de manera drástica. En el escenario de estrés (Figura \ref{fig:Intervalo Escenario de Estrés}) y meteorología adversa (Figura \ref{fig:Intervalo Escenario Adverso}), los tiempos medios se duplican con creces, saltando hasta los 171 y 200 minutos.
+Al comparar las gráficas (Figuras \ref{fig:Intervalo Escenario Base}, \ref{fig:Intervalo Escenario de Estrés} y \ref{fig:Intervalo Escenario Adverso}), se puede observar como se dispara el tiempo medio. Mientras que en el Escenario Base (Figura \ref{fig:Intervalo Escenario Base}) los aviones entran y salen en un tiempo muy eficiente de entre 78 y 84 minutos, en cuanto las condiciones se complican, el servicio se deteriora de manera drástica. En el escenario de estrés (Figura \ref{fig:Intervalo Escenario de Estrés}) y meteorología adversa (Figura \ref{fig:Intervalo Escenario Adverso}), los tiempos medios se duplican con creces, saltando hasta los 171 y 200 minutos.
 \\
 \\
 Además, el problema no es que el proceso sea más lento, sino que también presenta mucha más dispersión. En el Escenario Adverso, si nos fijamos en el ancho del intervalo, se puede observar que con el mal tiempo la horquilla de incertidumbre es de 14 minutos, más del doble que un día normal. No solo eso, sino que la horquilla de incertidumbre del Escenario de Estrés es de 10 minutos. Esto nos confirma que tanto el mal tiempo como la gran carga de trabajo aumentan la dificultad de predecir cuándo completará el ciclo una aeronave.
